@@ -1,0 +1,15 @@
+.two-line-ellipsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+:host::ng-deep p-dropdown {
+    width: 10rem !important;
+    display: block;
+    .p-dropdown {
+      width: 100% !important;
+    }
+  }

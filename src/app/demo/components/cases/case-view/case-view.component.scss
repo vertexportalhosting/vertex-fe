@@ -1,0 +1,33 @@
+.three-line-ellipsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  
+  .custom-upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .custom-upload-area i {
+    font-size: 2em;
+    color: #888888;
+  }
+  
+  .custom-upload-area span {
+    display: block;
+    margin-top: 10px;
+    color: #888888;
+  }
+  
+  .upload-instructions {
+    border: 1px solid #f5c2c2;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  

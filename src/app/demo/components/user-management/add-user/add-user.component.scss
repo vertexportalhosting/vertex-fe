@@ -1,0 +1,159 @@
+.form-step {
+    margin: 20px;
+  }
+  
+  .p-field {
+    margin-bottom: 1rem;
+  }
+  
+  .required-asterisk {
+    color: red;
+  }
+  
+  .p-error {
+    color: red;
+    font-size: 12px;
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  
+  .subheader {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #666;
+  }
+  
+  :host ::ng-deep .p-dropdown {
+    width: 100%;
+  }
+  
+  p-dropdown {
+    width: 100%;
+    display: block;
+  }
+  
+  .p-card {
+    margin-bottom: 2em;
+  }
+  
+  .full-width .ui-dropdown {
+    width: 100%;
+  }
+  
+  .p-d {
+    padding: 5px;
+  }
+  
+  .prev-button {
+    background-color: transparent;
+    color: grey;
+    border-color: grey;
+  }
+  
+  .submit-button {
+    background-color: #007ad9;
+    color: white;
+  }
+  
+  .teeth-diagram {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  
+  .teeth-diagram svg {
+    width: 100%;
+    height: auto;
+  }
+  
+  .teeth-diagram circle {
+    cursor: pointer;
+  }
+  
+  .custom-uploader {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .upload-instructions {
+    background-color: #ffecec;
+    border: 1px solid #f5c2c2;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .upload-instructions p {
+    font-weight: bold;
+    color: #ff0000;
+  }
+  
+  .upload-instructions ol {
+    padding-left: 20px;
+  }
+  
+  .custom-upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    text-align: center;
+    padding: 50px;
+    background-color: #ffffff;
+  }
+  
+  .custom-upload-area i {
+    font-size: 2em;
+    color: #888888;
+  }
+  
+  .custom-upload-area span {
+    display: block;
+    margin-top: 10px;
+    color: #888888;
+  }
+  
+  .notes {
+    margin-top: 20px;
+  }
+  
+  .notes textarea {
+    width: 100%;
+    height: 100px;
+    border-radius: 5px;
+    padding: 10px;
+    resize: none;
+  }
+  
+  .required-field {
+    color: #ff0000;
+    margin-top: 5px;
+  }
+  
+  .container {
+    margin: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  svg {
+    height: 304px;
+    width: 412px;
+    direction: rtl;
+  }
+  
+  .tooth {
+    fill: #ffffff;
+    stroke: #000000;
+    stroke-width: 2px;
+    cursor: pointer;
+  }
+  
+  .tooth.selected {
+    fill: #ffd700;
+  }

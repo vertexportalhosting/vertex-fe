@@ -1,0 +1,160 @@
+<div class="p-grid p-align-center p-justify-center">
+    <div class="p-col-12 p-md-6">
+      <p-steps [model]="items" [(activeIndex)]="activeIndex"></p-steps>
+  
+      <p-card *ngIf="activeIndex === 0" class="form-step">
+        <ng-template pTemplate="header">
+        </ng-template>
+        <ng-template pTemplate="content">
+          <form #caseForm="ngForm">
+            <h5 class="mb-">Case Type</h5>
+            <p class="subheader">Choose case type</p>
+  
+            <div class="p-field">
+              <label for="caseType">Case Type<span class="required-asterisk">*</span></label>
+              <p-dropdown id="caseType" [options]="caseTypes" [(ngModel)]="selectedCaseType" name="selectedCaseType"
+                optionLabel="name" placeholder="Select" [autoWidth]="false" required [style.width]="'100%'">
+              </p-dropdown>
+              <div *ngIf="caseForm.submitted && !isCaseTypeValid()" class="p-error">
+                Case Type is required.
+              </div>
+            </div>
+          </form>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <div class="navigation-buttons">
+            <p-button label="Previous" icon="pi pi-arrow-left" (onClick)="prev()"
+              [disabled]="activeIndex === 0"></p-button>
+            <p-button label="Next" icon="pi pi-arrow-right" (onClick)="next()"
+              [disabled]="!isCaseTypeValid() && activeIndex === 0"></p-button>
+          </div>
+        </ng-template>
+      </p-card>
+  
+  
+      <p-card *ngIf="activeIndex === 1" class="form-step">
+        <ng-template pTemplate="header">
+          <h5 class="mb-0">Case Info</h5>
+          <p class="subheader">Add case info</p>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <form #caseForm="ngForm">
+            <div class="p-grid">
+              <div class="p-field">
+                <label for="name">Patient Name<span class="required-asterisk">*</span></label>
+                <input pInputText [(ngModel)]="caseInfo.name" name="patientName" placeholder="Enter Patient Name"
+                  required>
+                <div *ngIf="caseForm.submitted && !caseInfo.name" class="p-error">Patient name is required.</div>
+              </div>
+  
+              <div class="notes">
+                <label for="caseNotes">Case Notes/Type of work (e.g., all on x zirconia, design, etc.)<span
+                    class="required-asterisk">*</span></label>
+                <textarea id="caseNotes" [(ngModel)]="caseInfo.caseNotes" name="caseNotes" required></textarea>
+                <div *ngIf="caseForm.submitted && !caseInfo.caseNotes" class="p-error">Case Notes/Type of work is
+                  required.
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <span for="deliveryOption">Need your design with in same day?</span>
+                <div>
+                  <p-inputSwitch name="isFastDelivery" (click)="toggleFastDelivery()" />
+                  <i class="pi pi-info-circle"></i> <span>Enabling this feature will result in a doubling $200 rush
+                    fee</span>
+                </div>
+              </div>
+  
+              <div class="custom-uploader">
+                <div class="upload-instructions">
+                  <p>Scans<span class="required-asterisk">*</span>:</p>
+                  <ol>
+                    <span class="required-asterisk"> Please upload intra oral scans, scan body scans, photogrammetry if
+                      available, and any face scans or photos below.</span>
+                  </ol>
+                </div>
+  
+                <p-fileUpload id="scans" name="scans" (onSelect)="onFileSelect($event)" mode="advanced" auto="true"
+                  multiple="true" accept=".zip" required>
+                  <ng-template pTemplate="content" (onSelect)="onFileSelect($event)">
+                    <div class="custom-upload-area">
+                      <i class="pi pi-cloud-upload"></i>
+                      <div class="upload-text">
+                        <p>Drop Files here or click to upload</p>
+                        <p>Drop files here or click <a>browse</a> through your machine</p>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-fileUpload>
+  
+                <div *ngIf="caseForm.submitted && !caseInfo.scans" class="p-error">Scans are required.</div>
+                <ng-template pTemplate="content">
+                  <div class="custom-upload-area">
+                    <i class="pi pi-cloud-upload"></i>
+                    <span>Drop Files here or click to upload</span>
+                  </div>
+                </ng-template>
+  
+              </div>
+              <div class="notes">
+                <label for="doctorNotes">Doctor Notes</label>
+                <textarea id="doctorNotes" pInputTextarea [(ngModel)]="caseInfo.doctorNotes" name="doctorNotes"
+                  placeholder="e.g., Please relab crown, etc."></textarea>
+              </div>
+  
+            </div>
+            <div class="navigation-buttons">
+              <p-button label="Previous" icon="pi pi-arrow-left" (onClick)="prev()"></p-button>
+              <p-button label="Next" icon="pi pi-arrow-right" [disabled]="caseForm.invalid" (onClick)="next()"></p-button>
+            </div>
+          </form>
+        </ng-template>
+      </p-card>
+  
+      <p-card *ngIf="activeIndex === 2" class="form-step">
+        <ng-template pTemplate="header">
+          <h3>Case Review</h3>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <div class="confirmation-page">
+            <h2>Almost done! <i class="pi pi-rocket"></i></h2>
+            <p>Confirm your case information and submit it.</p>
+  
+            <div class="p-field">
+              <label for="patientName">Patient Name:</label>
+              <span id="patientName">{{ caseInfo.name }}</span>
+            </div>
+  
+            <div class="p-field" *ngIf="caseInfo.isFastDelivery">
+              <label for="deliveryDate">Delivery Date:</label>
+              <span class="fast-delivery">FAST DELIVERY</span>
+            </div>
+  
+            <div class="p-field">
+              <label for="surgicalType">Surgical Type:</label>
+              <span id="surgicalType">{{ caseInfo.surgicalType }}</span>
+            </div>
+  
+            <div class="p-field">
+              <label for="scans">Scans:</label>
+              <ul>
+                <li *ngFor="let scan of caseInfo.scans">{{ scan?.name }} - {{ scan?.size }} kb</li>
+              </ul>
+            </div>
+  
+            <div class="p-field">
+              <label for="doctorNotes">Doctor Notes:</label>
+              <span id="doctorNotes">{{ caseInfo.doctorNotes }}</span>
+            </div>
+          </div>
+  
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <div class="navigation-buttons">
+            <p-button label="Previous" icon="pi pi-arrow-left" class="prev-button" (onClick)="prev()"></p-button>
+            <p-button label="Submit" (onClick)="next()" icon="pi pi-check" class="submit-button"></p-button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>

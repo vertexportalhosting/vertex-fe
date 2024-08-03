@@ -1,0 +1,2605 @@
+openapi: 3.0.0
+info:
+  title: '@loopback/example-todo-jwt'
+  version: 6.0.3
+  description: >-
+    A modified Todo tutorial how to build an application with JWT authentication
+    and LoopBack 4
+  contact:
+    name: IBM Corp. and LoopBack contributors
+paths:
+  /cases/count:
+    get:
+      x-controller-name: CaseController
+      x-operation-name: count
+      tags:
+        - CaseController
+      responses:
+        '200':
+          description: Case model count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Case.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<Case>'
+      operationId: CaseController.count
+  /cases/{id}:
+    put:
+      x-controller-name: CaseController
+      x-operation-name: replaceById
+      tags:
+        - CaseController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Case PUT success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Case'
+        x-parameter-index: 1
+      operationId: CaseController.replaceById
+    patch:
+      x-controller-name: CaseController
+      x-operation-name: updateById
+      tags:
+        - CaseController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Case PATCH success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CasePartial'
+        x-parameter-index: 1
+      operationId: CaseController.updateById
+    get:
+      x-controller-name: CaseController
+      x-operation-name: findById
+      tags:
+        - CaseController
+      responses:
+        '200':
+          description: Case model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseWithRelations'
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Case.Filter'
+      operationId: CaseController.findById
+    delete:
+      x-controller-name: CaseController
+      x-operation-name: deleteById
+      tags:
+        - CaseController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Case DELETE success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: CaseController.deleteById
+  /cases:
+    post:
+      x-controller-name: CaseController
+      x-operation-name: create
+      tags:
+        - CaseController
+      responses:
+        '200':
+          description: Case model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Case'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewCase'
+      operationId: CaseController.create
+    patch:
+      x-controller-name: CaseController
+      x-operation-name: updateAll
+      tags:
+        - CaseController
+      responses:
+        '200':
+          description: Case PATCH success count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Case.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<Case>'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CasePartial'
+      operationId: CaseController.updateAll
+    get:
+      x-controller-name: CaseController
+      x-operation-name: find
+      tags:
+        - CaseController
+      responses:
+        '200':
+          description: Array of Case model instances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CaseWithRelations'
+      parameters:
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Case.Filter1'
+      operationId: CaseController.find
+  /patient-histories/count:
+    get:
+      x-controller-name: PatientHistoryController
+      x-operation-name: count
+      tags:
+        - PatientHistoryController
+      responses:
+        '200':
+          description: PatientHistory model count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatientHistory.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<PatientHistory>'
+      operationId: PatientHistoryController.count
+  /patient-histories/{id}:
+    put:
+      x-controller-name: PatientHistoryController
+      x-operation-name: replaceById
+      tags:
+        - PatientHistoryController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: PatientHistory PUT success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatientHistory'
+        x-parameter-index: 1
+      operationId: PatientHistoryController.replaceById
+    patch:
+      x-controller-name: PatientHistoryController
+      x-operation-name: updateById
+      tags:
+        - PatientHistoryController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: PatientHistory PATCH success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatientHistoryPartial'
+        x-parameter-index: 1
+      operationId: PatientHistoryController.updateById
+    get:
+      x-controller-name: PatientHistoryController
+      x-operation-name: findById
+      tags:
+        - PatientHistoryController
+      responses:
+        '200':
+          description: PatientHistory model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientHistoryWithRelations'
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientHistory.Filter'
+      operationId: PatientHistoryController.findById
+    delete:
+      x-controller-name: PatientHistoryController
+      x-operation-name: deleteById
+      tags:
+        - PatientHistoryController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: PatientHistory DELETE success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: PatientHistoryController.deleteById
+  /patient-histories:
+    post:
+      x-controller-name: PatientHistoryController
+      x-operation-name: create
+      tags:
+        - PatientHistoryController
+      responses:
+        '200':
+          description: PatientHistory model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientHistory'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPatientHistory'
+      operationId: PatientHistoryController.create
+    patch:
+      x-controller-name: PatientHistoryController
+      x-operation-name: updateAll
+      tags:
+        - PatientHistoryController
+      responses:
+        '200':
+          description: PatientHistory PATCH success count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: PatientHistory.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<PatientHistory>'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatientHistoryPartial'
+      operationId: PatientHistoryController.updateAll
+    get:
+      x-controller-name: PatientHistoryController
+      x-operation-name: find
+      tags:
+        - PatientHistoryController
+      responses:
+        '200':
+          description: Array of PatientHistory model instances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PatientHistoryWithRelations'
+      parameters:
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientHistory.Filter1'
+      operationId: PatientHistoryController.find
+  /patients/count:
+    get:
+      x-controller-name: PatientControllerController
+      x-operation-name: count
+      tags:
+        - PatientControllerController
+      responses:
+        '200':
+          description: Patient model count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Patient.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<Patient>'
+      operationId: PatientControllerController.count
+  /patients/{id}/histories:
+    get:
+      x-controller-name: PatientControllerController
+      x-operation-name: getPatientHistories
+      tags:
+        - PatientControllerController
+      responses:
+        '200':
+          description: Array of Patient's History
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PatientHistory'
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: PatientControllerController.getPatientHistories
+  /patients/{id}:
+    put:
+      x-controller-name: PatientControllerController
+      x-operation-name: replaceById
+      tags:
+        - PatientControllerController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Patient PUT success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+        x-parameter-index: 1
+      operationId: PatientControllerController.replaceById
+    patch:
+      x-controller-name: PatientControllerController
+      x-operation-name: updateById
+      tags:
+        - PatientControllerController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Patient PATCH success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatientPartial'
+        x-parameter-index: 1
+      operationId: PatientControllerController.updateById
+    get:
+      x-controller-name: PatientControllerController
+      x-operation-name: findById
+      tags:
+        - PatientControllerController
+      responses:
+        '200':
+          description: Patient model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientWithRelations'
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient.Filter'
+      operationId: PatientControllerController.findById
+    delete:
+      x-controller-name: PatientControllerController
+      x-operation-name: deleteById
+      tags:
+        - PatientControllerController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Patient DELETE success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: PatientControllerController.deleteById
+  /patients:
+    post:
+      x-controller-name: PatientControllerController
+      x-operation-name: create
+      tags:
+        - PatientControllerController
+      responses:
+        '200':
+          description: Patient model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPatient'
+      operationId: PatientControllerController.create
+    patch:
+      x-controller-name: PatientControllerController
+      x-operation-name: updateAll
+      tags:
+        - PatientControllerController
+      responses:
+        '200':
+          description: Patient PATCH success count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Patient.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<Patient>'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatientPartial'
+      operationId: PatientControllerController.updateAll
+    get:
+      x-controller-name: PatientControllerController
+      x-operation-name: find
+      tags:
+        - PatientControllerController
+      responses:
+        '200':
+          description: Array of Patient model instances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PatientWithRelations'
+      parameters:
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient.Filter1'
+      operationId: PatientControllerController.find
+  /scans/count:
+    get:
+      x-controller-name: ScanController
+      x-operation-name: count
+      tags:
+        - ScanController
+      responses:
+        '200':
+          description: Scan model count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Scan.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<Scan>'
+      operationId: ScanController.count
+  /scans/{id}:
+    put:
+      x-controller-name: ScanController
+      x-operation-name: replaceById
+      tags:
+        - ScanController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Scan PUT success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Scan'
+        x-parameter-index: 1
+      operationId: ScanController.replaceById
+    patch:
+      x-controller-name: ScanController
+      x-operation-name: updateById
+      tags:
+        - ScanController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Scan PATCH success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScanPartial'
+        x-parameter-index: 1
+      operationId: ScanController.updateById
+    get:
+      x-controller-name: ScanController
+      x-operation-name: findById
+      tags:
+        - ScanController
+      responses:
+        '200':
+          description: Scan model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScanWithRelations'
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scan.Filter'
+      operationId: ScanController.findById
+    delete:
+      x-controller-name: ScanController
+      x-operation-name: deleteById
+      tags:
+        - ScanController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Scan DELETE success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: ScanController.deleteById
+  /scans:
+    post:
+      x-controller-name: ScanController
+      x-operation-name: create
+      tags:
+        - ScanController
+      responses:
+        '200':
+          description: Scan model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scan'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewScans'
+      operationId: ScanController.create
+    patch:
+      x-controller-name: ScanController
+      x-operation-name: updateAll
+      tags:
+        - ScanController
+      responses:
+        '200':
+          description: Scan PATCH success count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Scan.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<Scan>'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScanPartial'
+      operationId: ScanController.updateAll
+    get:
+      x-controller-name: ScanController
+      x-operation-name: find
+      tags:
+        - ScanController
+      responses:
+        '200':
+          description: Array of Scan model instances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScanWithRelations'
+      parameters:
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scan.Filter1'
+      operationId: ScanController.find
+  /signup:
+    post:
+      x-controller-name: UserController
+      x-operation-name: signUp
+      tags:
+        - UserController
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+      operationId: UserController.signUp
+  /todos/count:
+    get:
+      x-controller-name: TodoController
+      x-operation-name: count
+      tags:
+        - TodoController
+      responses:
+        '200':
+          description: Todo model count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Todo.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<Todo>'
+      operationId: TodoController.count
+  /todos/{id}:
+    put:
+      x-controller-name: TodoController
+      x-operation-name: replaceById
+      tags:
+        - TodoController
+      responses:
+        '204':
+          description: Todo PUT success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todo'
+        x-parameter-index: 1
+      operationId: TodoController.replaceById
+    patch:
+      x-controller-name: TodoController
+      x-operation-name: updateById
+      tags:
+        - TodoController
+      responses:
+        '204':
+          description: Todo PATCH success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoPartial'
+        x-parameter-index: 1
+      operationId: TodoController.updateById
+    get:
+      x-controller-name: TodoController
+      x-operation-name: findById
+      tags:
+        - TodoController
+      responses:
+        '200':
+          description: Todo model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoWithRelations'
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo.Filter'
+      operationId: TodoController.findById
+    delete:
+      x-controller-name: TodoController
+      x-operation-name: deleteById
+      tags:
+        - TodoController
+      responses:
+        '204':
+          description: Todo DELETE success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: TodoController.deleteById
+  /todos:
+    post:
+      x-controller-name: TodoController
+      x-operation-name: create
+      tags:
+        - TodoController
+      responses:
+        '200':
+          description: Todo model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTodo'
+      operationId: TodoController.create
+    patch:
+      x-controller-name: TodoController
+      x-operation-name: updateAll
+      tags:
+        - TodoController
+      responses:
+        '200':
+          description: Todo PATCH success count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Todo.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<Todo>'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoPartial'
+      operationId: TodoController.updateAll
+    get:
+      x-controller-name: TodoController
+      x-operation-name: find
+      tags:
+        - TodoController
+      responses:
+        '200':
+          description: Array of Todo model instances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoWithRelations'
+      parameters:
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo.Filter1'
+      operationId: TodoController.find
+  /upload:
+    post:
+      x-controller-name: ScanController
+      x-operation-name: fileUpload
+      tags:
+        - ScanController
+      responses:
+        '200':
+          description: File Upload
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          multipart/form-data:
+            x-parser: stream
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+        description: Request body for multipart/form-data based file upload
+        required: true
+      operationId: ScanController.fileUpload
+  /users/login:
+    post:
+      x-controller-name: UserController
+      x-operation-name: login
+      tags:
+        - UserController
+      responses:
+        '200':
+          description: Token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 8
+        description: The input of login function
+        required: true
+      operationId: UserController.login
+  /users/{id}:
+    put:
+      x-controller-name: UserController
+      x-operation-name: replaceUserById
+      tags:
+        - UserController
+      responses:
+        '204':
+          description: User PUT success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        x-parameter-index: 1
+      operationId: UserController.replaceUserById
+    patch:
+      x-controller-name: UserController
+      x-operation-name: updateUserById
+      tags:
+        - UserController
+      responses:
+        '204':
+          description: User PATCH success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPartial'
+        x-parameter-index: 1
+      operationId: UserController.updateUserById
+    get:
+      x-controller-name: UserController
+      x-operation-name: findUserById
+      tags:
+        - UserController
+      responses:
+        '200':
+          description: User model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithRelations'
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: UserController.findUserById
+    delete:
+      x-controller-name: UserController
+      x-operation-name: deleteUserById
+      tags:
+        - UserController
+      responses:
+        '204':
+          description: User DELETE success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      operationId: UserController.deleteUserById
+  /users:
+    get:
+      x-controller-name: UserController
+      x-operation-name: findAllUsers
+      tags:
+        - UserController
+      responses:
+        '200':
+          description: Array of User model instances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserWithRelations'
+      operationId: UserController.findAllUsers
+  /whoAmI:
+    get:
+      x-controller-name: UserController
+      x-operation-name: whoAmI
+      tags:
+        - UserController
+      responses:
+        '200':
+          description: Return current user
+          content:
+            application/json:
+              schema:
+                type: string
+      operationId: UserController.whoAmI
+servers:
+  - url: http://localhost:3000
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: string
+        realm:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        verificationToken:
+          type: string
+      required:
+        - email
+      additionalProperties: true
+    NewUser:
+      title: NewUser
+      type: object
+      description: '(tsType: NewUserRequest, schemaOptions: { title: ''NewUser'' })'
+      properties:
+        id:
+          type: string
+        realm:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        verificationToken:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+      additionalProperties: true
+      x-typescript-type: NewUserRequest
+    NewUserRequest:
+      title: NewUserRequest
+      type: object
+      properties:
+        id:
+          type: string
+        realm:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        verificationToken:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+      additionalProperties: true
+    UserPartial:
+      title: UserPartial
+      type: object
+      description: '(tsType: Partial<User>, schemaOptions: { partial: true })'
+      properties:
+        id:
+          type: string
+        realm:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        verificationToken:
+          type: string
+      additionalProperties: true
+      x-typescript-type: Partial<User>
+    UserCredentialsWithRelations:
+      title: UserCredentialsWithRelations
+      type: object
+      description: >-
+        (tsType: UserCredentialsWithRelations, schemaOptions: {
+        includeRelations: true })
+      properties:
+        id:
+          type: string
+        password:
+          type: string
+        userId:
+          type: string
+      required:
+        - password
+        - userId
+      additionalProperties: true
+      x-typescript-type: UserCredentialsWithRelations
+    UserWithRelations:
+      title: UserWithRelations
+      type: object
+      description: '(tsType: UserWithRelations, schemaOptions: { includeRelations: true })'
+      properties:
+        id:
+          type: string
+        realm:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        verificationToken:
+          type: string
+        role:
+          type: string
+        password:
+          type: string
+        active:
+          type: boolean
+        userCredentials:
+          $ref: '#/components/schemas/UserCredentialsWithRelations'
+        updatedHistories:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatientHistoryWithRelations'
+        uploadedDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanWithRelations'
+      required:
+        - email
+      additionalProperties: true
+      x-typescript-type: UserWithRelations
+    Todo:
+      title: Todo
+      type: object
+      properties:
+        id:
+          type: number
+        title:
+          type: string
+        desc:
+          type: string
+        isComplete:
+          type: boolean
+      required:
+        - title
+      additionalProperties: false
+    NewTodo:
+      title: NewTodo
+      type: object
+      description: >-
+        (tsType: Omit<Todo, 'id'>, schemaOptions: { title: 'NewTodo', exclude: [
+        'id' ] })
+      properties:
+        title:
+          type: string
+        desc:
+          type: string
+        isComplete:
+          type: boolean
+      required:
+        - title
+      additionalProperties: false
+      x-typescript-type: Omit<Todo, 'id'>
+    TodoWithRelations:
+      title: TodoWithRelations
+      type: object
+      description: '(tsType: TodoWithRelations, schemaOptions: { includeRelations: true })'
+      properties:
+        id:
+          type: number
+        title:
+          type: string
+        desc:
+          type: string
+        isComplete:
+          type: boolean
+      required:
+        - title
+      additionalProperties: false
+      x-typescript-type: TodoWithRelations
+    TodoPartial:
+      title: TodoPartial
+      type: object
+      description: '(tsType: Partial<Todo>, schemaOptions: { partial: true })'
+      properties:
+        id:
+          type: number
+        title:
+          type: string
+        desc:
+          type: string
+        isComplete:
+          type: boolean
+      additionalProperties: false
+      x-typescript-type: Partial<Todo>
+    Scan:
+      title: Scan
+      type: object
+      properties:
+        id:
+          type: number
+        url:
+          type: string
+        filename:
+          type: string
+        uploadDate:
+          type: string
+          format: date-time
+        patientId:
+          type: number
+        userId:
+          type: string
+        caseId:
+          type: number
+      required:
+        - url
+        - uploadDate
+      additionalProperties: false
+    NewScans:
+      title: NewScans
+      type: object
+      description: >-
+        (tsType: Omit<Scan, 'id'>, schemaOptions: { title: 'NewScans', exclude:
+        [ 'id' ] })
+      properties:
+        url:
+          type: string
+        filename:
+          type: string
+        uploadDate:
+          type: string
+          format: date-time
+        patientId:
+          type: number
+        userId:
+          type: string
+        caseId:
+          type: number
+      required:
+        - url
+        - uploadDate
+      additionalProperties: false
+      x-typescript-type: Omit<Scan, 'id'>
+    CaseWithRelations:
+      title: CaseWithRelations
+      type: object
+      description: '(tsType: CaseWithRelations, schemaOptions: { includeRelations: true })'
+      properties:
+        id:
+          type: number
+        case_type:
+          type: string
+        delivery_date:
+          type: string
+        urgent:
+          type: boolean
+        notes:
+          type: string
+        case_status:
+          type: string
+        payment_status:
+          type: string
+        deleted:
+          type: boolean
+        patientId:
+          type: number
+        userId:
+          type: string
+        patient:
+          $ref: '#/components/schemas/PatientWithRelations'
+        foreignKey: {}
+        user:
+          $ref: '#/components/schemas/UserWithRelations'
+        scan:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanWithRelations'
+      additionalProperties: false
+      x-typescript-type: CaseWithRelations
+    PatientHistoryWithRelations:
+      title: PatientHistoryWithRelations
+      type: object
+      description: >-
+        (tsType: PatientHistoryWithRelations, schemaOptions: { includeRelations:
+        true })
+      properties:
+        id:
+          type: number
+        actionDate:
+          type: string
+          format: date-time
+        actionType:
+          type: string
+        details:
+          type: string
+        patientId:
+          type: number
+        userId:
+          type: string
+        caseId:
+          type: number
+        patient:
+          $ref: '#/components/schemas/PatientWithRelations'
+        foreignKey: {}
+        user:
+          $ref: '#/components/schemas/UserWithRelations'
+        case:
+          $ref: '#/components/schemas/CaseWithRelations'
+      required:
+        - actionDate
+        - actionType
+      additionalProperties: false
+      x-typescript-type: PatientHistoryWithRelations
+    PatientWithRelations:
+      title: PatientWithRelations
+      type: object
+      description: >-
+        (tsType: PatientWithRelations, schemaOptions: { includeRelations: true
+        })
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        gender:
+          type: string
+        notes:
+          type: string
+        deleted:
+          type: boolean
+        userId:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserWithRelations'
+        foreignKey: {}
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatientHistoryWithRelations'
+        scan:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanWithRelations'
+      required:
+        - name
+      additionalProperties: false
+      x-typescript-type: PatientWithRelations
+    ScanWithRelations:
+      title: ScanWithRelations
+      type: object
+      description: '(tsType: ScanWithRelations, schemaOptions: { includeRelations: true })'
+      properties:
+        id:
+          type: number
+        url:
+          type: string
+        filename:
+          type: string
+        uploadDate:
+          type: string
+          format: date-time
+        patientId:
+          type: number
+        userId:
+          type: string
+        caseId:
+          type: number
+        patient:
+          $ref: '#/components/schemas/PatientWithRelations'
+        foreignKey: {}
+        user:
+          $ref: '#/components/schemas/UserWithRelations'
+        case:
+          $ref: '#/components/schemas/CaseWithRelations'
+      required:
+        - url
+        - uploadDate
+      additionalProperties: false
+      x-typescript-type: ScanWithRelations
+    ScanPartial:
+      title: ScanPartial
+      type: object
+      description: '(tsType: Partial<Scan>, schemaOptions: { partial: true })'
+      properties:
+        id:
+          type: number
+        url:
+          type: string
+        filename:
+          type: string
+        uploadDate:
+          type: string
+          format: date-time
+        patientId:
+          type: number
+        userId:
+          type: string
+        caseId:
+          type: number
+      additionalProperties: false
+      x-typescript-type: Partial<Scan>
+    Patient:
+      title: Patient
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        gender:
+          type: string
+        notes:
+          type: string
+        deleted:
+          type: boolean
+        userId:
+          type: string
+      required:
+        - name
+      additionalProperties: false
+    NewPatient:
+      title: NewPatient
+      type: object
+      description: >-
+        (tsType: Omit<Patient, 'id'>, schemaOptions: { title: 'NewPatient',
+        exclude: [ 'id' ] })
+      properties:
+        name:
+          type: string
+        gender:
+          type: string
+        notes:
+          type: string
+        deleted:
+          type: boolean
+        userId:
+          type: string
+      required:
+        - name
+      additionalProperties: false
+      x-typescript-type: Omit<Patient, 'id'>
+    PatientPartial:
+      title: PatientPartial
+      type: object
+      description: '(tsType: Partial<Patient>, schemaOptions: { partial: true })'
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        gender:
+          type: string
+        notes:
+          type: string
+        deleted:
+          type: boolean
+        userId:
+          type: string
+      additionalProperties: false
+      x-typescript-type: Partial<Patient>
+    PatientHistory:
+      title: PatientHistory
+      type: object
+      properties:
+        id:
+          type: number
+        actionDate:
+          type: string
+          format: date-time
+        actionType:
+          type: string
+        details:
+          type: string
+        patientId:
+          type: number
+        userId:
+          type: string
+        caseId:
+          type: number
+      required:
+        - actionDate
+        - actionType
+      additionalProperties: false
+    NewPatientHistory:
+      title: NewPatientHistory
+      type: object
+      description: '(tsType: PatientHistory, schemaOptions: { title: ''NewPatientHistory'' })'
+      properties:
+        id:
+          type: number
+        actionDate:
+          type: string
+          format: date-time
+        actionType:
+          type: string
+        details:
+          type: string
+        patientId:
+          type: number
+        userId:
+          type: string
+        caseId:
+          type: number
+      required:
+        - actionDate
+        - actionType
+      additionalProperties: false
+      x-typescript-type: PatientHistory
+    PatientHistoryPartial:
+      title: PatientHistoryPartial
+      type: object
+      description: '(tsType: Partial<PatientHistory>, schemaOptions: { partial: true })'
+      properties:
+        id:
+          type: number
+        actionDate:
+          type: string
+          format: date-time
+        actionType:
+          type: string
+        details:
+          type: string
+        patientId:
+          type: number
+        userId:
+          type: string
+        caseId:
+          type: number
+      additionalProperties: false
+      x-typescript-type: Partial<PatientHistory>
+    Case:
+      title: Case
+      type: object
+      properties:
+        id:
+          type: number
+        case_type:
+          type: string
+        delivery_date:
+          type: string
+        urgent:
+          type: boolean
+        notes:
+          type: string
+        case_status:
+          type: string
+        payment_status:
+          type: string
+        deleted:
+          type: boolean
+        patientId:
+          type: number
+        userId:
+          type: string
+      additionalProperties: false
+    NewCase:
+      title: NewCase
+      type: object
+      description: >-
+        (tsType: Omit<Case, 'id'>, schemaOptions: { title: 'NewCase', exclude: [
+        'id' ] })
+      properties:
+        case_type:
+          type: string
+        delivery_date:
+          type: string
+        urgent:
+          type: boolean
+        notes:
+          type: string
+        case_status:
+          type: string
+        payment_status:
+          type: string
+        deleted:
+          type: boolean
+        patientId:
+          type: number
+        userId:
+          type: string
+      additionalProperties: false
+      x-typescript-type: Omit<Case, 'id'>
+    CasePartial:
+      title: CasePartial
+      type: object
+      description: '(tsType: Partial<Case>, schemaOptions: { partial: true })'
+      properties:
+        id:
+          type: number
+        case_type:
+          type: string
+        delivery_date:
+          type: string
+        urgent:
+          type: boolean
+        notes:
+          type: string
+        case_status:
+          type: string
+        payment_status:
+          type: string
+        deleted:
+          type: boolean
+        patientId:
+          type: number
+        userId:
+          type: string
+      additionalProperties: false
+      x-typescript-type: Partial<Case>
+    loopback.Count:
+      type: object
+      title: loopback.Count
+      x-typescript-type: '@loopback/repository#Count'
+      properties:
+        count:
+          type: number
+    Case.ScopeFilter:
+      type: object
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties: {}
+              additionalProperties: true
+            - type: array
+              items:
+                type: string
+              uniqueItems: true
+        include:
+          type: array
+          items:
+            type: object
+            properties: {}
+            additionalProperties: true
+      additionalProperties: false
+      title: Case.ScopeFilter
+    Case.IncludeFilter.Items:
+      title: Case.IncludeFilter.Items
+      type: object
+      properties:
+        relation:
+          type: string
+          enum:
+            - patient
+            - user
+            - scan
+        scope:
+          $ref: '#/components/schemas/Case.ScopeFilter'
+    Case.Filter:
+      type: object
+      title: Case.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                case_type:
+                  type: boolean
+                delivery_date:
+                  type: boolean
+                urgent:
+                  type: boolean
+                notes:
+                  type: boolean
+                case_status:
+                  type: boolean
+                payment_status:
+                  type: boolean
+                deleted:
+                  type: boolean
+                patientId:
+                  type: boolean
+                userId:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - case_type
+                  - delivery_date
+                  - urgent
+                  - notes
+                  - case_status
+                  - payment_status
+                  - deleted
+                  - patientId
+                  - userId
+                example: id
+              uniqueItems: true
+          title: Case.Fields
+        include:
+          title: Case.IncludeFilter
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Case.IncludeFilter.Items'
+              - type: string
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<Case>'
+    Case.Filter1:
+      type: object
+      title: Case.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          title: Case.WhereFilter
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                case_type:
+                  type: boolean
+                delivery_date:
+                  type: boolean
+                urgent:
+                  type: boolean
+                notes:
+                  type: boolean
+                case_status:
+                  type: boolean
+                payment_status:
+                  type: boolean
+                deleted:
+                  type: boolean
+                patientId:
+                  type: boolean
+                userId:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - case_type
+                  - delivery_date
+                  - urgent
+                  - notes
+                  - case_status
+                  - payment_status
+                  - deleted
+                  - patientId
+                  - userId
+                example: id
+              uniqueItems: true
+          title: Case.Fields
+        include:
+          title: Case.IncludeFilter
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Case.IncludeFilter.Items'
+              - type: string
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<Case>'
+    PatientHistory.ScopeFilter:
+      type: object
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties: {}
+              additionalProperties: true
+            - type: array
+              items:
+                type: string
+              uniqueItems: true
+        include:
+          type: array
+          items:
+            type: object
+            properties: {}
+            additionalProperties: true
+      additionalProperties: false
+      title: PatientHistory.ScopeFilter
+    PatientHistory.IncludeFilter.Items:
+      title: PatientHistory.IncludeFilter.Items
+      type: object
+      properties:
+        relation:
+          type: string
+          enum:
+            - patient
+            - user
+            - case
+        scope:
+          $ref: '#/components/schemas/PatientHistory.ScopeFilter'
+    PatientHistory.Filter:
+      type: object
+      title: PatientHistory.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                actionDate:
+                  type: boolean
+                actionType:
+                  type: boolean
+                details:
+                  type: boolean
+                patientId:
+                  type: boolean
+                userId:
+                  type: boolean
+                caseId:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - actionDate
+                  - actionType
+                  - details
+                  - patientId
+                  - userId
+                  - caseId
+                example: id
+              uniqueItems: true
+          title: PatientHistory.Fields
+        include:
+          title: PatientHistory.IncludeFilter
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/PatientHistory.IncludeFilter.Items'
+              - type: string
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<PatientHistory>'
+    PatientHistory.Filter1:
+      type: object
+      title: PatientHistory.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          title: PatientHistory.WhereFilter
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                actionDate:
+                  type: boolean
+                actionType:
+                  type: boolean
+                details:
+                  type: boolean
+                patientId:
+                  type: boolean
+                userId:
+                  type: boolean
+                caseId:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - actionDate
+                  - actionType
+                  - details
+                  - patientId
+                  - userId
+                  - caseId
+                example: id
+              uniqueItems: true
+          title: PatientHistory.Fields
+        include:
+          title: PatientHistory.IncludeFilter
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/PatientHistory.IncludeFilter.Items'
+              - type: string
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<PatientHistory>'
+    Patient.ScopeFilter:
+      type: object
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties: {}
+              additionalProperties: true
+            - type: array
+              items:
+                type: string
+              uniqueItems: true
+        include:
+          type: array
+          items:
+            type: object
+            properties: {}
+            additionalProperties: true
+      additionalProperties: false
+      title: Patient.ScopeFilter
+    Patient.IncludeFilter.Items:
+      title: Patient.IncludeFilter.Items
+      type: object
+      properties:
+        relation:
+          type: string
+          enum:
+            - user
+            - history
+            - scan
+        scope:
+          $ref: '#/components/schemas/Patient.ScopeFilter'
+    Patient.Filter:
+      type: object
+      title: Patient.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                name:
+                  type: boolean
+                gender:
+                  type: boolean
+                notes:
+                  type: boolean
+                deleted:
+                  type: boolean
+                userId:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - name
+                  - gender
+                  - notes
+                  - deleted
+                  - userId
+                example: id
+              uniqueItems: true
+          title: Patient.Fields
+        include:
+          title: Patient.IncludeFilter
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Patient.IncludeFilter.Items'
+              - type: string
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<Patient>'
+    Patient.Filter1:
+      type: object
+      title: Patient.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          title: Patient.WhereFilter
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                name:
+                  type: boolean
+                gender:
+                  type: boolean
+                notes:
+                  type: boolean
+                deleted:
+                  type: boolean
+                userId:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - name
+                  - gender
+                  - notes
+                  - deleted
+                  - userId
+                example: id
+              uniqueItems: true
+          title: Patient.Fields
+        include:
+          title: Patient.IncludeFilter
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Patient.IncludeFilter.Items'
+              - type: string
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<Patient>'
+    Scan.ScopeFilter:
+      type: object
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties: {}
+              additionalProperties: true
+            - type: array
+              items:
+                type: string
+              uniqueItems: true
+        include:
+          type: array
+          items:
+            type: object
+            properties: {}
+            additionalProperties: true
+      additionalProperties: false
+      title: Scan.ScopeFilter
+    Scan.IncludeFilter.Items:
+      title: Scan.IncludeFilter.Items
+      type: object
+      properties:
+        relation:
+          type: string
+          enum:
+            - patient
+            - user
+            - case
+        scope:
+          $ref: '#/components/schemas/Scan.ScopeFilter'
+    Scan.Filter:
+      type: object
+      title: Scan.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                url:
+                  type: boolean
+                filename:
+                  type: boolean
+                uploadDate:
+                  type: boolean
+                patientId:
+                  type: boolean
+                userId:
+                  type: boolean
+                caseId:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - url
+                  - filename
+                  - uploadDate
+                  - patientId
+                  - userId
+                  - caseId
+                example: id
+              uniqueItems: true
+          title: Scan.Fields
+        include:
+          title: Scan.IncludeFilter
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Scan.IncludeFilter.Items'
+              - type: string
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<Scan>'
+    Scan.Filter1:
+      type: object
+      title: Scan.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          title: Scan.WhereFilter
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                url:
+                  type: boolean
+                filename:
+                  type: boolean
+                uploadDate:
+                  type: boolean
+                patientId:
+                  type: boolean
+                userId:
+                  type: boolean
+                caseId:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - url
+                  - filename
+                  - uploadDate
+                  - patientId
+                  - userId
+                  - caseId
+                example: id
+              uniqueItems: true
+          title: Scan.Fields
+        include:
+          title: Scan.IncludeFilter
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Scan.IncludeFilter.Items'
+              - type: string
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<Scan>'
+    Todo.Filter:
+      type: object
+      title: Todo.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                title:
+                  type: boolean
+                desc:
+                  type: boolean
+                isComplete:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - title
+                  - desc
+                  - isComplete
+                example: id
+              uniqueItems: true
+          title: Todo.Fields
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<Todo>'
+    Todo.Filter1:
+      type: object
+      title: Todo.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          title: Todo.WhereFilter
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                title:
+                  type: boolean
+                desc:
+                  type: boolean
+                isComplete:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - title
+                  - desc
+                  - isComplete
+                example: id
+              uniqueItems: true
+          title: Todo.Fields
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<Todo>'
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - jwt: []
