@@ -172,7 +172,7 @@ export class CaseViewComponent {
             const formData = new FormData();
             formData.append('file', file);
             this.http
-                .post('http://localhost:3000/upload', formData)
+                .post('https://vertex-be.onrender.com/upload', formData)
                 .toPromise()
                 .then((url: any) => {
                     if (url.imageUrl) {
@@ -209,7 +209,7 @@ export class CaseViewComponent {
             const formData = new FormData();
             formData.append('file', file);
             this.http
-                .post('http://localhost:3000/upload', formData)
+                .post('https://vertex-be.onrender.com/upload', formData)
                 .toPromise()
                 .then((url: any) => {
                     if (url.imageUrl) {

@@ -75,7 +75,7 @@ export class CaseManagementComponent {
                 formData.append('file', file);
                 if (file) {
                     return this.http
-                        .post('http://localhost:3000/upload', formData)
+                        .post('https://vertex-be.onrender.com/upload', formData)
                         .toPromise()
                         .then((url: any) => {
                             this.loader.hideLoader();
