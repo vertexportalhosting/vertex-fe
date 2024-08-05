@@ -35,12 +35,11 @@ export class CaseViewComponent {
     caseId: number;
     @ViewChild('fileInput') fileInput: ElementRef;
     @ViewChild('fileUploader') fileUploader;
-    caseTypes: any[] = [
+        caseTypes: any[] = [
         { name: 'Stage 0 - Pre-Surgery', code: '0' },
         { name: 'Stage 1 - Surgery', code: '1' },
-        { name: 'Stage 2 - Prototype', code: '2' },
-        { name: 'Stage 3 - Try In', code: '3' },
-        { name: 'Stage 4 - Final', code: '4' },
+        { name: 'Stage 2 - Prototype/ Try In', code: '2' },
+        { name: 'Stage 3 - Final', code: '3' },
     ];
     admin = JSON.parse(localStorage.getItem('user'))?.role == 'admin';
     doctorScans = [];

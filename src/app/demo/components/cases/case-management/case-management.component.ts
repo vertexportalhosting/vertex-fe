@@ -27,9 +27,8 @@ export class CaseManagementComponent {
     caseTypes: any[] = [
         { name: 'Stage 0 - Pre-Surgery', code: '0' },
         { name: 'Stage 1 - Surgery', code: '1' },
-        { name: 'Stage 2 - Prototype', code: '2' },
-        { name: 'Stage 3 - Try In', code: '3' },
-        { name: 'Stage 4 - Final', code: '4' },
+        { name: 'Stage 2 - Prototype/ Try In', code: '2' },
+        { name: 'Stage 3 - Final', code: '3' },
     ];
 
     activeIndex: number = 0;
@@ -69,6 +68,7 @@ export class CaseManagementComponent {
 
     uploadScans(patientId, caseId) {
         this.loader.showLoader();
+        this.loading = true;
         return new Promise((resolve, reject) => {
             const uploadPromises = this.uploadedFiles.map((file) => {
                 const formData = new FormData();
@@ -140,6 +140,8 @@ export class CaseManagementComponent {
                             });
                             this.loading = false;
                             this.router.navigate(['/case/list']);
+                        }, err => {
+                            this.loading = false;
                         });
                     });
             });

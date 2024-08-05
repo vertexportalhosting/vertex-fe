@@ -31,3 +31,23 @@
     margin-bottom: 20px;
   }
   
+
+  
+  @media screen and (max-width: 768px) {
+    .mobile-hide {
+      display: none;
+    }
+    .mobile-show {
+      display: block;
+    }
+    .mobile-responsive-table td, .mobile-responsive-table th {
+      min-width: auto;
+      padding: 0.5rem;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    .mobile-show {
+      display: none;
+    }
+  }

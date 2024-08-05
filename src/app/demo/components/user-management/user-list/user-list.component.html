@@ -1,51 +1,51 @@
 <div class="grid">
-	<div class="col-12">
-		<div class="card">
+	<div class="col-12 w-full p-2 sm:p-5 sm:col-6">
+		<div class="card p-2 sm:p-5">
 			<h5>Doctors</h5>
 			<p-table #dt1 [value]="doctorList" dataKey="id" [rows]="10" [rowHover]="true" [paginator]="true"
-				responsiveLayout="scroll">
-				<ng-template pTemplate="caption">
-					<div class="flex justify-content-between flex-column sm:flex-row">
-						<span class="p-input-icon-left mb-2">
-							<i class="pi pi-search"></i>
-							<input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)"
-								placeholder="Search Keyword" class="w-full" />
-						</span>
-						<button pButton label="Add new Doctor" class="p-button-outlined mb-2" (click)="showDialog()"
-							icon="pi pi-plus"></button>
-					</div>
-				</ng-template>
-				<ng-template pTemplate="header">
-					<tr>
-						<th style="width:56px"></th>
-						<th style="min-width: 12rem">Username</th>
-						<th style="min-width: 12rem">Email</th>
-						<th style="min-width: 14rem">Role</th>
-						<th style="min-width: 8rem">Actions</th>
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-doctor>
-					<tr>
-						<td>
-							<button pButton (click)="showDialog(doctor)" icon="pi pi-pencil"
-								class="p-button-rounded p-button-outlined"></button>
-						</td>
-						<td>{{ doctor.username }}</td>
-						<td>{{ doctor.email }}</td>
-						<td>{{ doctor.role }}</td>
-						<td>
-							<button pButton icon="pi pi-trash"
-								class="p-button-rounded p-button-outlined p-button-danger"
-								(click)="confirmDeletion($event, doctor.id)"></button>
-						</td>
-					</tr>
-				</ng-template>
-				<ng-template pTemplate="emptymessage">
-					<tr>
-						<td colspan="5">No doctors found.</td>
-					</tr>
-				</ng-template>
-			</p-table>
+			responsiveLayout="scroll" class="p-datatable-responsive mobile-responsive-table">
+			<ng-template pTemplate="caption">
+				<div class="flex justify-content-between flex-column sm:flex-row">
+					<span class="p-input-icon-left mb-2">
+						<i class="pi pi-search"></i>
+						<input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)"
+							placeholder="Search Keyword" class="w-full" />
+					</span>
+					<button pButton label="Add new Doctor" class="p-button-outlined mb-2" (click)="showDialog()"
+						icon="pi pi-plus"></button>
+				</div>
+			</ng-template>
+			<ng-template pTemplate="header">
+				<tr>
+					<th style="width:56px"></th>
+					<th style="min-width: 6rem">Username</th>
+					<th  style="min-width: 6rem">Email</th>
+					<th  class="mobile-hide"style="min-width: 14rem">Role</th>
+					<th style="min-width: 4rem">Actions</th>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="body" let-doctor>
+				<tr>
+					<td>
+						<button pButton (click)="showDialog(doctor)" icon="pi pi-pencil"
+							class="p-button-rounded p-button-outlined"></button>
+					</td>
+					<td>{{ doctor.username }}</td>
+					<td >{{ doctor.email }}</td>
+					<td class="mobile-hide">{{ doctor.role }}</td>
+					<td>
+						<button pButton icon="pi pi-trash"
+							class="p-button-rounded p-button-outlined p-button-danger"
+							(click)="confirmDeletion($event, doctor.id)"></button>
+					</td>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="emptymessage">
+				<tr>
+					<td colspan="5">No doctors found.</td>
+				</tr>
+			</ng-template>
+		</p-table>
 		</div>
 	</div>
 </div>

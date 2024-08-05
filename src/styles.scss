@@ -20,3 +20,14 @@ $gutter: 1rem; //for primeflex grid system
         display: flex !important;
     }
 }
+
+
+.main_card {
+    padding: 200px 100px;
+
+    @media screen and (max-width: 786px) {
+        padding: 30px
+    }
+}
+
+

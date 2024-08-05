@@ -72,7 +72,7 @@
         </div>
     
         <div class="grid">
-            <div class="{{ admin ? 'col-8' : 'col-12'}} p-md-4 p-p-2">
+            <div class="{{ admin ? 'col-12 sm:col-8' : 'col-12'}} p-md-4 p-p-2">
                 <p-card #scanFiles>
                     <div class="p-fluid">
                         <h3>Scan Files</h3>
@@ -83,20 +83,20 @@
                         <p-table [value]="doctorScans" [paginator]="true" [rows]="10">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th>Scan ID</th>
+                                    <th class="mobile-hide">Scan ID</th>
                                     <th>Filename</th>
-                                    <th>Upload Date</th>
-                                    <th>Uploaded By</th>
+                                    <th class="mobile-hide">Upload Date</th>
+                                    <th class="mobile-hide">Uploaded By</th>
                                     <th>Download</th>
                                     <th>Delete</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-scan>
                                 <tr>
-                                    <td>{{ scan.id }}</td>
+                                    <td class="mobile-hide">{{ scan.id }}</td>
                                     <td>{{ scan.filename }}</td>
-                                    <td>{{ scan.uploadDate | date }}</td>
-                                    <td>{{ scan.user.username }}</td>
+                                    <td class="mobile-hide">{{ scan.uploadDate | date }}</td>
+                                    <td class="mobile-hide">{{ scan.user.username }}</td>
                                     <td>
                                         <button class="p-button-rounded" (click)="downloadScan(scan)" pButton
                                             icon="pi pi-download"></button>
@@ -112,7 +112,7 @@
                 </p-card>
             </div>
     
-            <div class="col-4" *ngIf="admin">
+            <div class="col-12 sm:col-4" *ngIf="admin">
                 <div class="custom-uploader">
                     <p-card #scanFiles>
                         <div class="p-fluid">
@@ -125,20 +125,20 @@
                             <p-table [value]="adminScans" [paginator]="true" [rows]="10">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th>Scan ID</th>
+                                        <th class="mobile-hide">Scan ID</th>
                                         <th>Filename</th>
-                                        <th>Upload Date</th>
-                                        <th>Uploaded By</th>
+                                        <th class="mobile-hide">Upload Date</th>
+                                        <th class="mobile-hide">Uploaded By</th>
                                         <th>Download</th>
                                         <th>Delete</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-scan>
                                     <tr>
-                                        <td>{{ scan.id }}</td>
+                                        <td class="mobile-hide">{{ scan.id }}</td>
                                         <td>{{ scan.filename }}</td>
-                                        <td>{{ scan.uploadDate | date }}</td>
-                                        <td>{{ scan.user.username }}</td>
+                                        <td class="mobile-hide">{{ scan.uploadDate | date }}</td>
+                                        <td class="mobile-hide">{{ scan.user.username }}</td>
                                         <td>
                                             <button class="p-button-rounded" (click)="downloadScan(scan)" pButton
                                                 icon="pi pi-download"></button>
@@ -226,26 +226,3 @@
     </div>
 </div>
 <p-confirmDialog></p-confirmDialog>
-
-<!-- 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCg_YxfdID0i0qwTiq062okj1sQoxoydkM",
-  authDomain: "kayrarr-14eac.firebaseapp.com",
-  projectId: "kayrarr-14eac",
-  storageBucket: "kayrarr-14eac.appspot.com",
-  messagingSenderId: "621219099745",
-  appId: "1:621219099745:web:7b4f5fc71cc2037ad92620",
-  measurementId: "G-QHMCL7QTV7"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app); -->

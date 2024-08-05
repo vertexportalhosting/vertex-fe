@@ -85,7 +85,7 @@
                 name="doctorNotes" (focus)="caseNotes.placeholder = ''" (blur)="caseNotes.placeholder = 'ex. all on x zirconia, design etc'" placeholder="ex. all on x zirconia, design etc"></textarea>
             </div>
 
-            <div class="flex gap-2">
+            <div class="flex flex-column-reverse sm:flex-row  gap-2">
               <!-- <div class="col-6 px-0">
               <div class="flex flex-column gap-2">
                 <label for="gender">Gender<span class="required-asterisk">*</span></label>
@@ -97,7 +97,7 @@
 
 
             </div> -->
-              <div class="col-6 px-0">
+              <div class="col-12 sm:col-6 px-0">
                 <div class="notes">
                   <label for="caseNotes">Patient Notes</label>
                   <textarea pInputTextarea id="caseNotes" [(ngModel)]="patient.notes" #notes="ngModel"
@@ -105,7 +105,7 @@
                 </div>
               </div>
 
-              <div class="col-6 px-0">
+              <div class="col-12 sm:col-6 px-0">
                 <div class="custom-uploader mt-4">
                   <div class="upload-instructions">
                     <p>Scans<span class="required-asterisk">*</span>:
@@ -218,3 +218,8 @@
     </p-card>
   </div>
 </div>
+
+
+<p-blockUI [blocked]="loading" [baseZIndex]="99999">
+  <p-progressSpinner ariaLabel="loading" />
+</p-blockUI>
