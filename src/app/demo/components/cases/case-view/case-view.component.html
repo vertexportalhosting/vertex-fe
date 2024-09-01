@@ -112,7 +112,7 @@
                 </p-card>
             </div>
     
-            <div class="col-12 sm:col-4" *ngIf="admin">
+            <div [class]="admin ? 'col-12 sm:col-4' : 'hidden'">
                 <div class="custom-uploader">
                     <p-card #scanFiles>
                         <div class="p-fluid">
