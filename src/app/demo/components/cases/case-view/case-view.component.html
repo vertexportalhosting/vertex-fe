@@ -94,7 +94,8 @@
                             <ng-template pTemplate="body" let-scan>
                                 <tr>
                                     <td class="mobile-hide">{{ scan.id }}</td>
-                                    <td>{{ scan.filename }}</td>
+                                    <td style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;" pTooltip="{{scan.filename || getFilename(scan.url)}}" 
+                                    tooltipPosition="right" >{{ scan.filename || getFilename(scan.url) }}</td>
                                     <td class="mobile-hide">{{ scan.uploadDate | date }}</td>
                                     <td class="mobile-hide">{{ scan.user.username }}</td>
                                     <td>
@@ -136,7 +137,7 @@
                                 <ng-template pTemplate="body" let-scan>
                                     <tr>
                                         <td class="mobile-hide">{{ scan.id }}</td>
-                                        <td>{{ scan.filename }}</td>
+                                        <td style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;">{{ scan.filename || getFilename(scan.url) }}</td>
                                         <td class="mobile-hide">{{ scan.uploadDate | date }}</td>
                                         <td class="mobile-hide">{{ scan.user.username }}</td>
                                         <td>

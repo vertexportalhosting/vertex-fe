@@ -249,6 +249,7 @@ export class CaseViewComponent {
     downloadScan(scan) {
         // Open the scan download URL in a new window
         // window.open(url, '_blank');
+        console.log(this.getFilename(scan.url), scan.filename)
         this.http.get(scan.url, { responseType: 'blob' }).subscribe(blob => {
             const link = document.createElement('a');
             const url = window.URL.createObjectURL(blob);
@@ -323,7 +324,11 @@ export class CaseViewComponent {
 
     getFilename(string) {
         const parts = string.split('?')[0].split('/');
-        return parts[parts.length - 1];
+        const filename = decodeURI(parts[parts.length - 1]);
+        if (filename.endsWith('octet-stream')) {
+            return filename.replace('.octet-stream', '');
+        }
+        return filename;
     }
 
     downloadFiles() {}
