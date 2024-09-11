@@ -109,6 +109,10 @@ export class CaseManagementComponent {
     }
 
     next() {
+        // to remove big files
+        if (this.uploadedFiles.length) {
+            this.uploadedFiles = this.uploadedFiles.filter(file => file.size <= 1181116006);
+        }
         if (this.activeIndex < 2) {
             this.activeIndex++;
         } else {
