@@ -1,10 +1,10 @@
-<div #pnl>
+<div>
     <div class="flex justify-content-between mb-3 gap-4">
         <button pButton label="Go Back" (click)="location.back()"></button>
         <p-button label="Delete Case" severity="danger" (click)="deleteCase()" />
-    
+
     </div>
-    <div class="p-grid p-align-center p-m-4" >
+    <div class="p-grid p-align-center p-m-4">
         <div class="grid">
             <div class="col-12 h-full md:col-6">
                 <div class="p-col-12 h-full p-md-4 p-p-2 mb-5">
@@ -70,17 +70,32 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="grid">
-            <div class="{{ admin ? 'col-12 sm:col-8' : 'col-12'}} p-md-4 p-p-2">
+            <div class="{{ admin ? 'col-12 sm:col-6' : 'col-12'}} p-md-4 p-p-2">
                 <p-card #scanFiles>
                     <div class="p-fluid">
                         <h3>Scan Files</h3>
-                        <div class="flex gap-2 justify-content-end">
-                            <button pButton [style.width]="'200px'" label="Upload New Scan" icon="pi pi-upload"
-                                (click)="triggerFileInput()" class="mb-3"></button>
+                        <div class="flex flex-wrap gap-2 justify-content-end">
+                            <div class="col-12">
+                                <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
+                                auto="true" (onSelect)="onFileSelected($event)" >
+                                <ng-template pTemplate="content" (onSelect)="onFileSelected($event)">
+                                    <div class="custom-upload-area">
+                                      <i class="pi pi-cloud-upload"></i>
+                                      <div class="upload-text">
+                                        <p>Drop Files here </p>
+                                      </div>
+                                    </div>
+                                  </ng-template>
+                                </p-fileUpload>
+                            </div>
+                            <div class="col-12">
+                                <button class="p-button-rounded" label="Download All" (click)="downloadFiles('Dcotor')" pButton
+                                            ></button>
+                            </div>
                         </div>
-                        <p-table [value]="doctorScans" [paginator]="true" [rows]="10">
+                        <p-table [value]="doctorScans" [paginator]="true" [rows]="20">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th class="mobile-hide">Scan ID</th>
@@ -94,8 +109,9 @@
                             <ng-template pTemplate="body" let-scan>
                                 <tr>
                                     <td class="mobile-hide">{{ scan.id }}</td>
-                                    <td style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;" pTooltip="{{scan.filename || getFilename(scan.url)}}" 
-                                    tooltipPosition="right" >{{ scan.filename || getFilename(scan.url) }}</td>
+                                    <td style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;"
+                                        pTooltip="{{scan.filename || getFilename(scan.url)}}" tooltipPosition="right">{{
+                                        scan.filename || getFilename(scan.url) }}</td>
                                     <td class="mobile-hide">{{ scan.uploadDate | date }}</td>
                                     <td class="mobile-hide">{{ scan.user.username }}</td>
                                     <td>
@@ -112,18 +128,33 @@
                     </div>
                 </p-card>
             </div>
-    
-            <div [class]="admin ? 'col-12 sm:col-4' : 'hidden'">
+
+            <div [class]="admin ? 'col-12 sm:col-6' : 'hidden'">
                 <div class="custom-uploader">
-                    <p-card #scanFiles>
+                    <p-card>
                         <div class="p-fluid">
                             <h3>Admin Files</h3>
-                            <div class="flex gap-2 justify-content-end">
-                                <button pButton [style.width]="'200px'" label="Upload New Scan" icon="pi pi-upload"
-                                    (click)="triggerFileInput()" class="mb-3"></button>
-                                <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
+                            <div class="flex flex-wrap gap-2 justify-content-end">
+                                <div class="col-12">
+                                    <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
+                                    auto="true" (onSelect)="onFileSelected($event)" >
+                                    <ng-template pTemplate="content" (onSelect)="onFileSelected($event)">
+                                        <div class="custom-upload-area">
+                                          <i class="pi pi-cloud-upload"></i>
+                                          <div class="upload-text">
+                                            <p>Drop Files here</p>
+                                          </div>
+                                        </div>
+                                      </ng-template>
+                                    </p-fileUpload>
+                                </div>
+
+                                <div class="col-12">
+                                    <button class="p-button-rounded" label="Download All" (click)="downloadFiles('Admin')" pButton
+                                                ></button>
+                                </div>
                             </div>
-                            <p-table [value]="adminScans" [paginator]="true" [rows]="10">
+                            <p-table [value]="adminScans" [paginator]="true" [rows]="20">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th class="mobile-hide">Scan ID</th>
@@ -137,7 +168,9 @@
                                 <ng-template pTemplate="body" let-scan>
                                     <tr>
                                         <td class="mobile-hide">{{ scan.id }}</td>
-                                        <td style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;">{{ scan.filename || getFilename(scan.url) }}</td>
+                                        <td
+                                            style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;">
+                                            {{ scan.filename || getFilename(scan.url) }}</td>
                                         <td class="mobile-hide">{{ scan.uploadDate | date }}</td>
                                         <td class="mobile-hide">{{ scan.user.username }}</td>
                                         <td>
@@ -153,21 +186,21 @@
                             </p-table>
                         </div>
                     </p-card>
-    
+
                 </div>
             </div>
-    
+
         </div>
-    
-    
-    
+
+
+
         <p-dialog header="Edit Case" [draggable]="false" [(visible)]="caseDialog" [modal]="true"
             [style]="{width: '500px', 'margin-top': '20px'}" [responsive]="true">
             <div class="p-fluid p-formgrid p-grid" [style]="{'gap': '20px'}">
                 <div class="p-field p-col-12 p-md-6" [style]="{'margin-bottom': '1em'}">
                     <label for="caseType">Case Type</label>
-                    <p-dropdown appendTo="body" [options]="caseTypes" [(ngModel)]="case.case_type" nVal optionLabel="name"
-                        optionValue="name"></p-dropdown>
+                    <p-dropdown appendTo="body" [options]="caseTypes" [(ngModel)]="case.case_type" nVal
+                        optionLabel="name" optionValue="name"></p-dropdown>
                 </div>
                 <div class="p-field p-col-12 p-md-6" [style]="{'margin-bottom': '1em'}">
                     <label for="deliveryDate">Delivery Date</label>
@@ -188,10 +221,10 @@
                 </div>
             </div>
         </p-dialog>
-    
-    
+
+
         <!-- Patient Edit Dialog -->
-    
+
         <p-dialog header="Edit Patient" [draggable]="false" [(visible)]="patientDialog" [modal]="true"
             [style]="{width: '500px', 'margin-top': '20px'}" [responsive]="true">
             <div class="p-fluid p-formgrid p-grid" [style]="{'gap': '20px'}">
@@ -210,8 +243,8 @@
                     <div [style]="{'display': 'flex', 'align-items': 'center'}">
                         <p-radioButton name="gender" value="Male" label="Male" [(ngModel)]="patient.gender"
                             inputId="genderMale" [style]="{'margin-right': '10px'}"></p-radioButton>
-                        <p-radioButton class="ml-2" name="gender" value="Female" label="Female" [(ngModel)]="patient.gender"
-                            inputId="genderFemale"></p-radioButton>
+                        <p-radioButton class="ml-2" name="gender" value="Female" label="Female"
+                            [(ngModel)]="patient.gender" inputId="genderFemale"></p-radioButton>
                     </div>
                 </div>
                 <div class="p-field p-col-12" [style]="{'margin-bottom': '1em'}">
@@ -223,7 +256,7 @@
                 </div>
             </div>
         </p-dialog>
-    
+
     </div>
 </div>
 <p-confirmDialog></p-confirmDialog>

@@ -1,13 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { Product } from '../../api/product';
-import { ProductService } from '../../service/product.service';
-import { Subscription, debounceTime } from 'rxjs';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import {
-    CaseControllerService,
-    PatientControllerControllerService,
-} from 'src/app/api/services';
+
+import { Subscription } from 'rxjs';
+import { Case } from 'src/app/api/models';
+import { CaseControllerService } from 'src/app/api/services';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -16,62 +11,50 @@ export class DashboardComponent implements OnInit, OnDestroy {
     subscription!: Subscription;
     totalCase = 0;
     casesClosed = 0;
+    stage0 = 0;
+    stage1 = 0;
+    stage2 = 0;
+    stage3 = 0;
     constructor(private caseController: CaseControllerService) {}
 
     ngOnInit() {
         setTimeout(() => {
             const { role, id } = JSON.parse(localStorage.getItem('user')) || {};
             this.getCasesCount(role, id);
-        }, 1000)
+        }, 1000);
     }
 
     getCasesCount(role, id) {
-        let filter = {};
+        let filter: any = {};
         if (role == 'admin') {
-            filter = {};
+            filter = {
+                where: {},
+                fields: {
+                    case_type: true,
+                    case_status: true,
+                },
+            };
         } else {
             filter = {
-                userId: id,
+                where: {
+                    userId: id,
+                },
             };
         }
-        this.caseController
-            .count({ where: JSON.stringify(filter) })
-            .subscribe((res) => {
-                this.totalCase = res.count;
-                let filter = {};
-                if (role == 'admin') {
-                    filter = {
-                         case_status: 'completed'
-                    };
-                } else {
-                    filter = {
-                        userId: id,
-                        case_status: 'completed'
-                    };
-                }
-                this.caseController
-                .count({ where: JSON.stringify(filter) })
-                .subscribe((res) => {
-                    this.casesClosed = res.count
-                })
-            });
-    }
 
-    // getCasesClosedCount(role, id){
-    //     let filter = {};
-    //    if (role == 'admin') {
-    //     filter['where'] = {
-    //         sta
-    //     }
-    //    } else {
-    //     filter['where'] = {
-    //         userId: id
-    //     }
-    //    }
-    //    this.pateintControllerService.count(filter).subscribe((res) => {
-    //     this.totalPatients = res.count;
-    //    });
-    // }
+        this.caseController
+            .find({
+                filter: JSON.stringify(filter),
+            })
+            .subscribe(res => {
+                this.totalCase = res.length;
+                this.casesClosed = res.filter(res => res.case_status === 'completed')?.length;
+                this.stage0 = res.filter(res => res.case_type.startsWith('Stage 0'))?.length;
+                this.stage1 = res.filter(res => res.case_type.startsWith('Stage 1'))?.length;
+                this.stage2 = res.filter(res => res.case_type.startsWith('Stage 2'))?.length;
+                this.stage3 = res.filter(res => res.case_type.startsWith('Stage 3'))?.length;
+            })
+    }
 
     ngOnDestroy() {
         if (this.subscription) {

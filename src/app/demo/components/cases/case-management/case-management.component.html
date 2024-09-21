@@ -80,9 +80,9 @@
             </div>
 
             <div class="notes mt-2 col-12 px-0">
-              <label for="doctorNotes mb-2">Case Notes/Type of work</label>
-              <textarea pInputTextarea #caseNotes rows="7" id="doctorNotes" pInputTextarea [(ngModel)]="case.notes"
-                name="doctorNotes" (focus)="caseNotes.placeholder = ''" (blur)="caseNotes.placeholder = 'ex. all on x zirconia, design etc'" placeholder="ex. all on x zirconia, design etc"></textarea>
+              <label for="doctorNotes mb-2">Type of restorations</label>
+              <textarea pInputTextarea #caseNotes rows="1" id="casenotes" pInputTextarea [(ngModel)]="case.notes"
+                name="casenotes"></textarea>
             </div>
 
             <div class="flex flex-column-reverse sm:flex-row  gap-2">
@@ -99,9 +99,9 @@
             </div> -->
               <div class="col-12 sm:col-6 px-0">
                 <div class="notes">
-                  <label for="caseNotes">Patient Notes</label>
-                  <textarea pInputTextarea id="caseNotes" [(ngModel)]="patient.notes" #notes="ngModel"
-                    name="notes"></textarea>
+                  <label for="doctorNotes mb-2">Case Notes/Type of work</label>
+                  <textarea pInputTextarea #caseNotes rows="7" id="doctorNotes" pInputTextarea [(ngModel)]="patient.notes"
+                    name="doctorNotes" (focus)="caseNotes.placeholder = ''" (blur)="caseNotes.placeholder = 'ex. all on x zirconia, design etc'" placeholder="ex. all on x zirconia, design etc"></textarea>
                 </div>
               </div>
 
@@ -117,13 +117,12 @@
 
                   <!-- Allow files upto 1gb -->
                   <p-fileUpload [maxFileSize]="1181116006" id="scans" name="scans" (onRemove)="onRemove($event)"
-                    (onSelect)="onFileSelect($event)"  mode="advanced" auto="true" multiple="true" required>
+                    (onSelect)="onFileSelect($event)"  chooseLabel="Click to upload" mode="advanced" auto="true" multiple="true" required>
                     <ng-template pTemplate="content" (onSelect)="onFileSelect($event)">
                       <div class="custom-upload-area">
                         <i class="pi pi-cloud-upload"></i>
                         <div class="upload-text">
                           <p>Drop Files here or click to upload</p>
-                          <p>Drop files here or click <a>browse</a> through your machine</p>
                         </div>
                       </div>
                     </ng-template>
@@ -146,7 +145,7 @@
            
 
           </div>
-          <div class="navigation-buttons">
+          <div class="navigation-buttons mt-3">
             <p-button label="Previous" icon="pi pi-arrow-left" (onClick)="prev()"></p-button>
             <p-button label="Next" icon="pi pi-arrow-right" [disabled]="caseForm.invalid || !uploadedFiles.length"
               (onClick)="next()"></p-button>
@@ -198,13 +197,13 @@
             </ul>
           </div>
           <div class="flex gap-2 mb-3">
-            <label for="doctorNotes">Patient Notes:</label>
+            <label for="doctorNotes">Type of Restorations:</label>
             <span id="doctorNotes">{{ case.notes }}</span>
           </div>
 
           <div class="flex gap-2 mb-3">
-            <label for="doctorNotes">Doctor Notes:</label>
-            <span id="doctorNotes">{{ case.notes }}</span>
+            <label for="doctorNotes">Case Notes:</label>
+            <span id="doctorNotes">{{ patient.notes }}</span>
           </div>
         </div>
 
