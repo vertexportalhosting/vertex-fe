@@ -16,6 +16,13 @@
               [style.width]="'100%'">
             </p-dropdown>
           </div>
+          <div class="flex flex-column gap-2 mt-3" *ngIf="admin">
+            <label for="selected_doctor" class="pb-2">Assign to Doctor</label>
+            <p-dropdown id="selected_doctor" [options]="doctorList" [(ngModel)]="selectedDoctor" name="doctors" [filter]="true"
+              optionLabel="name" optionValue="value" placeholder="Assign to a doctor" [autoWidth]="false"
+              [style.width]="'100%'">
+            </p-dropdown>
+          </div>
         </form>
       </ng-template>
       <ng-template pTemplate="footer">

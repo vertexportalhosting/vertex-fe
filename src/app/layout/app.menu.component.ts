@@ -24,7 +24,12 @@ export class AppMenuComponent implements OnInit {
                 label: 'Patient Management',
                 roles: ['admin', 'Doctor'],
                 items: [
-                    { label: 'Cases', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'] }
+                    { label: 'All Cases', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'] },
+                    { label: 'Closes Cases', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'], queryParams: {status: 'completed'}, routerLinkActiveOptions: { paths: 'exact', matrixParams: 'ignored', fragment: 'ignored' } },
+                    { label: 'Pre Surgery (Stage 0)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'], queryParams: {status: 'Stage 0'}, routerLinkActiveOptions: { paths: 'exact', matrixParams: 'ignored', fragment: 'ignored' } },
+                    { label: 'Surgery (Stage 1)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'], queryParams: {status: 'Stage 1'}, routerLinkActiveOptions: { paths: 'exact', matrixParams: 'ignored', fragment: 'ignored' } },
+                    { label: 'Prototype Try In (Stage 2)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'], queryParams: {status: 'Stage 2'}, routerLinkActiveOptions: { paths: 'exact', matrixParams: 'ignored', fragment: 'ignored' } },
+                    { label: 'Final (Stage 3)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'], queryParams: {status: 'Stage 3'}, routerLinkActiveOptions: { paths: 'exact', matrixParams: 'ignored', fragment: 'ignored' } },
                 ]
             },
             {

@@ -48,7 +48,12 @@ export class CaseListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        const params: any = this.activatedRoute.snapshot.queryParams;
+        this.activatedRoute.queryParams.subscribe((params) => {
+            this.getUpdatedList(params)
+        })
+    }
+
+    getUpdatedList(params) {
         switch (params?.status) {
             case 'completed':
                 this.whereFilter = {

@@ -6,6 +6,7 @@ import {
     CaseControllerService,
     PatientControllerControllerService,
     ScanControllerService,
+    UserControllerService,
 } from 'src/app/api/services';
 import { StoreService } from 'src/app/demo/service/store.service';
 
@@ -36,15 +37,28 @@ export class CaseManagementComponent {
 
     uploadedFiles: any = [];
     loading= false;
+    admin = false;
+    selectedDoctor = null;
+    doctorList = [];
 
     constructor(
         private patientService: PatientControllerControllerService,
         private caseSevice: CaseControllerService,
         private scanService: ScanControllerService,
+        private userService: UserControllerService,
         private http: HttpClient,
         private router: Router,
         private loader: StoreService
     ) {}
+
+    ngOnInit(): void {
+        this.admin = JSON.parse(localStorage.getItem('user'))?.role === 'admin';
+        this.userService.findAllUsers().subscribe({
+            next: (res) => {
+              this.doctorList = res.filter(doc => doc.role !== 'admin').map((doc) => ({name: doc.username, value: doc.id}));
+            },
+          });
+    }
 
     isCaseTypeValid(): boolean {
         return this.selectedCaseType !== null;
@@ -133,7 +147,7 @@ export class CaseManagementComponent {
                 this.case = {
                     ...this.case,
                     patientId: patient.id,
-                    userId: JSON.parse(localStorage.getItem('user'))?.id,
+                    userId: this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id,
                 } as any;
                 this.caseSevice
                     .create({ body: this.case })
