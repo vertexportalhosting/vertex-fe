@@ -139,7 +139,6 @@ export class CaseManagementComponent {
             this.submit();
         }
 
-        console.log('this.activeIndex: ', this.activeIndex);
         if (this.activeIndex == 1) {
             setTimeout(() => {
                 this.initDropzone();
@@ -148,35 +147,34 @@ export class CaseManagementComponent {
     }
 
     submit() {
-        console.log(this.uploadedFiles)
-        // this.loading = true;
-        // this.patient = {
-        //     ...this.patient,
-        //     userId: JSON.parse(localStorage.getItem('user'))?.id,
-        // };
+        this.loading = true;
+        this.patient = {
+            ...this.patient,
+            userId: JSON.parse(localStorage.getItem('user'))?.id,
+        };
 
-        // this.patientService
-        //     .create({ body: this.patient })
-        //     .subscribe((patient) => {
-        //         this.case = {
-        //             ...this.case,
-        //             patientId: patient.id,
-        //             userId: this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id,
-        //         } as any;
-        //         this.caseSevice
-        //             .create({ body: this.case })
-        //             .subscribe((acase) => {
-        //                 this.uploadScans(patient.id, acase.id).then((res) => {
-        //                     this.scans.forEach((scan) => {
-        //                         this.scanService.create({body: scan}).subscribe();
-        //                     });
-        //                     this.loading = false;
-        //                     this.router.navigate(['/case/list']);
-        //                 }, err => {
-        //                     this.loading = false;
-        //                 });
-        //             });
-        //     });
+        this.patientService
+            .create({ body: this.patient })
+            .subscribe((patient) => {
+                this.case = {
+                    ...this.case,
+                    patientId: patient.id,
+                    userId: this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id,
+                } as any;
+                this.caseSevice
+                    .create({ body: this.case })
+                    .subscribe((acase) => {
+                        this.uploadScans(patient.id, acase.id).then((res) => {
+                            this.scans.forEach((scan) => {
+                                this.scanService.create({body: scan}).subscribe();
+                            });
+                            this.loading = false;
+                            this.router.navigate(['/case/list']);
+                        }, err => {
+                            this.loading = false;
+                        });
+                    });
+            });
     }
 
     initDropzone() {
@@ -188,10 +186,8 @@ export class CaseManagementComponent {
             dictDefaultMessage: 'Drop Files here or click to upload',
             init: function () {
                 this.on("addedfile", function (file) {
-                    console.log("File added:", file);
                     _this.uploadedFiles.push(file);
                     _this.cdr.detectChanges();
-                    console.log(this.uploadedFiles, _this.uploadedFiles)
                     });
             }
         });

@@ -57,7 +57,6 @@ export class AddUserComponent {
   }
 
   submit() {
-    console.log(this.caseInfo);
   }
 
 }

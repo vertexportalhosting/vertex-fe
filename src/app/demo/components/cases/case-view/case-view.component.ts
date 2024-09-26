@@ -264,7 +264,6 @@ export class CaseViewComponent {
     downloadScan(scan) {
         // Open the scan download URL in a new window
         // window.open(url, '_blank');
-        console.log(this.getFilename(scan), scan.filename);
         this.http.get(scan.url, { responseType: 'blob' }).subscribe(
             (blob) => {
                 const link = document.createElement('a');
