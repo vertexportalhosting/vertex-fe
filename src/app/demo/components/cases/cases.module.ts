@@ -68,6 +68,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
         DialogModule,
         RouterModule.forChild([
             { path: 'list', component: CaseListComponent },
+            { path: 'listing', component: CaseListComponent },
             { path: 'add', component: CaseManagementComponent },
             { path: 'edit/:id', component: CaseManagementComponent },
             { path: 'view/:id', component: CaseViewComponent },

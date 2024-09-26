@@ -78,7 +78,7 @@
                         <h3>Scan Files</h3>
                         <div class="flex flex-wrap gap-2 justify-content-end">
                             <div class="col-12">
-                                <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
+                                <!-- <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
                                 auto="true" (onSelect)="onFileSelected($event)" >
                                 <ng-template pTemplate="content" (onSelect)="onFileSelected($event)">
                                     <div class="custom-upload-area">
@@ -88,7 +88,18 @@
                                       </div>
                                     </div>
                                   </ng-template>
-                                </p-fileUpload>
+                                </p-fileUpload> -->
+                                <div class="text-center">
+                                    <div class="upload-area">
+                                      <div class="button-area">
+                                        <button pButton label="Click to Upload" icon="pi pi-plus" (click)="dropzone.click()"></button>
+                                      </div>
+                                      <div class="dp-area {{isDarkTheme}}">
+                                        <form action="#" #dropzone (submit)="$event.preventDefault()" class="dropzone" id="demo-upload1">
+                                        </form>
+                                      </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12">
                                 <button class="p-button-rounded" label="Download All" (click)="downloadFiles('Dcotor')" pButton
@@ -110,8 +121,8 @@
                                 <tr>
                                     <td class="mobile-hide">{{ scan.id }}</td>
                                     <td style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;"
-                                        pTooltip="{{scan.filename || getFilename(scan.url)}}" tooltipPosition="right">{{
-                                        scan.filename || getFilename(scan.url) }}</td>
+                                        pTooltip="{{getFilename(scan)}}" tooltipPosition="right">{{
+                                        getFilename(scan) }}</td>
                                     <td class="mobile-hide">{{ scan.uploadDate | date }}</td>
                                     <td class="mobile-hide">{{ scan.user.username }}</td>
                                     <td>
@@ -136,7 +147,7 @@
                             <h3>Admin Files</h3>
                             <div class="flex flex-wrap gap-2 justify-content-end">
                                 <div class="col-12">
-                                    <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
+                                    <!-- <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
                                     auto="true" (onSelect)="onFileSelected($event)" >
                                     <ng-template pTemplate="content" (onSelect)="onFileSelected($event)">
                                         <div class="custom-upload-area">
@@ -146,7 +157,18 @@
                                           </div>
                                         </div>
                                       </ng-template>
-                                    </p-fileUpload>
+                                    </p-fileUpload> -->
+                                    <div class="text-center">
+                                          <div class="upload-area">
+                                            <div class="button-area">
+                                              <button pButton label="Click to Upload" icon="pi pi-plus" (click)="dropzone.click()"></button>
+                                            </div>
+                                            <div class="dp-area {{isDarkTheme}}">
+                                              <form action="#" #dropzone (submit)="$event.preventDefault()" class="dropzone" id="demo-upload2">
+                                              </form>
+                                            </div>
+                                          </div>
+                                      </div>
                                 </div>
 
                                 <div class="col-12">
@@ -170,7 +192,7 @@
                                         <td class="mobile-hide">{{ scan.id }}</td>
                                         <td
                                             style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;">
-                                            {{ scan.filename || getFilename(scan.url) }}</td>
+                                            {{ getFilename(scan) }}</td>
                                         <td class="mobile-hide">{{ scan.uploadDate | date }}</td>
                                         <td class="mobile-hide">{{ scan.user.username }}</td>
                                         <td>

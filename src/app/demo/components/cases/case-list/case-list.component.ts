@@ -48,7 +48,7 @@ export class CaseListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.activatedRoute.queryParams.subscribe((params) => {
+        this.activatedRoute?.queryParams?.subscribe((params) => {
             this.getUpdatedList(params)
         })
     }

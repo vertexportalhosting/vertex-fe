@@ -55,3 +55,49 @@
     display: flex;
     justify-content: end;
   }
+
+  :host::ng-deep .dz-default.dz-message {
+    display: block;
+  }
+  
+  :host::ng-deep .dz-preview {
+    display: none;
+  }
+  
+  
+  :host::ng-deep .dropzone {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+  }
+
+  .upload-area {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    .button-area {
+      background-color: var(--surface-ground);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      border-radius: 10px 10px 0 0;
+      button{
+        width: unset;
+      }
+    }
+    .dp-area {
+      background-color: var(--surface-overlay);
+      padding: 30px;
+      border-radius: 0 0 10px 10px ;
+  
+      &.true {
+        .dropzone {
+          background-color: var(--surface-overlay);
+          .dz-default.dz-message {
+            color: var(--text-color);
+          }
+        }
+      }
+    }
+  }

@@ -31,6 +31,13 @@ $gutter: 1rem; //for primeflex grid system
     @media screen and (max-width: 786px) {
         padding: 30px
     }
+
+    &.button {
+        background-color: var(--primary-color);
+        h1 {
+            color: #ffffff !important;
+        }
+    }
 }
 
 

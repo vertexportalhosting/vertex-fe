@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Case, Patient, Scan } from 'src/app/api/models';
 import {
@@ -9,7 +9,7 @@ import {
     UserControllerService,
 } from 'src/app/api/services';
 import { StoreService } from 'src/app/demo/service/store.service';
-
+declare var Dropzone
 @Component({
     selector: 'app-case-management',
     templateUrl: './case-management.component.html',
@@ -40,6 +40,7 @@ export class CaseManagementComponent {
     admin = false;
     selectedDoctor = null;
     doctorList = [];
+    isDarkTheme = false;
 
     constructor(
         private patientService: PatientControllerControllerService,
@@ -48,7 +49,8 @@ export class CaseManagementComponent {
         private userService: UserControllerService,
         private http: HttpClient,
         private router: Router,
-        private loader: StoreService
+        private loader: StoreService,
+        private cdr: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
@@ -57,7 +59,8 @@ export class CaseManagementComponent {
             next: (res) => {
               this.doctorList = res.filter(doc => doc.role !== 'admin').map((doc) => ({name: doc.username, value: doc.id}));
             },
-          });
+        });
+        this.isDarkTheme = JSON.parse(localStorage.getItem('theme_config'))?.colorScheme == 'dark';
     }
 
     isCaseTypeValid(): boolean {
@@ -76,7 +79,7 @@ export class CaseManagementComponent {
 
     onRemove(event: any) {
         this.uploadedFiles = this.uploadedFiles.filter(
-            (file) => file.name != event.file.name
+            (file) => file.name != (event.name || event.file.name)
         );
     }
 
@@ -119,11 +122,14 @@ export class CaseManagementComponent {
 
     prev() {
         this.activeIndex--;
-        this.case.case_type=null;
+        if (this.activeIndex == 1) {
+            setTimeout(() => {
+                this.initDropzone();
+            }, 1000);
+        }
     }
 
     next() {
-        // to remove big files
         if (this.uploadedFiles.length) {
             this.uploadedFiles = this.uploadedFiles.filter(file => file.size <= 1181116006);
         }
@@ -132,36 +138,62 @@ export class CaseManagementComponent {
         } else {
             this.submit();
         }
+
+        console.log('this.activeIndex: ', this.activeIndex);
+        if (this.activeIndex == 1) {
+            setTimeout(() => {
+                this.initDropzone();
+            }, 1000);
+        }
     }
 
     submit() {
-        this.loading = true;
-        this.patient = {
-            ...this.patient,
-            userId: JSON.parse(localStorage.getItem('user'))?.id,
-        };
+        console.log(this.uploadedFiles)
+        // this.loading = true;
+        // this.patient = {
+        //     ...this.patient,
+        //     userId: JSON.parse(localStorage.getItem('user'))?.id,
+        // };
 
-        this.patientService
-            .create({ body: this.patient })
-            .subscribe((patient) => {
-                this.case = {
-                    ...this.case,
-                    patientId: patient.id,
-                    userId: this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id,
-                } as any;
-                this.caseSevice
-                    .create({ body: this.case })
-                    .subscribe((acase) => {
-                        this.uploadScans(patient.id, acase.id).then((res) => {
-                            this.scans.forEach((scan) => {
-                                this.scanService.create({body: scan}).subscribe();
-                            });
-                            this.loading = false;
-                            this.router.navigate(['/case/list']);
-                        }, err => {
-                            this.loading = false;
-                        });
+        // this.patientService
+        //     .create({ body: this.patient })
+        //     .subscribe((patient) => {
+        //         this.case = {
+        //             ...this.case,
+        //             patientId: patient.id,
+        //             userId: this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id,
+        //         } as any;
+        //         this.caseSevice
+        //             .create({ body: this.case })
+        //             .subscribe((acase) => {
+        //                 this.uploadScans(patient.id, acase.id).then((res) => {
+        //                     this.scans.forEach((scan) => {
+        //                         this.scanService.create({body: scan}).subscribe();
+        //                     });
+        //                     this.loading = false;
+        //                     this.router.navigate(['/case/list']);
+        //                 }, err => {
+        //                     this.loading = false;
+        //                 });
+        //             });
+        //     });
+    }
+
+    initDropzone() {
+        const _this = this;
+        let myDropzone = new Dropzone("#demo-upload", {
+            maxFilesize: 1024, // MB
+            addRemoveLinks: true,
+            autoProcessQueue: false,
+            dictDefaultMessage: 'Drop Files here or click to upload',
+            init: function () {
+                this.on("addedfile", function (file) {
+                    console.log("File added:", file);
+                    _this.uploadedFiles.push(file);
+                    _this.cdr.detectChanges();
+                    console.log(this.uploadedFiles, _this.uploadedFiles)
                     });
-            });
+            }
+        });
     }
 }

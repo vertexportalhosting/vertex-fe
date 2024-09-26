@@ -49,10 +49,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             .subscribe(res => {
                 this.totalCase = res.length;
                 this.casesClosed = res.filter(res => res.case_status === 'completed')?.length;
-                this.stage0 = res.filter(res => res.case_type.startsWith('Stage 0'))?.length;
-                this.stage1 = res.filter(res => res.case_type.startsWith('Stage 1'))?.length;
-                this.stage2 = res.filter(res => res.case_type.startsWith('Stage 2'))?.length;
-                this.stage3 = res.filter(res => res.case_type.startsWith('Stage 3'))?.length;
+                this.stage0 = res.filter(res => res.case_type.startsWith('Stage 0') && res.case_status != 'completed')?.length;
+                this.stage1 = res.filter(res => res.case_type.startsWith('Stage 1') && res.case_status != 'completed')?.length;
+                this.stage2 = res.filter(res => res.case_type.startsWith('Stage 2') && res.case_status != 'completed')?.length;
+                this.stage3 = res.filter(res => res.case_type.startsWith('Stage 3') && res.case_status != 'completed')?.length;
             })
     }
 

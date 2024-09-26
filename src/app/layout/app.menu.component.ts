@@ -25,11 +25,11 @@ export class AppMenuComponent implements OnInit {
                 roles: ['admin', 'Doctor'],
                 items: [
                     { label: 'All Cases', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'] },
-                    { label: 'Closes Cases', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'], queryParams: {status: 'completed'}, routerLinkActiveOptions: { paths: 'exact', matrixParams: 'ignored', fragment: 'ignored' } },
-                    { label: 'Pre Surgery (Stage 0)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'], queryParams: {status: 'Stage 0'}, routerLinkActiveOptions: { paths: 'exact', matrixParams: 'ignored', fragment: 'ignored' } },
-                    { label: 'Surgery (Stage 1)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'], queryParams: {status: 'Stage 1'}, routerLinkActiveOptions: { paths: 'exact', matrixParams: 'ignored', fragment: 'ignored' } },
-                    { label: 'Prototype Try In (Stage 2)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'], queryParams: {status: 'Stage 2'}, routerLinkActiveOptions: { paths: 'exact', matrixParams: 'ignored', fragment: 'ignored' } },
-                    { label: 'Final (Stage 3)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'], queryParams: {status: 'Stage 3'}, routerLinkActiveOptions: { paths: 'exact', matrixParams: 'ignored', fragment: 'ignored' } },
+                    { label: 'Closes Cases', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'completed'}},
+                    { label: 'Pre Surgery (Stage 0)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 0'}},
+                    { label: 'Surgery (Stage 1)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 1'}},
+                    { label: 'Prototype Try In (Stage 2)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 2'}},
+                    { label: 'Final (Stage 3)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 3'}},
                 ]
             },
             {

@@ -123,7 +123,7 @@
                   </div>
 
                   <!-- Allow files upto 1gb -->
-                  <p-fileUpload [maxFileSize]="1181116006" id="scans" name="scans" (onRemove)="onRemove($event)"
+                  <!-- <p-fileUpload [maxFileSize]="1181116006" id="scans" name="scans" (onRemove)="onRemove($event)"
                     (onSelect)="onFileSelect($event)"  chooseLabel="Click to upload" mode="advanced" auto="true" multiple="true" required>
                     <ng-template pTemplate="content" (onSelect)="onFileSelect($event)">
                       <div class="custom-upload-area">
@@ -133,16 +133,31 @@
                         </div>
                       </div>
                     </ng-template>
-                  </p-fileUpload>
+                  </p-fileUpload> -->
 
-                  <div *ngIf="caseForm.submitted && !caseInfo.scans" class="p-error">Scans are required.</div>
-                  <ng-template pTemplate="content">
-                    <div class="custom-upload-area">
-                      <i class="pi pi-cloud-upload"></i>
-                      <span>Drop Files here or click to upload</span>
+                  <div class="text-center">
+                    <div class="file-list-container" *ngIf="uploadedFiles?.length">
+                      <ul id="file-list" class="file-list">
+                          <!-- Files will be dynamically added here -->
+                           <li *ngFor="let file of uploadedFiles">
+                              <div class="flex flex-grow-1 justify-content-between gap-2 px-2">
+                                <span class="file-name">{{file.name}}</span>
+                                <span class="file-size">{{(file.size / 1024).toFixed(2)}} KB</span>
+                              </div>
+                              <button class="remove-btn" (click)="onRemove(file)">Remove</button>
+                           </li>
+                      </ul>
                     </div>
-                  </ng-template>
-
+                      <div class="upload-area">
+                        <div class="button-area">
+                          <button pButton label="Click to Upload" icon="pi pi-plus" (click)="dropzone.click()"></button>
+                        </div>
+                        <div class="dp-area {{isDarkTheme}}">
+                          <form action="#" #dropzone (submit)="$event.preventDefault()" class="dropzone" id="demo-upload">
+                          </form>
+                        </div>
+                      </div>
+                  </div>
                 </div>
               </div>
 
@@ -154,7 +169,7 @@
           </div>
           <div class="navigation-buttons mt-3">
             <p-button label="Previous" icon="pi pi-arrow-left" (onClick)="prev()"></p-button>
-            <p-button label="Next" icon="pi pi-arrow-right" [disabled]="caseForm.invalid || !uploadedFiles.length"
+            <p-button label="Next" icon="pi pi-arrow-right" [disabled]="caseForm.invalid"
               (onClick)="next()"></p-button>
           </div>
         </form>

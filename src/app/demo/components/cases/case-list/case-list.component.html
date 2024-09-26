@@ -36,7 +36,7 @@
 					<tr>
 						<td>{{case.id}}</td>
 						<td><a [routerLink]="['/case/view', case.id]"
-								routerLinkActive="router-link-active">{{case.patient | titlecase}}</a></td>
+								>{{case.patient | titlecase}}</a></td>
 						<td class="mobile-hide">{{case.user | titlecase }}</td>
 						<td>
 							<p-dropdown *ngIf="case.show" appendTo="body" [options]="caseTypes"

@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
@@ -20,6 +20,7 @@ import { PatientControllerControllerService } from 'src/app/api/services';
 import { StoreService } from 'src/app/demo/service/store.service';
 import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+declare var Dropzone
 
 @Component({
     selector: 'app-case-view',
@@ -47,6 +48,8 @@ export class CaseViewComponent {
     admin = JSON.parse(localStorage.getItem('user'))?.role == 'admin';
     doctorScans = [];
     adminScans = [];
+    isDarkTheme = false;
+    uploadedFiles: any[] = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -57,7 +60,8 @@ export class CaseViewComponent {
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         public location: Location,
-        private loader: StoreService
+        private loader: StoreService,
+        private cdr: ChangeDetectorRef
     ) {}
 
     ngOnInit() {
@@ -66,6 +70,12 @@ export class CaseViewComponent {
         if (this.caseId) {
             this.getCaseInfo(this.caseId);
         }
+        this.isDarkTheme = JSON.parse(localStorage.getItem('theme_config'))?.colorScheme == 'dark';
+    }
+
+    ngAfterViewInit() {
+        this.initDropzone(1);
+        this.initDropzone(2);
     }
 
     getCaseInfo(case_id: number) {
@@ -171,46 +181,9 @@ export class CaseViewComponent {
         this.fileInput.nativeElement.click();
     }
 
-    onFileSelected(event) {
+    onFileSelected(files) {
         this.loader.showLoader();
-        const uploadedFiles = [];
-        // const file = event.files;
-        // if (file) {
-        //     const formData = new FormData();
-        //     formData.append('file', file);
-        //     this.http
-        //         .post('https://vertex-be.onrender.com/upload', formData)
-        //         .toPromise()
-        //         .then((url: any) => {
-        //             if (url.imageUrl) {
-        //                 // this.scans.push();
-        //                 this.scanController
-        //                     .create({
-        //                         body: {
-        //                             filename: file.name,
-        //                             url: url.imageUrl,
-        //                             uploadDate: new Date(),
-        //                             userId: JSON.parse(
-        //                                 localStorage.getItem('user')
-        //                             )?.id,
-        //                             patientId: this.patient.id,
-        //                             caseId: this.case.id,
-        //                         } as any,
-        //                     })
-        //                     .subscribe(() => {
-        //                         this.getCaseInfo(this.case.id), this.loader.hideLoader
-        //                     }, err => {
-        //                         this.loader.hideLoader();
-        //                     });
-        //             }
-        //         });
-        //     // Reset the file input
-        //     this.fileInput.nativeElement.value = '';
-        // }
-        for (let file of event.files) {
-            uploadedFiles.push(file);
-        }
-        const uploadPromises = uploadedFiles.map((file) => {
+        const uploadPromises = files.map((file) => {
             const formData = new FormData();
             formData.append('file', file);
             if (file) {
@@ -240,67 +213,64 @@ export class CaseViewComponent {
                 return Promise.resolve(); // If no file, resolve immediately
             }
         });
-        Promise.all(uploadPromises).then(() => {
-            this.getCaseInfo(this.case.id);
-            this.loader.hideLoader();
-        });
+        return Promise.all(uploadPromises)
     }
 
-    onFileSelect(event) {
-        this.loader.showLoader();
-        const file = event.files[0];
-        if (file) {
-            const formData = new FormData();
-            formData.append('file', file);
-            this.http
-                .post('https://vertex-be.onrender.com/upload', formData)
-                .toPromise()
-                .then((url: any) => {
-                    if (url.imageUrl) {
-                        // this.scans.push();
-                        this.scanController
-                            .create({
-                                body: {
-                                    filename: file.filename,
-                                    url: url.imageUrl,
-                                    uploadDate: new Date(),
-                                    userId: JSON.parse(
-                                        localStorage.getItem('user')
-                                    )?.id,
-                                    patientId: this.patient.id,
-                                    caseId: this.case.id,
-                                } as any,
-                            })
-                            .subscribe(
-                                () => {
-                                    this.getCaseInfo(this.case.id);
-                                    this.loader.hideLoader();
-                                    this.fileUploader.clear();
-                                },
-                                (error) => {
-                                    this.loader.hideLoader();
-                                    this.fileUploader.clear();
-                                }
-                            );
-                    }
-                });
-            // Reset the file input
-            this.fileInput.nativeElement.value = '';
-        }
-    }
+    // onFileSelect(event) {
+    //     this.loader.showLoader();
+    //     const file = event.files[0];
+    //     if (file) {
+    //         const formData = new FormData();
+    //         formData.append('file', file);
+    //         this.http
+    //             .post('https://vertex-be.onrender.com/upload', formData)
+    //             .toPromise()
+    //             .then((url: any) => {
+    //                 if (url.imageUrl) {
+    //                     // this.scans.push();
+    //                     this.scanController
+    //                         .create({
+    //                             body: {
+    //                                 filename: file.filename,
+    //                                 url: url.imageUrl,
+    //                                 uploadDate: new Date(),
+    //                                 userId: JSON.parse(
+    //                                     localStorage.getItem('user')
+    //                                 )?.id,
+    //                                 patientId: this.patient.id,
+    //                                 caseId: this.case.id,
+    //                             } as any,
+    //                         })
+    //                         .subscribe(
+    //                             () => {
+    //                                 this.getCaseInfo(this.case.id);
+    //                                 this.loader.hideLoader();
+    //                                 this.fileUploader.clear();
+    //                             },
+    //                             (error) => {
+    //                                 this.loader.hideLoader();
+    //                                 this.fileUploader.clear();
+    //                             }
+    //                         );
+    //                 }
+    //             });
+    //         // Reset the file input
+    //         this.fileInput.nativeElement.value = '';
+    //     }
+    // }
 
     uploadNewScan() {}
 
     downloadScan(scan) {
         // Open the scan download URL in a new window
         // window.open(url, '_blank');
-        console.log(this.getFilename(scan.url), scan.filename);
+        console.log(this.getFilename(scan), scan.filename);
         this.http.get(scan.url, { responseType: 'blob' }).subscribe(
             (blob) => {
                 const link = document.createElement('a');
                 const url = window.URL.createObjectURL(blob);
                 link.href = url;
-                link.download = scan.filename || this.getFilename(scan.url);
+                link.download = this.getFilename(scan);
                 link.click();
                 window.URL.revokeObjectURL(url);
             },
@@ -370,12 +340,25 @@ export class CaseViewComponent {
         });
     }
 
-    getFilename(string) {
-        const parts = string.split('?')[0].split('/');
-        const filename = decodeURI(parts[parts.length - 1]);
-        if (filename.endsWith('octet-stream')) {
-            return filename.replace('.octet-stream', '');
+    getFilename(scan) {
+        let filename;
+    
+        // If filename exists, use it
+        if (scan.filename) {
+            filename = scan.filename;
+        } else {
+            // Extract the filename from the URL if no filename exists
+            const parts = scan?.url.split('?')[0].split('/');
+            filename = decodeURI(parts[parts.length - 1]);
         }
+    
+        // Check if it ends with 'octet-stream' and remove that
+        if (filename.endsWith('octet-stream')) {
+            filename = filename.replace('.octet-stream', '');
+        }
+        
+        filename = filename.replace(/\d+_/g, '');
+    
         return filename;
     }
 
@@ -389,7 +372,7 @@ export class CaseViewComponent {
                 .get(scan.url, { responseType: 'blob' })
                 .toPromise()
                 .then((blob) => {
-                    zip.file(this.getFilename(scan.url), blob);
+                    zip.file(this.getFilename(scan), blob);
                 });
             promises.push(promise);
         });
@@ -401,5 +384,28 @@ export class CaseViewComponent {
           }).catch(err => {
             console.error('Error while downloading files: ', err);
           });
+    }
+
+    initDropzone(id) {
+        const _this = this;
+        let myDropzone = new Dropzone("#demo-upload"+id, {
+            maxFilesize: 1024, // MB
+            addRemoveLinks: true,
+            autoProcessQueue: false,
+            dictDefaultMessage: 'Drop Files here or click to upload',
+            init: function () {
+                this.on("addedfile", function (file) {
+                    _this.uploadedFiles.push(file);
+                    _this.cdr.detectChanges();
+
+                    if (_this.uploadedFiles?.length) {
+                        _this.onFileSelected(_this.uploadedFiles).then(() => {
+                            _this.getCaseInfo(_this.case.id);
+                            _this.loader.hideLoader();
+                        });
+                    }
+                });
+            }
+        });
     }
 }
