@@ -90,6 +90,19 @@
                                   </ng-template>
                                 </p-fileUpload> -->
                                 <div class="text-center">
+                                    <div class="file-list-container" *ngIf="uploadedFiles?.length  && uploadSide == 1">
+                                        <ul id="file-list" class="file-list">
+                                            <!-- Files will be dynamically added here -->
+                                             <li *ngFor="let file of uploadedFiles">
+                                                <div class="flex flex-grow-1 justify-content-between gap-2 px-2">
+                                                  <span class="file-name">{{file.name}}</span>
+                                                  <span class="file-size">{{(file.size / 1024).toFixed(2)}} KB</span>
+                                                </div>
+                                                <button class="remove-btn" (click)="onRemove(file)">Remove</button>
+                                             </li>
+                                        </ul>
+                                        <button pButton label="Upload Files" (click)="onUpload('Doctor')"></button>
+                                      </div>
                                     <div class="upload-area">
                                       <div class="button-area">
                                         <button pButton label="Click to Upload" icon="pi pi-plus" (click)="dropzone.click()"></button>
@@ -159,12 +172,25 @@
                                       </ng-template>
                                     </p-fileUpload> -->
                                     <div class="text-center">
+                                        <div class="file-list-container" *ngIf="uploadedFiles?.length && uploadSide == 2">
+                                            <ul id="file-list" class="file-list">
+                                                <!-- Files will be dynamically added here -->
+                                                 <li *ngFor="let file of uploadedFiles">
+                                                    <div class="flex flex-grow-1 justify-content-between gap-2 px-2">
+                                                      <span class="file-name">{{file.name}}</span>
+                                                      <span class="file-size">{{(file.size / 1024).toFixed(2)}} KB</span>
+                                                    </div>
+                                                    <button class="remove-btn" (click)="onRemove(file)">Remove</button>
+                                                 </li>
+                                            </ul>
+                                            <button pButton label="Upload Files" (click)="onUpload('Admin')"></button>
+                                          </div>
                                           <div class="upload-area">
                                             <div class="button-area">
-                                              <button pButton label="Click to Upload" icon="pi pi-plus" (click)="dropzone.click()"></button>
+                                              <button pButton label="Click to Upload" icon="pi pi-plus" (click)="dropzone2.click()"></button>
                                             </div>
                                             <div class="dp-area {{isDarkTheme}}">
-                                              <form action="#" #dropzone (submit)="$event.preventDefault()" class="dropzone" id="demo-upload2">
+                                              <form action="#" #dropzone2 (submit)="$event.preventDefault()" class="dropzone" id="demo-upload2">
                                               </form>
                                             </div>
                                           </div>
@@ -282,3 +308,6 @@
     </div>
 </div>
 <p-confirmDialog></p-confirmDialog>
+<p-blockUI [blocked]="loading" [baseZIndex]="99999">
+    <p-progressSpinner ariaLabel="loading" />
+  </p-blockUI>

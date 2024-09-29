@@ -8,12 +8,9 @@ import { StoreService } from './demo/service/store.service';
 })
 export class AppComponent implements OnInit {
     loading = false;
-    constructor(private primengConfig: PrimeNGConfig, private loader: StoreService) {}
+    constructor(private primengConfig: PrimeNGConfig, public loader: StoreService) {}
     ngOnInit() {
         this.primengConfig.ripple = true;
-        this.loader.loading$.subscribe((state) => {
-            this.loading = state;
-        })
     }
 
 

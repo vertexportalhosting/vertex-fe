@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
@@ -27,6 +27,7 @@ declare var Dropzone
     templateUrl: './case-view.component.html',
     styleUrl: './case-view.component.scss',
     providers: [MessageService],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CaseViewComponent {
     patient: Patient | any = {};
@@ -50,6 +51,8 @@ export class CaseViewComponent {
     adminScans = [];
     isDarkTheme = false;
     uploadedFiles: any[] = [];
+    uploadSide = 1;
+    loading = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -65,7 +68,7 @@ export class CaseViewComponent {
     ) {}
 
     ngOnInit() {
-        this.loader.showLoader();
+        this.loading = true;
         this.caseId = this.route.snapshot.params['id'];
         if (this.caseId) {
             this.getCaseInfo(this.caseId);
@@ -103,8 +106,9 @@ export class CaseViewComponent {
         this.caseController
             .findById({ id: case_id, filter: JSON.stringify(filter) })
             .subscribe((data: any) => {
+                this.uploadedFiles = [];
                 data.delivery_date = new Date(data.delivery_date);
-                this.scans = data.scan;
+                this.scans = data.scan || [];
                 this.patient = data.patient;
                 this.case = data;
                 this.user = data.user;
@@ -114,7 +118,8 @@ export class CaseViewComponent {
                 this.doctorScans = this.admin
                     ? this.scans.filter((scan) => scan.user.role != 'admin')
                     : this.scans;
-                this.loader.hideLoader();
+                    this.loading = false;
+                    this.cdr.detectChanges();
             });
     }
 
@@ -182,7 +187,7 @@ export class CaseViewComponent {
     }
 
     onFileSelected(files) {
-        this.loader.showLoader();
+        this.loading = true;
         const uploadPromises = files.map((file) => {
             const formData = new FormData();
             formData.append('file', file);
@@ -190,23 +195,21 @@ export class CaseViewComponent {
                 return this.http
                     .post('https://vertex-be.onrender.com/upload', formData)
                     .toPromise()
-                    .then((url: any) => {
-                        this.loader.hideLoader();
+                    .then(async (url: any) => {
                         if (url.imageUrl) {
-                            this.scanController
+                            await this.scanController
                                 .create({
                                     body: {
                                         filename: file.name,
                                         url: url.imageUrl,
                                         uploadDate: new Date(),
-                                        userId: JSON.parse(
+                                        userId: this.uploadSide == 1 ? this.case.userId : JSON.parse(
                                             localStorage.getItem('user')
                                         )?.id,
                                         patientId: this.patient.id,
                                         caseId: this.case.id,
                                     } as any,
-                                })
-                                .subscribe();
+                                }).toPromise();
                         }
                     });
             } else {
@@ -328,11 +331,13 @@ export class CaseViewComponent {
                         id: _case.patient.id,
                     })
                     .subscribe(() => {
-                        this.case.scan.forEach((scan) => {
-                            this.scanController
-                                .deleteById({ id: scan.id })
-                                .subscribe();
-                        });
+                        if (this.case?.scan?.length) {
+                            this.case.scan.forEach((scan) => {
+                                this.scanController
+                                    .deleteById({ id: scan.id })
+                                    .subscribe();
+                            });
+                        }
                         this.location.back();
                     });
             },
@@ -362,7 +367,6 @@ export class CaseViewComponent {
     }
 
     downloadFiles(type) {
-        
         const scans = type === 'Admin' ? this.adminScans : this.doctorScans;
         const promises: Promise<any>[] = [];
         const zip = new JSZip();
@@ -387,6 +391,7 @@ export class CaseViewComponent {
 
     initDropzone(id) {
         const _this = this;
+        console.log('this.uploadSide: ', this.uploadSide);
         let myDropzone = new Dropzone("#demo-upload"+id, {
             maxFilesize: 1024, // MB
             addRemoveLinks: true,
@@ -394,17 +399,33 @@ export class CaseViewComponent {
             dictDefaultMessage: 'Drop Files here or click to upload',
             init: function () {
                 this.on("addedfile", function (file) {
-                    _this.uploadedFiles.push(file);
-                    _this.cdr.detectChanges();
-
-                    if (_this.uploadedFiles?.length) {
-                        _this.onFileSelected(_this.uploadedFiles).then(() => {
-                            _this.getCaseInfo(_this.case.id);
-                            _this.loader.hideLoader();
-                        });
+                    const sss = myDropzone?.clickableElements[0];
+                    if (sss && sss.getAttribute('id')?.length) {
+                        _this.uploadSide = sss.getAttribute('id').includes(1) ? 1 : 2;
                     }
+                    _this.uploadedFiles.push(file);
                 });
             }
         });
+
+
     }
+
+    onUpload() {
+        if (this.uploadedFiles?.length) {
+            this.onFileSelected(this.uploadedFiles).then(() => {
+                this.getCaseInfo(this.case.id);
+                this.loading = false;
+                this.cdr.detectChanges();
+            });
+        }
+    }
+
+    onRemove(event: any) {
+        this.uploadedFiles = this.uploadedFiles.filter(
+            (file) => file.name != (event.name || event.file.name)
+        );
+        this.cdr.detectChanges();
+    }
+
 }
