@@ -18,6 +18,7 @@ import {
 export class CaseListComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
     cases: Case[] = [];
+    
     selectedCases: Case[] = [];
     loading: boolean = true;
     admin = false;
