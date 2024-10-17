@@ -17,15 +17,15 @@
                             </div> -->
                             <div class="p-field flex gap-3 mb-3">
                                 <label for="deliveryDate">Delivery Date: </label>
-                                <span id="deliveryDate">{{ case.delivery_date | date }}</span>
+                                <span id="deliveryDate" *ngIf="case?.delivery_date">{{ case?.delivery_date | date }}</span>
                             </div>
                             <div class="p-field flex gap-3 mb-3">
                                 <label for="urgent">Urgent: </label>
-                                <span id="urgent">{{ case.urgent ? 'Yes' : 'No' }}</span>
+                                <span id="urgent">{{ case?.urgent ? 'Yes' : 'No' }}</span>
                             </div>
                             <div class="p-field flex gap-3 mb-3">
                                 <label for="notes">Stage: </label>
-                                <span id="notes" class="three-line-ellipsis p-text-justify">{{ case.case_type }}</span>
+                                <span id="notes" class="three-line-ellipsis p-text-justify">{{ case?.case_type }}</span>
                             </div>
                             <div class="p-field flex">
                                 <div class="col-12 px-0">
@@ -44,7 +44,7 @@
                             <h3>Patient Details</h3>
                             <div class="p-field flex gap-3 mb-3">
                                 <label for="patientName">Name: </label>
-                                <span id="patientName">{{ patient.name }}</span>
+                                <span id="patientName">{{ patient?.name }}</span>
                             </div>
                             <!-- <div class="p-field flex gap-3 mb-3">
                                 <label for="age">Age: </label>
@@ -52,11 +52,11 @@
                             </div> -->
                             <div class="p-field flex gap-3 mb-3">
                                 <label for="gender">Gender: </label>
-                                <span id="gender">{{ patient.gender || 'Not Specified' }}</span>
+                                <span id="gender">{{ patient?.gender || 'Not Specified' }}</span>
                             </div>
                             <div class="p-field flex gap-3 mb-3">
                                 <label for="patientNotes">Notes: </label>
-                                <span id="patientNotes" class="three-line-ellipsis p-text-justify">{{ patient.notes
+                                <span id="patientNotes" class="three-line-ellipsis p-text-justify">{{ patient?.notes
                                     }}</span>
                             </div>
                             <div class="p-field flex gap-3">
@@ -132,12 +132,12 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-scan>
                                 <tr>
-                                    <td class="mobile-hide">{{ scan.id }}</td>
+                                    <td class="mobile-hide">{{ scan?.id }}</td>
                                     <td style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;"
                                         pTooltip="{{getFilename(scan)}}" tooltipPosition="right">{{
                                         getFilename(scan) }}</td>
-                                    <td class="mobile-hide">{{ scan.uploadDate | date }}</td>
-                                    <td class="mobile-hide">{{ scan.user.username }}</td>
+                                    <td class="mobile-hide">{{ scan?.uploadDate | date }}</td>
+                                    <td class="mobile-hide">{{ scan?.user.username }}</td>
                                     <td>
                                         <button class="p-button-rounded" (click)="downloadScan(scan)" pButton
                                             icon="pi pi-download"></button>
@@ -219,8 +219,8 @@
                                         <td
                                             style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;">
                                             {{ getFilename(scan) }}</td>
-                                        <td class="mobile-hide">{{ scan.uploadDate | date }}</td>
-                                        <td class="mobile-hide">{{ scan.user.username }}</td>
+                                        <td class="mobile-hide">{{ scan?.uploadDate | date }}</td>
+                                        <td class="mobile-hide">{{ scan?.user.username }}</td>
                                         <td>
                                             <button class="p-button-rounded" (click)="downloadScan(scan)" pButton
                                                 icon="pi pi-download"></button>
@@ -253,7 +253,7 @@
                 <div class="p-field p-col-12 p-md-6" [style]="{'margin-bottom': '1em'}">
                     <label for="deliveryDate">Delivery Date</label>
                     <input id="deliveryDate" type="date" pInputText [(ngModel)]="case.delivery_date" required />
-                    <small *ngIf="!case.delivery_date" class="p-error">Delivery date is required.</small>
+                    <small *ngIf="!case?.delivery_date" class="p-error">Delivery date is required.</small>
                 </div>
                 <div class="p-field p-col-12 p-md-6"
                     [style]="{'margin-bottom': '1em', 'display': 'flex', 'align-items': 'center'}">
@@ -307,7 +307,8 @@
 
     </div>
 </div>
-<p-confirmDialog></p-confirmDialog>
+<p-confirmDialog key="case" global="false" appendTo="body"></p-confirmDialog>
+<p-confirmDialog key="scan" global="false" appendTo="body"></p-confirmDialog>
 <p-blockUI [blocked]="loading" [baseZIndex]="99999">
     <p-progressSpinner ariaLabel="loading" />
   </p-blockUI>

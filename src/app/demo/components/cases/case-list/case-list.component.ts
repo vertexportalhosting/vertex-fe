@@ -1,8 +1,9 @@
-import { Location } from '@angular/common';
+import { Location, ViewportScroller } from '@angular/common';
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, Scroll } from '@angular/router';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { filter } from 'rxjs';
 import { Case, CaseWithRelations } from 'src/app/api/models';
 import {
     CaseControllerService,
@@ -38,19 +39,25 @@ export class CaseListComponent implements OnInit {
         { name: 'Stage 3 - Final', code: '3' },
     ];
     whereFilter: any = {};
+    currentPage: any = {first: 0};
 
     constructor(
         private patientController: PatientControllerControllerService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private caseController: CaseControllerService,
-        private activatedRoute: ActivatedRoute
-    ) {}
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
+        private viewportScroller: ViewportScroller
+    ) {
+        
+    }
 
     ngOnInit() {
         this.activatedRoute?.queryParams?.subscribe((params) => {
             this.getUpdatedList(params)
-        })
+        });
+        this.currentPage = JSON.parse(localStorage.getItem('current_page')) || {first: 0};
     }
 
     getUpdatedList(params) {
@@ -135,6 +142,15 @@ export class CaseListComponent implements OnInit {
                     return item;
                 });
                 this.loading = false;
+                this.router.events.subscribe((e:any) => {
+                    if ( e instanceof Scroll && e.position) {
+                      // backward navigation
+                      const p: ScrollOptions = {}
+                      setTimeout(() => {
+                        window.scrollTo(...e.position)
+                      }, 2000);
+                    } 
+                  });
             });
     }
 
@@ -225,5 +241,10 @@ export class CaseListComponent implements OnInit {
     clearFilters() {
         this.whereFilter = {};
         this.getCaseList()
+    }
+
+    onPageChange(event: any) {
+        this.currentPage = event;
+        localStorage.setItem('current_page', JSON.stringify(this.currentPage));
     }
 }

@@ -3,7 +3,8 @@
 		<div class="card p-2 sm:p-5">
 			<h5>Cases</h5>
 			<p-table #dt1 [value]="cases" dataKey="id" [rows]="20" [loading]="loading" [rowHover]="true"
-				[paginator]="true"
+				[paginator]="true" (onPage)="onPageChange($event)" [rowsPerPageOptions]="[5, 10, 20, 50]"
+				[first]="currentPage.first"
 				[globalFilterFields]="['case_type','patient','user','notes', 'delivery_date', 'case_status', 'id']"
 				responsiveLayout="scroll" class="p-datatable-responsive mobile-responsive-table">
 				<ng-template pTemplate="caption">

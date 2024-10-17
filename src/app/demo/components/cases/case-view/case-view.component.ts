@@ -103,6 +103,10 @@ export class CaseViewComponent {
                 },
             ],
         };
+        this.scans = [];
+        this.patient = {};
+        this.case = {};
+        this.user = {};
         this.caseController
             .findById({ id: case_id, filter: JSON.stringify(filter) })
             .subscribe((data: any) => {
@@ -283,10 +287,12 @@ export class CaseViewComponent {
     }
 
     deleteScan(_scan) {
+        this.cdr.detectChanges();
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete this scan?',
             header: 'Confirmation',
             icon: 'pi pi-exclamation-triangle',
+            key: 'scan',
             accept: () => {
                 this.scanController.deleteById({ id: _scan.id }).subscribe({
                     next: () => {
@@ -310,6 +316,7 @@ export class CaseViewComponent {
             message: 'Are you sure you want to delete this case?',
             header: 'Confirmation',
             icon: 'pi pi-exclamation-triangle',
+            key: 'case',
             accept: () => {
                 this._deleteCase(this.case);
             },
@@ -404,6 +411,7 @@ export class CaseViewComponent {
                         _this.uploadSide = sss.getAttribute('id').includes(1) ? 1 : 2;
                     }
                     _this.uploadedFiles.push(file);
+                    _this.cdr.detectChanges();
                 });
             }
         });
@@ -413,7 +421,9 @@ export class CaseViewComponent {
 
     onUpload() {
         if (this.uploadedFiles?.length) {
-            this.onFileSelected(this.uploadedFiles).then(() => {
+            this.loading = true;
+            this.cdr.detectChanges();
+            this.onFileSelected(this.uploadedFiles).then((res) => {
                 this.getCaseInfo(this.case.id);
                 this.loading = false;
                 this.cdr.detectChanges();
