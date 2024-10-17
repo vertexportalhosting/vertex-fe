@@ -40,7 +40,7 @@ export class CaseListComponent implements OnInit {
         { name: 'Stage 3 - Final', code: '3' },
     ];
     whereFilter: any = {};
-    currentPage: any = {first: 0};
+    skipEntries = 0;
 
     constructor(
         private patientController: PatientControllerControllerService,
@@ -58,48 +58,25 @@ export class CaseListComponent implements OnInit {
         this.activatedRoute?.queryParams?.subscribe((params) => {
             this.getUpdatedList(params)
         });
-        this.currentPage = JSON.parse(localStorage.getItem('current_page')) || {first: 0};
+        this.skipEntries = JSON.parse(localStorage.getItem('skipEntries')) || 0;
     }
 
     getUpdatedList(params) {
-        switch (params?.status) {
-            case 'completed':
-                this.whereFilter = {
-                    case_status: 'completed',
-                };
-                break;
-            case 'Stage 0':
-                this.whereFilter = {
-                    case_type: {
-                        like: 'Stage 0%'
-                    },
-                };
-                break;
-            case 'Stage 1':
-                this.whereFilter = {
-                    case_type: {
-                        like: 'Stage 1%'
-                    },
-                };
-                break;
-            case 'Stage 2':
-                this.whereFilter = {
-                    case_type: {
-                        like: 'Stage 2%'
-                    },
-                };
-                break;
-            case 'Stage 3':
-                this.whereFilter = {
-                    case_type: {
-                        like: 'Stage 3%'
-                    },
-                };
-                break;
-
-            default:
-                break;
+        if (!params?.status) {
+            this.getCaseList();
+            return; 
         }
+        if (params.status === 'completed') {
+            this.whereFilter.case_status = 'completed';
+        } else if (params.status.startsWith('Stage')) {
+            this.whereFilter.case_type = {
+                like: `${params.status}%`
+            };
+            this.whereFilter.case_status = {
+                neq: 'completed'
+            };
+        }
+    
         this.getCaseList();
     }
 
@@ -245,7 +222,12 @@ export class CaseListComponent implements OnInit {
     }
 
     onPageChange(event: any) {
-        this.currentPage = event;
-        localStorage.setItem('current_page', JSON.stringify(this.currentPage));
+        this.skipEntries = event.first;
+    }
+
+    ngOnDestroy(): void {
+        if (this.router.url.includes('/case/view')) {
+            localStorage.setItem('skipEntries', JSON.stringify(this.skipEntries));
+        }
     }
 }

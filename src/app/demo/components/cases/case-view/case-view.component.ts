@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import {
@@ -63,8 +63,8 @@ export class CaseViewComponent {
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         public location: Location,
-        private loader: StoreService,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private router: Router
     ) {}
 
     ngOnInit() {
@@ -222,49 +222,6 @@ export class CaseViewComponent {
         });
         return Promise.all(uploadPromises)
     }
-
-    // onFileSelect(event) {
-    //     this.loader.showLoader();
-    //     const file = event.files[0];
-    //     if (file) {
-    //         const formData = new FormData();
-    //         formData.append('file', file);
-    //         this.http
-    //             .post('https://vertex-be.onrender.com/upload', formData)
-    //             .toPromise()
-    //             .then((url: any) => {
-    //                 if (url.imageUrl) {
-    //                     // this.scans.push();
-    //                     this.scanController
-    //                         .create({
-    //                             body: {
-    //                                 filename: file.filename,
-    //                                 url: url.imageUrl,
-    //                                 uploadDate: new Date(),
-    //                                 userId: JSON.parse(
-    //                                     localStorage.getItem('user')
-    //                                 )?.id,
-    //                                 patientId: this.patient.id,
-    //                                 caseId: this.case.id,
-    //                             } as any,
-    //                         })
-    //                         .subscribe(
-    //                             () => {
-    //                                 this.getCaseInfo(this.case.id);
-    //                                 this.loader.hideLoader();
-    //                                 this.fileUploader.clear();
-    //                             },
-    //                             (error) => {
-    //                                 this.loader.hideLoader();
-    //                                 this.fileUploader.clear();
-    //                             }
-    //                         );
-    //                 }
-    //             });
-    //         // Reset the file input
-    //         this.fileInput.nativeElement.value = '';
-    //     }
-    // }
 
     uploadNewScan() {}
 
@@ -436,6 +393,12 @@ export class CaseViewComponent {
             (file) => file.name != (event.name || event.file.name)
         );
         this.cdr.detectChanges();
+    }
+
+    ngOnDestroy(): void {
+        if (this.router.url != '/case/list') {
+            localStorage.setItem('skipEntries', JSON.stringify(0));
+        }
     }
 
 }
