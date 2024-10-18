@@ -226,8 +226,7 @@ export class CaseListComponent implements OnInit {
     }
 
     ngOnDestroy(): void {
-        if (this.router.url.includes('/case/view')) {
-            localStorage.setItem('skipEntries', JSON.stringify(this.skipEntries));
-        }
+        const skipEntries = this.router.url.includes('/case/view') ? this.skipEntries : 0;
+        localStorage.setItem('skipEntries', JSON.stringify(skipEntries));
     }
 }

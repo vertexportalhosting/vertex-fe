@@ -53,6 +53,7 @@ export class CaseViewComponent {
     uploadedFiles: any[] = [];
     uploadSide = 1;
     loading = true;
+    isBack = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -395,8 +396,13 @@ export class CaseViewComponent {
         this.cdr.detectChanges();
     }
 
+    backToList() {
+        this.isBack = true;
+        this.location.back();
+    }
+
     ngOnDestroy(): void {
-        if (this.router.url != '/case/list') {
+        if (!this.isBack) {
             localStorage.setItem('skipEntries', JSON.stringify(0));
         }
     }

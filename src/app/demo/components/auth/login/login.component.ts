@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
         this.userControllerService.login({body: this.userForm.value}).pipe(tap((data) => {
             if (data.token && data['role']) {
                 localStorage.setItem("user", JSON.stringify(data));
-                this.router.navigate(["/"]);
+                this.router.navigate(["/dashboard"]);
             }
         })
         , tap(() => {
