@@ -18,6 +18,7 @@ import {
 })
 export class CaseListComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
+    @ViewChild('dt1') dt1!: any;
     cases: Case[] = [];
     
     selectedCases: Case[] = [];
@@ -41,6 +42,7 @@ export class CaseListComponent implements OnInit {
     ];
     whereFilter: any = {};
     skipEntries = 0;
+    searchFilter = '';
 
     constructor(
         private patientController: PatientControllerControllerService,
@@ -58,7 +60,8 @@ export class CaseListComponent implements OnInit {
         this.activatedRoute?.queryParams?.subscribe((params) => {
             this.getUpdatedList(params)
         });
-        this.skipEntries = JSON.parse(localStorage.getItem('skipEntries')) || 0;
+        this.skipEntries = JSON.parse(localStorage.getItem('patientFilters')).skipEntries || 0;
+        this.searchFilter = JSON.parse(localStorage.getItem('patientFilters')).searchFilter || '';
     }
 
     getUpdatedList(params) {
@@ -120,6 +123,10 @@ export class CaseListComponent implements OnInit {
                     return item;
                 });
                 this.loading = false;
+                this.dt1.filterGlobal(
+                    this.searchFilter,
+                    'contains'
+                );
                 this.router.events.subscribe((e:any) => {
                     if ( e instanceof Scroll && e.position) {
                       // backward navigation
@@ -133,8 +140,9 @@ export class CaseListComponent implements OnInit {
     }
 
     onGlobalFilter(table: Table, event: Event) {
+        this.searchFilter = (event.target as HTMLInputElement).value;
         table.filterGlobal(
-            (event.target as HTMLInputElement).value,
+            this.searchFilter,
             'contains'
         );
     }
@@ -217,8 +225,10 @@ export class CaseListComponent implements OnInit {
     }
 
     clearFilters() {
+        this.searchFilter = '';
         this.whereFilter = {};
-        this.getCaseList()
+        this.getCaseList();
+        localStorage.setItem('patientFilters', JSON.stringify({skipEntries: 0, searchFilter:  ''}));
     }
 
     onPageChange(event: any) {
@@ -227,6 +237,6 @@ export class CaseListComponent implements OnInit {
 
     ngOnDestroy(): void {
         const skipEntries = this.router.url.includes('/case/view') ? this.skipEntries : 0;
-        localStorage.setItem('skipEntries', JSON.stringify(skipEntries));
+        localStorage.setItem('patientFilters', JSON.stringify({skipEntries, searchFilter:  this.searchFilter}));
     }
 }

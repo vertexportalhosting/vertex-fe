@@ -403,7 +403,10 @@ export class CaseViewComponent {
 
     ngOnDestroy(): void {
         if (!this.isBack) {
-            localStorage.setItem('skipEntries', JSON.stringify(0));
+            const data = JSON.parse(localStorage.getItem('patientFilters'));
+            data.skipEntries = 0;
+            data.searchFilter = '';
+            localStorage.setItem('patientFilters', JSON.stringify(data));
         }
     }
 
