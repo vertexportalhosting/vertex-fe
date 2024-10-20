@@ -158,6 +158,7 @@ export class CaseManagementComponent {
             .subscribe((patient) => {
                 this.case = {
                     ...this.case,
+                    case_status: 'new',
                     patientId: patient.id,
                     userId: this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id,
                 } as any;

@@ -20,7 +20,7 @@ export class CaseListComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
     @ViewChild('dt1') dt1!: any;
     cases: Case[] = [];
-    
+
     selectedCases: Case[] = [];
     loading: boolean = true;
     admin = false;
@@ -52,34 +52,35 @@ export class CaseListComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private viewportScroller: ViewportScroller
-    ) {
-        
-    }
+    ) {}
 
     ngOnInit() {
         this.activatedRoute?.queryParams?.subscribe((params) => {
-            this.getUpdatedList(params)
+            this.getUpdatedList(params);
         });
-        this.skipEntries = JSON.parse(localStorage.getItem('patientFilters')).skipEntries || 0;
-        this.searchFilter = JSON.parse(localStorage.getItem('patientFilters')).searchFilter || '';
+        this.skipEntries =
+            JSON.parse(localStorage.getItem('patientFilters')).skipEntries || 0;
+        this.searchFilter =
+            JSON.parse(localStorage.getItem('patientFilters')).searchFilter ||
+            '';
     }
 
     getUpdatedList(params) {
         if (!params?.status) {
             this.getCaseList();
-            return; 
+            return;
         }
         if (params.status === 'completed') {
             this.whereFilter.case_status = 'completed';
         } else if (params.status.startsWith('Stage')) {
             this.whereFilter.case_type = {
-                like: `${params.status}%`
+                like: `${params.status}%`,
             };
             this.whereFilter.case_status = {
-                neq: 'completed'
+                neq: 'completed',
             };
         }
-    
+
         this.getCaseList();
     }
 
@@ -94,8 +95,8 @@ export class CaseListComponent implements OnInit {
         if (this.whereFilter?.case_status || this.whereFilter?.case_type) {
             where = {
                 ...where,
-                ...this.whereFilter
-            }
+                ...this.whereFilter,
+            };
         }
         const filter = {
             include: [
@@ -123,28 +124,28 @@ export class CaseListComponent implements OnInit {
                     return item;
                 });
                 this.loading = false;
-                this.dt1.filterGlobal(
-                    this.searchFilter,
-                    'contains'
-                );
-                this.router.events.subscribe((e:any) => {
-                    if ( e instanceof Scroll && e.position) {
-                      // backward navigation
-                      const p: ScrollOptions = {}
-                      setTimeout(() => {
-                        window.scrollTo(...e.position)
-                      }, 2000);
-                    } 
-                  });
+                this.dt1.filterGlobal(this.searchFilter, 'contains');
+                this.skipEntries = 0;
+                setTimeout(() => {
+                    this.skipEntries =
+                        JSON.parse(localStorage.getItem('patientFilters'))
+                            .skipEntries || 0;
+                }, 500);
+                this.router.events.subscribe((e: any) => {
+                    if (e instanceof Scroll && e.position) {
+                        // backward navigation
+                        const p: ScrollOptions = {};
+                        setTimeout(() => {
+                            window.scrollTo(...e.position);
+                        }, 2000);
+                    }
+                });
             });
     }
 
     onGlobalFilter(table: Table, event: Event) {
         this.searchFilter = (event.target as HTMLInputElement).value;
-        table.filterGlobal(
-            this.searchFilter,
-            'contains'
-        );
+        table.filterGlobal(this.searchFilter, 'contains');
     }
 
     clear(table: Table) {
@@ -227,8 +228,11 @@ export class CaseListComponent implements OnInit {
     clearFilters() {
         this.searchFilter = '';
         this.whereFilter = {};
+        localStorage.setItem(
+            'patientFilters',
+            JSON.stringify({ skipEntries: 0, searchFilter: '' })
+        );
         this.getCaseList();
-        localStorage.setItem('patientFilters', JSON.stringify({skipEntries: 0, searchFilter:  ''}));
     }
 
     onPageChange(event: any) {
@@ -236,7 +240,12 @@ export class CaseListComponent implements OnInit {
     }
 
     ngOnDestroy(): void {
-        const skipEntries = this.router.url.includes('/case/view') ? this.skipEntries : 0;
-        localStorage.setItem('patientFilters', JSON.stringify({skipEntries, searchFilter:  this.searchFilter}));
+        const skipEntries = this.router.url.includes('/case/view')
+            ? this.skipEntries
+            : 0;
+        localStorage.setItem(
+            'patientFilters',
+            JSON.stringify({ skipEntries, searchFilter: this.searchFilter })
+        );
     }
 }
