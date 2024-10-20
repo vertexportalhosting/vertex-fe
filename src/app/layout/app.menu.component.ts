@@ -24,12 +24,12 @@ export class AppMenuComponent implements OnInit {
                 label: 'Patient Management',
                 roles: ['admin', 'Doctor'],
                 items: [
-                    { label: 'All Cases', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'] },
-                    { label: 'Closes Cases', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'completed'}},
-                    { label: 'Pre Surgery (Stage 0)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 0'}},
-                    { label: 'Surgery (Stage 1)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 1'}},
-                    { label: 'Prototype Try In (Stage 2)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 2'}},
-                    { label: 'Final (Stage 3)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 3'}},
+                    { label: 'Patient All Cases', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/list'] },
+                    { label: 'Patient Closed Cases', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'completed'}},
+                    { label: 'Patient Pre Surgery (Stage 0)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 0'}},
+                    { label: 'Patient Surgery (Stage 1)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 1'}},
+                    { label: 'Patient Prototype Try In (Stage 2)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 2'}},
+                    { label: 'Patient Final (Stage 3)', icon: 'pi pi-fw pi-briefcase', routerLink: ['/case/listing'], queryParams: {status: 'Stage 3'}},
                 ]
             },
             {
@@ -37,6 +37,13 @@ export class AppMenuComponent implements OnInit {
                 roles: ['admin'],
                 items: [
                     { label: 'Doctors', icon: 'pi pi-fw pi-briefcase', routerLink: ['/doctor/list'] }
+                ]
+            },
+            {
+                label: 'Activity',
+                roles: ['admin', 'Doctor'],
+                items: [
+                    { label: 'Activity', icon: 'pi pi-fw pi-bolt', routerLink: ['/activity/list'] }
                 ]
             }
         ];

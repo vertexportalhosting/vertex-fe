@@ -1,0 +1,20 @@
+<p-card header="Patient Activity">
+    <p-timeline [value]="events" align="left" styleClass="customized-timeline">
+        <ng-template pTemplate="marker" let-event>
+            <span 
+                class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1" 
+                [style]="{ 'background-color': event.color }">
+                    <i [class]="event.icon"></i>
+            </span>
+        </ng-template>
+        <ng-template pTemplate="content" let-event>
+            <p-card class="px-2" [header]="event.status" [subheader]="event.date">
+                <p>
+                   {{event.title}}
+                </p>
+                <small>{{event.time}}</small>
+            </p-card>
+        </ng-template>
+    </p-timeline>
+    
+</p-card>
