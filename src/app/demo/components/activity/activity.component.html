@@ -1,20 +1,25 @@
-<p-card header="Patient Activity">
-    <p-timeline [value]="events" align="left" styleClass="customized-timeline">
-        <ng-template pTemplate="marker" let-event>
-            <span 
-                class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1" 
-                [style]="{ 'background-color': event.color }">
-                    <i [class]="event.icon"></i>
-            </span>
-        </ng-template>
-        <ng-template pTemplate="content" let-event>
-            <p-card class="px-2" [header]="event.status" [subheader]="event.date">
-                <p>
-                   {{event.title}}
-                </p>
-                <small>{{event.time}}</small>
-            </p-card>
-        </ng-template>
-    </p-timeline>
-    
-</p-card>
+<div class="container">
+    <div class="wrapper">
+      <h1 class="pb-5">Patient Activity</h1>
+      <ul class="sessions">
+        <li>
+          <div class="time">
+             <h1>Subcase Additional Comment</h1>
+          </div>
+            <p>Austin created a new comment with id 34372<br><strong>ADIC-Austin</strong> null<br><span>9 days ago</span></p>
+        </li>
+        <li>
+          <div class="time">
+            <h1>Subcase Created</h1>
+          </div>
+            <p>Austin created a new hybrid stage0 with id 34372<br><strong>ADIC-Austin</strong> null<br><span>9 days ago</span></p>
+        </li>
+        <li>
+          <div class="time">
+            <h1>Patinet Created</h1>
+          </div>
+           <p>Austin created a new patient sam solens with casepatient id 14090 and patient id null<br><span>9 days ago</span></p>
+        </li>
+      </ul>
+    </div>
+  </div> 
