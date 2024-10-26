@@ -39,13 +39,13 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Doctors', icon: 'pi pi-fw pi-briefcase', routerLink: ['/doctor/list'] }
                 ]
             },
-            {
-                label: 'Activity',
-                roles: ['admin', 'Doctor'],
-                items: [
-                    { label: 'Activity', icon: 'pi pi-fw pi-bolt', routerLink: ['/activity/list'] }
-                ]
-            }
+            // {
+            //     label: 'Activity',
+            //     roles: ['admin', 'Doctor'],
+            //     items: [
+            //         { label: 'Activity', icon: 'pi pi-fw pi-bolt', routerLink: ['/activity/list'] }
+            //     ]
+            // }
         ];
 
         const role = JSON.parse(localStorage.getItem('user'))?.role;

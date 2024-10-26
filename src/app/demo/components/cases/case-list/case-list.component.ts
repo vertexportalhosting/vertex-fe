@@ -129,8 +129,8 @@ export class CaseListComponent implements OnInit {
                 setTimeout(() => {
                     this.skipEntries =
                         JSON.parse(localStorage.getItem('patientFilters'))
-                            .skipEntries || 0;
-                }, 500);
+                            ?.skipEntries || 0;
+                }, 1000);
                 this.router.events.subscribe((e: any) => {
                     if (e instanceof Scroll && e.position) {
                         // backward navigation
