@@ -130,7 +130,7 @@ export class CaseListComponent implements OnInit {
                     this.skipEntries =
                         JSON.parse(localStorage.getItem('patientFilters'))
                             ?.skipEntries || 0;
-                }, 1000);
+                }, 500);
                 this.router.events.subscribe((e: any) => {
                     if (e instanceof Scroll && e.position) {
                         // backward navigation
