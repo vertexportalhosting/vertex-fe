@@ -54,6 +54,7 @@ export class CaseViewComponent {
     uploadSide = 1;
     loading = true;
     isBack = false;
+    isCompleted = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -410,4 +411,7 @@ export class CaseViewComponent {
         }
     }
 
+    markAsCompleted() {
+        this.isCompleted = true;
+      }
 }
