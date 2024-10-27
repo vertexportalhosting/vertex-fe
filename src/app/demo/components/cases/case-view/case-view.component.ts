@@ -60,7 +60,7 @@ export class CaseViewComponent {
     loading = true;
     isBack = false;
     isCompleted = false;
-    activeFolder = -1;
+    activeFolder: any = -1;
 
     constructor(
         private route: ActivatedRoute,
@@ -125,6 +125,7 @@ export class CaseViewComponent {
                     this.uploadedFiles = [];
                     data.delivery_date = new Date(data.delivery_date);
                     this.scans = data.scan || [];
+                    this.scans = this.scans.filter((scan) => scan.stage == this.activeFolder);
                     this.patient = data.patient;
                     this.case = data;
                     this.user = data.user;
@@ -240,6 +241,7 @@ export class CaseViewComponent {
                                                   )?.id,
                                         patientId: this.patient.id,
                                         caseId: this.case.id,
+                                        stage: Number(this.activeFolder),
                                     } as any,
                                 })
                                 .toPromise();
@@ -440,11 +442,62 @@ export class CaseViewComponent {
         }
     }
 
-    markAsCompleted() {
-        this.isCompleted = true;
+    markAsCompleted(stage: any) {
+        const _stage = `isStage${
+            stage.includes('0')
+                ? 'One'
+                : stage.includes('1')
+                ? 'Two'
+                : stage.includes('2')
+                ? 'Three'
+                : stage.includes('3')
+                ? 'Four'
+                : ''
+        }Complete`;
+        this.caseController
+            .updateCaseStageById({
+                id: this.caseId,
+                body: {
+                    [_stage]: true,
+                    details: `Patient's ${stage} has been marked as Completed`,
+                } as any,
+            })
+            .subscribe(() => {
+                this.getCaseInfo(this.caseId);
+            });
     }
 
-    onItemClick(selected) {
-        this.activeFolder = selected;
+    async onItemClick(selected) {
+        if (selected === 'activity') {
+            this.activeFolder = selected;
+            this.cdr.detectChanges();
+            return;
+        }
+        if (selected != -1) {
+            this.activeFolder = +selected;
+            this.adminScans = [];
+            this.doctorScans = [];
+            this.cdr.detectChanges();
+            this.scans = await this.scanController
+                .find({
+                    filter: JSON.stringify({
+                        where: {
+                            caseId: this.caseId,
+                            stage: this.activeFolder,
+                        },
+                        include: [{ relation: 'user' }],
+                    }),
+                })
+                .toPromise();
+            this.adminScans = this.scans.filter(
+                (scan) => scan.user.role == 'admin'
+            );
+            this.doctorScans = this.admin
+                ? this.scans.filter((scan) => scan.user.role != 'admin')
+                : this.scans;
+            this.cdr.detectChanges();
+        } else {
+            this.activeFolder = selected;
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { PatientHistory } from 'src/app/api/models';
 import { PatientHistoryControllerService } from 'src/app/api/services';
 
@@ -11,9 +11,12 @@ export class ActivityComponent {
     events: any[] = [];
     limit = 10;
     page = 0;
+    offset = 0;
     total = 40;
     currentIndex: number = 0;
-    constructor(private history: PatientHistoryControllerService) {}
+
+    @Input() caseId;
+    constructor(private history: PatientHistoryControllerService, private cdr: ChangeDetectorRef) {}
 
     ngOnInit(): void {
         this.getHistories();
@@ -23,7 +26,7 @@ export class ActivityComponent {
     getHistories() {
         const filter: any = {
             limit: this.limit,
-            offset: this.limit * this.page,
+            offset: this.offset,
             order: ['id desc'],
             include: [
                 {
@@ -37,6 +40,11 @@ export class ActivityComponent {
                 },
             ],
         };
+        if (this.caseId) {
+            filter['where'] = {
+                caseId: this.caseId
+            }
+        }
         this.history
             .find({
                 filter: JSON.stringify(filter),
@@ -55,6 +63,7 @@ export class ActivityComponent {
                       : '';
                     });
                     this.events = res;
+                    this.cdr.detectChanges();
                 }
             });
     }
@@ -69,7 +78,7 @@ export class ActivityComponent {
     next(): void {
         if (this.limit < this.total) {
             this.currentIndex++;
-            this.limit = this.limit * this.currentIndex;
+            this.offset = this.limit * this.currentIndex;
             this.getHistories();
         }
     }
@@ -77,7 +86,7 @@ export class ActivityComponent {
     previous(): void {
         if (this.currentIndex > 0) {
             this.currentIndex--;
-            this.limit = this.limit * this.currentIndex;
+            this.offset = this.limit * this.currentIndex;
             this.getHistories();
         }
     }

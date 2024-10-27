@@ -33,55 +33,47 @@ import { ActivityComponent } from './activity.component';
 import { TimelineModule } from 'primeng/timeline';
 import { ConfirmationService } from 'primeng/api';
 
-
-
 @NgModule({
-  imports: [
-    CommonModule,
-    CommonModule,
-    FormsModule,
-    ChartModule,
-    MenuModule,
-    TableModule,
-    StyleClassModule,
-    PanelMenuModule,
-    RatingModule,
-    ButtonModule,
-    SliderModule,
-    InputTextModule,
-    ToggleButtonModule,
-    RippleModule,
-    MultiSelectModule,
-    DropdownModule,
-    FileUploadModule,
-    StepsModule,
-    CardModule,
-    ProgressBarModule,
-    InputSwitchModule,
-    CalendarModule,
-    ToastModule,
-    ConfirmDialogModule,
-    CheckboxModule,
-    InputTextareaModule,
-    InputSwitchModule,
-    CalendarModule,
-    BlockUIModule,
-    RadioButtonModule,
-    ProgressSpinnerModule,
-    DialogModule,
-    TimelineModule,
-    RouterModule.forChild([
-        { path: 'list', component: ActivityComponent },
-    ] as Routes)
-  ],
-  declarations: [
-   ActivityComponent
-],
-providers: [
-    ConfirmationService
-],
-exports: [
-    RouterModule
-]
+    imports: [
+        CommonModule,
+        CommonModule,
+        FormsModule,
+        ChartModule,
+        MenuModule,
+        TableModule,
+        StyleClassModule,
+        PanelMenuModule,
+        RatingModule,
+        ButtonModule,
+        SliderModule,
+        InputTextModule,
+        ToggleButtonModule,
+        RippleModule,
+        MultiSelectModule,
+        DropdownModule,
+        FileUploadModule,
+        StepsModule,
+        CardModule,
+        ProgressBarModule,
+        InputSwitchModule,
+        CalendarModule,
+        ToastModule,
+        ConfirmDialogModule,
+        CheckboxModule,
+        InputTextareaModule,
+        InputSwitchModule,
+        CalendarModule,
+        BlockUIModule,
+        RadioButtonModule,
+        ProgressSpinnerModule,
+        DialogModule,
+        TimelineModule,
+        RouterModule.forChild([
+            { path: '', component: ActivityComponent },
+        ] as Routes),
+    ],
+    declarations: [ActivityComponent],
+    providers: [ConfirmationService],
+    exports: [RouterModule, ActivityComponent],
 })
-export class ActivityModule { }
+export class ActivityModule {}

@@ -42,7 +42,7 @@
 						<td>
 							<p-dropdown *ngIf="case.show" appendTo="body" [options]="caseTypes"
 								[(ngModel)]="case.case_type" nVal optionLabel="name" optionValue="name"
-								(onChange)="updateCaseStatus(case)"></p-dropdown>
+								(onChange)="updateCaseStatus(case, 'stage')"></p-dropdown>
 							<div *ngIf="!case.show" class="flex gap-2 align-items-center">
 								<span>{{ case.case_type | uppercase }}</span>
 								<p-button icon="pi pi-pencil" [rounded]="true" [text]="true" [raised]="true"
@@ -52,7 +52,7 @@
 						<td class="mobile-hide" [style.width]="'6rem'">
 							<p-dropdown *ngIf="admin" appendTo="body" [options]="case_status"
 								[(ngModel)]="case.case_status" nVal optionLabel="label" optionValue="value"
-								(onChange)="updateCaseStatus(case)"></p-dropdown>
+								(onChange)="updateCaseStatus(case, 'status')"></p-dropdown>
 							<div *ngIf="!admin">
 								<span class="text-green-500">{{ getCaseStatus(case.case_status) }}</span>
 							</div>

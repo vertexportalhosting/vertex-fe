@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (role == 'admin') {
             filter = {
                 where: {
-                    // deleted: false
+                    deleted: false
                 },
                 fields: {
                     case_type: true,

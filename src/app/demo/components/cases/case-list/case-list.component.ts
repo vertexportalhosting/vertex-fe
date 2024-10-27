@@ -207,7 +207,7 @@ export class CaseListComponent implements OnInit {
         );
     }
 
-    updateCaseStatus(selectedCase) {
+    updateCaseStatus(selectedCase, type) {
         const _case = { ...selectedCase };
         Object.keys(selectedCase).forEach((key) => {
             if (selectedCase[key] == null) {
@@ -223,8 +223,10 @@ export class CaseListComponent implements OnInit {
         if (_case.deleted == null || _case.deleted == '') {
             _case.deleted = false;
         }
+        _case.details = type == 'stage' ? 'Patient Stage has been updated to ' + selectedCase.case_type : 'Case Status has been updated to ' + selectedCase.case_status;
+        _case.notify = true;
         this.caseController
-            .updateById({
+            .updateCaseStageById({
                 id: _case.id,
                 body: {
                     ..._case,
