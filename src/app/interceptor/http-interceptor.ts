@@ -8,10 +8,11 @@ import {
 import { catchError, finalize, Observable, tap } from 'rxjs';
 import { StoreService } from '../demo/service/store.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
-    constructor(private loader: StoreService, private router: Router) {}
+    constructor(private loader: StoreService, private router: Router, private messageService: MessageService) {}
     intercept(
         req: HttpRequest<any>,
         next: HttpHandler
@@ -37,6 +38,13 @@ export class HttpInterceptorService implements HttpInterceptor {
                 if (err.status === 401) {
                     localStorage.clear();
                     this.router.navigate(['/auth/login'])
+                }
+                if (err.status === 404) {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Not found',
+                        detail: 'Resource not found',
+                    });
                 }
                 throw err
             }),

@@ -15,6 +15,7 @@ import { HttpInterceptorService } from './interceptor/http-interceptor';
 import { CasesService } from './demo/service/cases.service';
 import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MessageService } from 'primeng/api';
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
     imports: [AppRoutingModule, AppLayoutModule, BlockUIModule, ProgressSpinnerModule, CommonModule ],
@@ -25,7 +26,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
             provide: HTTP_INTERCEPTORS,
             useClass: HttpInterceptorService,
             multi: true
-        }
+        },
+        MessageService
     ],
     bootstrap: [AppComponent],
 })

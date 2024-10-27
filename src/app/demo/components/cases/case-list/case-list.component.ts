@@ -9,6 +9,7 @@ import {
     CaseControllerService,
     PatientControllerControllerService,
 } from 'src/app/api/services';
+import { StoreService } from 'src/app/demo/service/store.service';
 
 @Component({
     selector: 'app-case-list',
@@ -51,7 +52,8 @@ export class CaseListComponent implements OnInit {
         private caseController: CaseControllerService,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private viewportScroller: ViewportScroller
+        private viewportScroller: ViewportScroller,
+        private loader: StoreService
     ) {}
 
     ngOnInit() {
@@ -85,10 +87,13 @@ export class CaseListComponent implements OnInit {
     }
 
     getCaseList() {
-        let where: any = {};
+        let where: any = {
+            deleted: false
+        };
         this.admin = JSON.parse(localStorage.getItem('user'))?.role === 'admin';
         if (!this.admin) {
             where = {
+                ...where,
                 userId: JSON.parse(localStorage.getItem('user'))?.id,
             };
         }
@@ -140,6 +145,10 @@ export class CaseListComponent implements OnInit {
                         }, 2000);
                     }
                 });
+            }, error => {
+                console.log('error: ', error);
+                
+                this.loader.hideLoader();
             });
     }
 

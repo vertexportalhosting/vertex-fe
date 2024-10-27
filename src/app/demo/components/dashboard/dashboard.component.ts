@@ -28,7 +28,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         let filter: any = {};
         if (role == 'admin') {
             filter = {
-                where: {},
+                where: {
+                    // deleted: false
+                },
                 fields: {
                     case_type: true,
                     case_status: true,
@@ -37,6 +39,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         } else {
             filter = {
                 where: {
+                    deleted: false,
                     userId: id,
                 },
             };

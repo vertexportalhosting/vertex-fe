@@ -1,128 +1,149 @@
-<div class="sidebar">
-    <ul class="menu-list">
-      <li class="menu-item active">
-        <span class="icon pi pi-folder"></span>
-        <div class="menu-text">
-          <p class="title">Over View</p>
-          <p class="subtitle">
-            <a *ngIf="!isCompleted; else completedText" (click)="markAsCompleted()">Complete</a>
-            <ng-template #completedText>
-              <span class="completed">Completed</span>
-            </ng-template>
-        </div>
-      </li>
-      <li class="menu-item">
-        <span class="icon pi pi-briefcase"></span>
-        <div class="menu-text">
-          <p class="title">Stage 0 - Pre-Surgery</p>
-          <p class="subtitle">Crown and Bridge</p>
-        </div>
-      </li>
-      <li class="menu-item">
-        <span class="icon pi pi-briefcase"></span>
-        <div class="menu-text">
-          <p class="title">Stage 1 - Surgery</p>
-          <p class="subtitle">Crown and Bridge</p>
-        </div>
-      </li>
-      <li class="menu-item">
-        <span class="icon pi pi-calendar"></span>
-        <div class="menu-text">
-          <p class="title">Stage 2 - Pre-Surgery</p>
-          <p class="subtitle">Dentures and Partial</p>
-        </div>
-      </li>
-      <li class="menu-item">
-        <span class="icon pi pi-list"></span>
-        <div class="menu-text">
-          <p class="title">Stage 3 - Final</p>
-          <p class="subtitle">Activity Logs</p>
-        </div>
-      </li>
-    </ul>
-  </div>
-  
 <div>
     <div class="flex justify-content-between mb-3 gap-4">
         <button pButton label="Go Back" (click)="backToList()"></button>
         <p-button label="Delete Case" severity="danger" (click)="deleteCase()" />
 
     </div>
-    <div class="p-grid p-align-center p-m-4">
-        <div class="grid">
-            <div class="col-12 h-full md:col-6">
-                <div class="p-col-12 h-full p-md-4 p-p-2 mb-5">
-                    <p-card class="h-full">
-                        <div class="p-fluid">
-                            <h3>Case Details</h3>
-                            <!-- <div class="p-field flex gap-3 mb-3">
-                                <label for="caseType">Case Type: </label>
-                                <span id="caseType">{{ case.case_type }}</span>
-                            </div> -->
-                            <div class="p-field flex gap-3 mb-3">
-                                <label for="deliveryDate">Delivery Date: </label>
-                                <span id="deliveryDate" *ngIf="case?.delivery_date">{{ case?.delivery_date | date }}</span>
-                            </div>
-                            <div class="p-field flex gap-3 mb-3">
-                                <label for="urgent">Urgent: </label>
-                                <span id="urgent">{{ case?.urgent ? 'Yes' : 'No' }}</span>
-                            </div>
-                            <div class="p-field flex gap-3 mb-3">
-                                <label for="notes">Stage: </label>
-                                <span id="notes" class="three-line-ellipsis p-text-justify">{{ case?.case_type }}</span>
-                            </div>
-                            <div class="p-field flex">
-                                <div class="col-12 px-0">
-                                    <button [style.width]="'50%'" pButton label="Edit Case" icon="pi pi-pencil"
-                                        (click)="showCaseDialog()"></button>
-                                </div>
-                            </div>
+    <div class="p-grid flex p-m-4">
+        <div class="col-2">
+            <div class="sidebar">
+                <ul class="menu-list">
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == -1}" (click)="onItemClick('-1')">
+                        <span class="icon pi pi-briefcase"></span>
+                        <div class="menu-text">
+                            <p class="title">Over View</p>
                         </div>
-                    </p-card>
-                </div>
-            </div>
-            <div class="col-12 h-full md:col-6">
-                <div class="p-col-12 h-full p-md-4 p-p-2 mb-5">
-                    <p-card class="h-full">
-                        <div class="p-fluid">
-                            <h3>Patient Details</h3>
-                            <div class="p-field flex gap-3 mb-3">
-                                <label for="patientName">Name: </label>
-                                <span id="patientName">{{ patient?.name }}</span>
-                            </div>
-                            <!-- <div class="p-field flex gap-3 mb-3">
-                                <label for="age">Age: </label>
-                                <span id="age">{{ patient.age }}</span>
-                            </div> -->
-                            <div class="p-field flex gap-3 mb-3">
-                                <label for="gender">Gender: </label>
-                                <span id="gender">{{ patient?.gender || 'Not Specified' }}</span>
-                            </div>
-                            <div class="p-field flex gap-3 mb-3">
-                                <label for="patientNotes">Notes: </label>
-                                <span id="patientNotes" class="three-line-ellipsis p-text-justify">{{ patient?.notes
-                                    }}</span>
-                            </div>
-                            <div class="p-field flex gap-3">
-                                <div class="col-12 px-0">
-                                    <button [style.width]="'50%'" pButton label="Edit Patient" icon="pi pi-pencil"
-                                        (click)="showPatientDialog()"></button>
-                                </div>
-                            </div>
+                    </li>
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == 0}" (click)="onItemClick('0')">
+                        <span class="icon pi pi-folder"></span>
+                        <div class="menu-text">
+                            <p class="title">Stage 0 - Pre-Surgery</p>
+                            <p class="subtitle">
+                                <a *ngIf="!isCompleted; else completedText" (click)="markAsCompleted(0)">Mark as
+                                    Complete</a>
+                            </p>
+
                         </div>
-                    </p-card>
-                </div>
+                    </li>
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == 1}" (click)="onItemClick('1')">
+                        <span class="icon pi pi-folder"></span>
+                        <div class="menu-text">
+                            <p class="title">Stage 1 - Surgery</p>
+                            <p class="subtitle">
+                                <a *ngIf="!isCompleted; else completedText" (click)="markAsCompleted(1)">Mark as
+                                    Complete</a>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == 2}" (click)="onItemClick('2')">
+                        <span class="icon pi pi-folder"></span>
+                        <div class="menu-text">
+                            <p class="title">Stage 2 - Pre-Surgery</p>
+                            <p class="subtitle">
+                                <a *ngIf="!isCompleted; else completedText" (click)="markAsCompleted(2)">Mark as
+                                    Complete</a>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == 3}" (click)="onItemClick('3')">
+                        <span class="icon pi pi-folder"></span>
+                        <div class="menu-text">
+                            <p class="title">Stage 3 - Final </p>
+                            <p class="subtitle">
+                                <a *ngIf="!isCompleted; else completedText" (click)="markAsCompleted(3)">Mark as
+                                    Complete</a>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
+        <div class="col-10">
+            <div class="grid w-full">
+                <!-- <div class="col-12 h-full md:col-6">
+                    <div class="p-col-12 h-full p-md-4 p-p-2 mb-5">
+                        <p-card class="h-full">
+                            <div class="p-fluid">
+                                <h3>Case Details</h3>
+                                <div class="p-field flex gap-3 mb-3">
+                                <label for="caseType">Case Type: </label>
+                                <span id="caseType">{{ case.case_type }}</span>
+                            </div>
+                                <div class="p-field flex gap-3 mb-3">
+                                    <label for="deliveryDate">Delivery Date: </label>
+                                    <span id="deliveryDate" *ngIf="case?.delivery_date">{{ case?.delivery_date | date
+                                        }}</span>
+                                </div>
+                                <div class="p-field flex gap-3 mb-3">
+                                    <label for="urgent">Urgent: </label>
+                                    <span id="urgent">{{ case?.urgent ? 'Yes' : 'No' }}</span>
+                                </div>
+                                <div class="p-field flex gap-3 mb-3">
+                                    <label for="notes">Stage: </label>
+                                    <span id="notes" class="three-line-ellipsis p-text-justify">{{ case?.case_type
+                                        }}</span>
+                                </div>
+                                <div class="p-field flex">
+                                    <div class="col-12 px-0">
+                                        <button [style.width]="'50%'" pButton label="Edit Case" icon="pi pi-pencil"
+                                            (click)="showCaseDialog()"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-card>
+                    </div>
+                </div>
+                <div class="col-12 h-full md:col-6">
+                    <div class="p-col-12 h-full p-md-4 p-p-2 mb-5">
+                        <p-card class="h-full">
+                            <div class="p-fluid">
+                                <h3>Patient Details</h3>
+                                <div class="p-field flex gap-3 mb-3">
+                                    <label for="patientName">Name: </label>
+                                    <span id="patientName">{{ patient?.name }}</span>
+                                </div>
+                                <div class="p-field flex gap-3 mb-3">
+                                <label for="age">Age: </label>
+                                <span id="age">{{ patient.age }}</span>
+                            </div>
+                                <div class="p-field flex gap-3 mb-3">
+                                    <label for="gender">Gender: </label>
+                                    <span id="gender">{{ patient?.gender || 'Not Specified' }}</span>
+                                </div>
+                                <div class="p-field flex gap-3 mb-3">
+                                    <label for="patientNotes">Notes: </label>
+                                    <span id="patientNotes" class="three-line-ellipsis p-text-justify">{{ patient?.notes
+                                        }}</span>
+                                </div>
+                                <div class="p-field flex gap-3">
+                                    <div class="col-12 px-0">
+                                        <button [style.width]="'50%'" pButton label="Edit Patient" icon="pi pi-pencil"
+                                            (click)="showPatientDialog()"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-card>
+                    </div>
+                </div> -->
+                <div class="flex flex-column p-5 w-full" *ngIf="activeFolder == -1">
+                    <p-card class="w-full ">
+                        <div class="flex flex-column p-5 w-full">
+                            <h1 class="text-5xl mb-0">{{patient?.name}}</h1>
+                            <h4 class="text-600 mt-2">{{case?.case_type}}</h4>
+                            <h5>{{case?.delivery_date | date}}</h5>
+                        </div>
+                    </p-card>
+                </div>
+            </div>
 
-        <div class="grid">
-            <div class="{{ admin ? 'col-12 sm:col-6' : 'col-12'}} p-md-4 p-p-2">
-                <p-card #scanFiles>
-                    <div class="p-fluid">
-                        <h3>Scan Files</h3>
-                        <div class="flex flex-wrap gap-2 justify-content-end">
-                            <div class="col-12">
-                                <!-- <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
+            <div class="grid" [class.hidden]="activeFolder == -1">
+                <div class="{{ admin ? 'col-12 sm:col-6' : 'col-12'}} p-md-4 p-p-2">
+                    <p-card #scanFiles>
+                        <div class="p-fluid">
+                            <h3>Scan Files</h3>
+                            <div class="flex flex-wrap gap-2 justify-content-end">
+                                <div class="col-12">
+                                    <!-- <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
                                 auto="true" (onSelect)="onFileSelected($event)" >
                                 <ng-template pTemplate="content" (onSelect)="onFileSelected($event)">
                                     <div class="custom-upload-area">
@@ -133,120 +154,41 @@
                                     </div>
                                   </ng-template>
                                 </p-fileUpload> -->
-                                <div class="text-center">
-                                    <div class="file-list-container" *ngIf="uploadedFiles?.length  && uploadSide == 1">
-                                        <ul id="file-list" class="file-list">
-                                            <!-- Files will be dynamically added here -->
-                                             <li *ngFor="let file of uploadedFiles">
-                                                <div class="flex flex-grow-1 justify-content-between gap-2 px-2">
-                                                  <span class="file-name">{{file.name}}</span>
-                                                  <span class="file-size">{{(file.size / 1024).toFixed(2)}} KB</span>
-                                                </div>
-                                                <button class="remove-btn" (click)="onRemove(file)">Remove</button>
-                                             </li>
-                                        </ul>
-                                        <button pButton label="Upload Files" (click)="onUpload('Doctor')"></button>
-                                      </div>
-                                    <div class="upload-area">
-                                      <div class="button-area">
-                                        <button pButton label="Click to Upload" icon="pi pi-plus" (click)="dropzone.click()"></button>
-                                      </div>
-                                      <div class="dp-area {{isDarkTheme}}">
-                                        <form action="#" #dropzone (submit)="$event.preventDefault()" class="dropzone" id="demo-upload1">
-                                        </form>
-                                      </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button class="p-button-rounded" label="Download All" (click)="downloadFiles('Dcotor')" pButton
-                                            ></button>
-                            </div>
-                        </div>
-                        <p-table [value]="doctorScans" [paginator]="true" [rows]="20">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th class="mobile-hide">Scan ID</th>
-                                    <th>Filename</th>
-                                    <th class="mobile-hide">Upload Date</th>
-                                    <th class="mobile-hide">Uploaded By</th>
-                                    <th>Download</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-scan>
-                                <tr>
-                                    <td class="mobile-hide">{{ scan?.id }}</td>
-                                    <td style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;"
-                                        pTooltip="{{getFilename(scan)}}" tooltipPosition="right">{{
-                                        getFilename(scan) }}</td>
-                                    <td class="mobile-hide">{{ scan?.uploadDate | date }}</td>
-                                    <td class="mobile-hide">{{ scan?.user.username }}</td>
-                                    <td>
-                                        <button class="p-button-rounded" (click)="downloadScan(scan)" pButton
-                                            icon="pi pi-download"></button>
-                                    </td>
-                                    <td>
-                                        <button class="p-button-rounded" (click)="deleteScan(scan)" pButton
-                                            icon="pi pi-trash"></button>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </div>
-                </p-card>
-            </div>
-
-            <div [class]="admin ? 'col-12 sm:col-6' : 'hidden'">
-                <div class="custom-uploader">
-                    <p-card>
-                        <div class="p-fluid">
-                            <h3>Admin Files</h3>
-                            <div class="flex flex-wrap gap-2 justify-content-end">
-                                <div class="col-12">
-                                    <!-- <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
-                                    auto="true" (onSelect)="onFileSelected($event)" >
-                                    <ng-template pTemplate="content" (onSelect)="onFileSelected($event)">
-                                        <div class="custom-upload-area">
-                                          <i class="pi pi-cloud-upload"></i>
-                                          <div class="upload-text">
-                                            <p>Drop Files here</p>
-                                          </div>
-                                        </div>
-                                      </ng-template>
-                                    </p-fileUpload> -->
                                     <div class="text-center">
-                                        <div class="file-list-container" *ngIf="uploadedFiles?.length && uploadSide == 2">
+                                        <div class="file-list-container"
+                                            *ngIf="uploadedFiles?.length  && uploadSide == 1">
                                             <ul id="file-list" class="file-list">
                                                 <!-- Files will be dynamically added here -->
-                                                 <li *ngFor="let file of uploadedFiles">
+                                                <li *ngFor="let file of uploadedFiles">
                                                     <div class="flex flex-grow-1 justify-content-between gap-2 px-2">
-                                                      <span class="file-name">{{file.name}}</span>
-                                                      <span class="file-size">{{(file.size / 1024).toFixed(2)}} KB</span>
+                                                        <span class="file-name">{{file.name}}</span>
+                                                        <span class="file-size">{{(file.size / 1024).toFixed(2)}}
+                                                            KB</span>
                                                     </div>
                                                     <button class="remove-btn" (click)="onRemove(file)">Remove</button>
-                                                 </li>
+                                                </li>
                                             </ul>
-                                            <button pButton label="Upload Files" (click)="onUpload('Admin')"></button>
-                                          </div>
-                                          <div class="upload-area">
+                                            <button pButton label="Upload Files" (click)="onUpload('Doctor')"></button>
+                                        </div>
+                                        <div class="upload-area">
                                             <div class="button-area">
-                                              <button pButton label="Click to Upload" icon="pi pi-plus" (click)="dropzone2.click()"></button>
+                                                <button pButton label="Click to Upload" icon="pi pi-plus"
+                                                    (click)="dropzone.click()"></button>
                                             </div>
                                             <div class="dp-area {{isDarkTheme}}">
-                                              <form action="#" #dropzone2 (submit)="$event.preventDefault()" class="dropzone" id="demo-upload2">
-                                              </form>
+                                                <form action="#" #dropzone (submit)="$event.preventDefault()"
+                                                    class="dropzone" id="demo-upload1">
+                                                </form>
                                             </div>
-                                          </div>
-                                      </div>
+                                        </div>
+                                    </div>
                                 </div>
-
                                 <div class="col-12">
-                                    <button class="p-button-rounded" label="Download All" (click)="downloadFiles('Admin')" pButton
-                                                ></button>
+                                    <button class="p-button-rounded" label="Download All"
+                                        (click)="downloadFiles('Dcotor')" pButton></button>
                                 </div>
                             </div>
-                            <p-table [value]="adminScans" [paginator]="true" [rows]="20">
+                            <p-table [value]="doctorScans" [paginator]="true" [rows]="20">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th class="mobile-hide">Scan ID</th>
@@ -259,10 +201,10 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-scan>
                                     <tr>
-                                        <td class="mobile-hide">{{ scan.id }}</td>
-                                        <td
-                                            style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;">
-                                            {{ getFilename(scan) }}</td>
+                                        <td class="mobile-hide">{{ scan?.id }}</td>
+                                        <td style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;"
+                                            pTooltip="{{getFilename(scan)}}" tooltipPosition="right">{{
+                                            getFilename(scan) }}</td>
                                         <td class="mobile-hide">{{ scan?.uploadDate | date }}</td>
                                         <td class="mobile-hide">{{ scan?.user.username }}</td>
                                         <td>
@@ -278,12 +220,102 @@
                             </p-table>
                         </div>
                     </p-card>
-
                 </div>
+
+                <div [class]="admin ? 'col-12 sm:col-6' : 'hidden'">
+                    <div class="custom-uploader">
+                        <p-card>
+                            <div class="p-fluid">
+                                <h3>Admin Files</h3>
+                                <div class="flex flex-wrap gap-2 justify-content-end">
+                                    <div class="col-12">
+                                        <!-- <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
+                                    auto="true" (onSelect)="onFileSelected($event)" >
+                                    <ng-template pTemplate="content" (onSelect)="onFileSelected($event)">
+                                        <div class="custom-upload-area">
+                                          <i class="pi pi-cloud-upload"></i>
+                                          <div class="upload-text">
+                                            <p>Drop Files here</p>
+                                          </div>
+                                        </div>
+                                      </ng-template>
+                                    </p-fileUpload> -->
+                                        <div class="text-center">
+                                            <div class="file-list-container"
+                                                *ngIf="uploadedFiles?.length && uploadSide == 2">
+                                                <ul id="file-list" class="file-list">
+                                                    <!-- Files will be dynamically added here -->
+                                                    <li *ngFor="let file of uploadedFiles">
+                                                        <div
+                                                            class="flex flex-grow-1 justify-content-between gap-2 px-2">
+                                                            <span class="file-name">{{file.name}}</span>
+                                                            <span class="file-size">{{(file.size / 1024).toFixed(2)}}
+                                                                KB</span>
+                                                        </div>
+                                                        <button class="remove-btn"
+                                                            (click)="onRemove(file)">Remove</button>
+                                                    </li>
+                                                </ul>
+                                                <button pButton label="Upload Files"
+                                                    (click)="onUpload('Admin')"></button>
+                                            </div>
+                                            <div class="upload-area">
+                                                <div class="button-area">
+                                                    <button pButton label="Click to Upload" icon="pi pi-plus"
+                                                        (click)="dropzone2.click()"></button>
+                                                </div>
+                                                <div class="dp-area {{isDarkTheme}}">
+                                                    <form action="#" #dropzone2 (submit)="$event.preventDefault()"
+                                                        class="dropzone" id="demo-upload2">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <button class="p-button-rounded" label="Download All"
+                                            (click)="downloadFiles('Admin')" pButton></button>
+                                    </div>
+                                </div>
+                                <p-table [value]="adminScans" [paginator]="true" [rows]="20">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th class="mobile-hide">Scan ID</th>
+                                            <th>Filename</th>
+                                            <th class="mobile-hide">Upload Date</th>
+                                            <th class="mobile-hide">Uploaded By</th>
+                                            <th>Download</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-scan>
+                                        <tr>
+                                            <td class="mobile-hide">{{ scan.id }}</td>
+                                            <td
+                                                style="max-width: 200px; text-overflow: ellipsis; white-space: nowrap;overflow:hidden;">
+                                                {{ getFilename(scan) }}</td>
+                                            <td class="mobile-hide">{{ scan?.uploadDate | date }}</td>
+                                            <td class="mobile-hide">{{ scan?.user.username }}</td>
+                                            <td>
+                                                <button class="p-button-rounded" (click)="downloadScan(scan)" pButton
+                                                    icon="pi pi-download"></button>
+                                            </td>
+                                            <td>
+                                                <button class="p-button-rounded" (click)="deleteScan(scan)" pButton
+                                                    icon="pi pi-trash"></button>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </p-card>
+
+                    </div>
+                </div>
+
             </div>
-
         </div>
-
 
 
         <p-dialog header="Edit Case" [draggable]="false" [(visible)]="caseDialog" [modal]="true"
@@ -356,3 +388,6 @@
 <!-- <p-blockUI [blocked]="loading" [baseZIndex]="99999">
     <p-progressSpinner ariaLabel="loading" />
   </p-blockUI> -->
+<ng-template #completedText>
+    <span class="completed">Completed</span>
+</ng-template>

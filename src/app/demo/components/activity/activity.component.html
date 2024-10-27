@@ -2,24 +2,16 @@
     <div class="wrapper">
       <h1 class="pb-5">Patient Activity</h1>
       <ul class="sessions">
-        <li>
+        <li *ngFor="let history of events">
           <div class="time">
-             <h1>Subcase Additional Comment</h1>
+             <h1>{{history?.details}}</h1>
           </div>
-            <p>Austin created a new comment with id 34372<br><strong>ADIC-Austin</strong> null<br><span>9 days ago</span></p>
-        </li>
-        <li>
-          <div class="time">
-            <h1>Subcase Created</h1>
-          </div>
-            <p>Austin created a new hybrid stage0 with id 34372<br><strong>ADIC-Austin</strong> null<br><span>9 days ago</span></p>
-        </li>
-        <li>
-          <div class="time">
-            <h1>Patinet Created</h1>
-          </div>
-           <p>Austin created a new patient sam solens with casepatient id 14090 and patient id null<br><span>9 days ago</span></p>
+            <p><a *ngIf="history?.case" [routerLink]="['/case/view', history?.caseId]">View Patient Details</a> <span *ngIf="!history?.case">Deleted</span> <br/><strong>{{history?.user?.username | titlecase}}</strong><br><span>{{history?.actionDate | date }}</span></p>
         </li>
       </ul>
     </div>
   </div> 
+  <div class="flex justify-content-center gap-2 align-items-center">
+    <button (click)="previous()" pButton [disabled]="currentIndex === 0">Previous</button>
+    <button (click)="next()" pButton [disabled]="total <= limit">Next</button>
+  </div>

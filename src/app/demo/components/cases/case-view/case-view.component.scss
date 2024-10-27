@@ -183,9 +183,11 @@
 }
 
 .sidebar {
-  width: 250px;
-  padding: 16px;
   border-radius: 8px;
+}
+
+ul.menu-list {
+  padding: 0;
 }
 
 .menu-item {
@@ -199,12 +201,11 @@
 }
 
 .menu-item:hover {
-  background-color: #e0f7fa;
-  padding: 8px 10px;
+  background-color: #e0f7fab5;
 }
 
 .menu-item.active {
-  background-color: #d0eaf5;
+  background-color: #e0f7fab5;
 }
 
 .icon {
