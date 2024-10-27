@@ -21,6 +21,8 @@ import { replaceUserById } from '../fn/user-controller/replace-user-by-id';
 import { ReplaceUserById$Params } from '../fn/user-controller/replace-user-by-id';
 import { signUp } from '../fn/user-controller/sign-up';
 import { SignUp$Params } from '../fn/user-controller/sign-up';
+import { testEmail } from '../fn/user-controller/test-email';
+import { TestEmail$Params } from '../fn/user-controller/test-email';
 import { updateUserById } from '../fn/user-controller/update-user-by-id';
 import { UpdateUserById$Params } from '../fn/user-controller/update-user-by-id';
 import { User } from '../models/user';
@@ -56,6 +58,31 @@ export class UserControllerService extends BaseService {
   signUp(params?: SignUp$Params, context?: HttpContext): Observable<User> {
     return this.signUp$Response(params, context).pipe(
       map((r: StrictHttpResponse<User>): User => r.body)
+    );
+  }
+
+  /** Path part for operation `userControllerTestEmail()` */
+  static readonly UserControllerTestEmailPath = '/test-email';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `testEmail()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  testEmail$Response(params?: TestEmail$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return testEmail(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `testEmail$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  testEmail(params?: TestEmail$Params, context?: HttpContext): Observable<void> {
+    return this.testEmail$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

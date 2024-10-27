@@ -6,6 +6,10 @@ export interface Case {
   deleted?: boolean;
   delivery_date?: string;
   id?: number;
+  isStageFourComplete?: boolean;
+  isStageOneComplete?: boolean;
+  isStageThreeComplete?: boolean;
+  isStageTwoComplete?: boolean;
   notes?: string;
   patientId?: number;
   payment_status?: string;

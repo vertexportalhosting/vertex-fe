@@ -9,6 +9,10 @@ export interface NewCase {
   case_type?: string;
   deleted?: boolean;
   delivery_date?: string;
+  isStageFourComplete?: boolean;
+  isStageOneComplete?: boolean;
+  isStageThreeComplete?: boolean;
+  isStageTwoComplete?: boolean;
   notes?: string;
   patientId?: number;
   payment_status?: string;

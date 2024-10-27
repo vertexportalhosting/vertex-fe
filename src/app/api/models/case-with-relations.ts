@@ -14,6 +14,10 @@ export interface CaseWithRelations {
   delivery_date?: string;
   foreignKey?: any;
   id?: number;
+  isStageFourComplete?: boolean;
+  isStageOneComplete?: boolean;
+  isStageThreeComplete?: boolean;
+  isStageTwoComplete?: boolean;
   notes?: string;
   patient?: PatientWithRelations;
   patientId?: number;

@@ -1,17 +1,22 @@
 <div class="container">
-    <div class="wrapper">
-      <h1 class="pb-5">Patient Activity</h1>
-      <ul class="sessions">
-        <li *ngFor="let history of events">
-          <div class="time">
-             <h1>{{history?.details}}</h1>
-          </div>
-            <p><a *ngIf="history?.case" [routerLink]="['/case/view', history?.caseId]">View Patient Details</a> <span *ngIf="!history?.case">Deleted</span> <br/><strong>{{history?.user?.username | titlecase}}</strong><br><span>{{history?.actionDate | date }}</span></p>
-        </li>
-      </ul>
-    </div>
-  </div> 
-  <div class="flex justify-content-center gap-2 align-items-center">
-    <button (click)="previous()" pButton [disabled]="currentIndex === 0">Previous</button>
-    <button (click)="next()" pButton [disabled]="total <= limit">Next</button>
+  <div class="wrapper">
+    <h1 class="pb-5">Patient Activity</h1>
+    <ul class="sessions">
+      <li *ngFor="let history of events">
+        <div class="time">
+          <h1>{{history?.details}}</h1>
+        </div>
+        <p><a *ngIf="history?.case" [routerLink]="['/case/view', history?.caseId]"
+            [queryParams]="{stage: history?.scan?.stage}">View Case</a>
+          <span *ngIf="!history?.case">Deleted</span> <br /> <span>{{history?.action}} By: </span>
+          <strong>{{history?.user?.username | titlecase}}</strong><br> <span>{{history?.action}} At: </span>
+          <span>{{history?.actionDate | date: 'medium' }}</span>
+        </p>
+      </li>
+    </ul>
   </div>
+</div>
+<div class="flex justify-content-center gap-2 align-items-center">
+  <button (click)="previous()" pButton [disabled]="currentIndex === 0">Previous</button>
+  <button (click)="next()" pButton [disabled]="total <= limit">Next</button>
+</div>

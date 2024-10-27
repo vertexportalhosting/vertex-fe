@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Observable } from 'rxjs';
+import { Observable, scan } from 'rxjs';
 import {
     Case,
     CaseWithRelations,
@@ -442,10 +442,9 @@ export class CaseViewComponent {
 
     markAsCompleted() {
         this.isCompleted = true;
-      }
+    }
 
-      onItemClick(selected) {
-        console.log('selected: ', selected);
-        this.activeFolder = selected
-      }
+    onItemClick(selected) {
+        this.activeFolder = selected;
+    }
 }
