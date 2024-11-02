@@ -1,0 +1,38 @@
+.scroller-container {
+    overflow: hidden;
+    border-radius: 8px;
+    width: 100%;
+  }
+  
+  .item-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .text-container {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .open-details-button {
+    background-color: transparent;
+    color: #6366f1;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    padding-left: 10px;
+  }
+  
+  .open-details-button:hover {
+    color: #6366f1;
+  }
+  
+  

@@ -38,7 +38,7 @@
                     <li class="menu-item" [ngClass]="{'active': activeFolder == 2}" (click)="onItemClick('2');$event.preventDefault()">
                         <span class="icon pi pi-folder"></span>
                         <div class="menu-text">
-                            <p class="title">Stage 2 - Pre-Surgery</p>
+                            <p class="title">Stage 2 - Prototype Try In </p>
                             <p class="subtitle">
                                 <a *ngIf="!case.isStageThreeComplete; else completedText" (click)="markAsCompleted('Stage 2 - Pre-Surgery'); $event.preventDefault()">Mark as
                                     Complete</a>

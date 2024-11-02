@@ -5,11 +5,14 @@ import { BehaviorSubject } from "rxjs";
     providedIn: 'root'
 })
 export class StoreService {
+    constructor() {}
     loading$ = new BehaviorSubject(false);
-    constructor() {
+    readonly getcaseId$ = new BehaviorSubject<any>(null);
 
+    setCaseId(caseId: number) {
+    this.getcaseId$.next(caseId);
     }
-
+    
     getUserRole() {
         return JSON.parse(localStorage.getItem('token'))?.role;
     }

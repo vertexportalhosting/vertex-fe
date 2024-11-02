@@ -8,7 +8,9 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { ScrollerModule } from 'primeng/scroller';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
+import { RouterModule, Routes } from '@angular/router';
 
 @NgModule({
     imports: [
@@ -20,7 +22,8 @@ import { DashboardsRoutingModule } from './dashboard-routing.module';
         StyleClassModule,
         PanelMenuModule,
         ButtonModule,
-        DashboardsRoutingModule
+        ScrollerModule,
+        DashboardsRoutingModule,
     ],
     declarations: [DashboardComponent]
 })

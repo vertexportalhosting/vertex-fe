@@ -73,7 +73,8 @@ export class CaseViewComponent {
         public location: Location,
         private cdr: ChangeDetectorRef,
         private router: Router,
-        private loader: StoreService
+        private loader: StoreService,
+        private store : StoreService,
     ) {}
 
     ngOnInit() {
@@ -85,6 +86,9 @@ export class CaseViewComponent {
         this.isDarkTheme =
             JSON.parse(localStorage.getItem('theme_config'))?.colorScheme ==
             'dark';
+            if (this.caseId) {
+                this.store.setCaseId(this.caseId);
+              }
     }
 
     ngAfterViewInit() {

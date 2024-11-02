@@ -76,3 +76,28 @@
             </div>
         </div>
     </div>
+    <div class="card scroller-container">
+        <p-scroller 
+            [items]="events" 
+            [itemSize]="10" 
+            scrollHeight="200px" 
+            [style]="{'width': '950px', 'height': '700px'}">
+                <ng-template pTemplate="item" let-item let-options="options">
+                    <div class="item-container" [ngClass]="{ 'surface-ground': options.odd }">
+                        <div class="text-container">
+                            <span>{{ item?.patient?.name }}</span>
+                            <span>{{ item?.details }}</span>
+                            <span *ngIf="!item?.case">Deleted</span> 
+                            <span style="margin: 10px;"> By: <strong>{{item?.user?.username | titlecase}}</strong></span>  
+                            <span style="margin: 10px;"> At: {{item?.actionDate | date: 'medium' }}</span>
+                        </div>
+                        <button 
+                            class="open-details-button" 
+                            (click)="openDetails(item)">
+                            Open Details
+                        </button>
+                    </div>
+                </ng-template>
+        </p-scroller>
+    </div>
+    
