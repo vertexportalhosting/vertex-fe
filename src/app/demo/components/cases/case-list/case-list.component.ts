@@ -156,6 +156,7 @@ export class CaseListComponent implements OnInit {
                 },
             ],
             where,
+            order: ['id DESC']
         };
         this.caseController.find({ filter: JSON.stringify(filter) }).subscribe(
             (data) => {

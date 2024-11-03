@@ -9,15 +9,19 @@
         <p><a *ngIf="!caseId" [routerLink]="['/case/view', history?.caseId]"
             [queryParams]="{stage: history?.scan?.stage}">Open Details</a>
 
-
-          <ng-container *ngIf="!caseId">
+          <br *ngIf="history.case && ! history.patient" />
+          <ng-container *ngIf="!caseId && history?.patient">
             <br>
             <span>Patient: </span>
             <strong>{{history?.patient?.name | titlecase}}</strong>
             <br>
           </ng-container>
 
-          <span *ngIf="!history?.case">Deleted</span>
+          <ng-container *ngIf="!history?.case">
+            <br>
+            <span>Deleted</span>
+            <br>
+          </ng-container>
 
           <span>{{history?.action}} By: </span>
           <strong>{{history?.user?.username | titlecase}}</strong>

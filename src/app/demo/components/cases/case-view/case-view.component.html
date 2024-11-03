@@ -145,7 +145,7 @@
                 <div class="flex flex-column p-5 w-full" *ngIf="activeFolder == -1">
                     <p-card class="w-full ">
                         <div class="flex flex-column px-5 w-full">
-                            <h5 class="text-600 mt-0"><strong>Patient Info</strong></h5>
+                            <h4 class="text-600 mt-0"><strong>Patient Info</strong></h4>
                             <h2 class="text-5xl my-0">{{patient?.name}}</h2>
                             <h4 class="text-600 mt-2"> <strong>Current Stage: </strong> {{case?.case_type}}</h4>
                             <h5 *ngIf="case?.created_at"><strong class="text-600 mb-0">Created At:
@@ -153,6 +153,11 @@
                             <h5 *ngIf="case?.delivery_date?.length"><strong class="text-600 my-0">Delivery Date:
                                 </strong>{{case?.delivery_date | date}}</h5>
                             <h5 *ngIf="case?.urgent" class="my-0 text-red-600"><strong>Urgent</strong></h5>
+
+                            <h4 class="text-600 mt-5"><strong>Office</strong></h4>
+                            <h2 class="text-5xl my-0">{{case?.user?.username | titlecase }}</h2>
+
+
                         </div>
                     </p-card>
                 </div>
