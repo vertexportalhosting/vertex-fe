@@ -44,6 +44,7 @@ export class CaseListComponent implements OnInit {
     whereFilter: any = {};
     skipEntries = 0;
     searchFilter = '';
+    currentUrl = '';
 
     constructor(
         private patientController: PatientControllerControllerService,
@@ -60,11 +61,26 @@ export class CaseListComponent implements OnInit {
         this.activatedRoute?.queryParams?.subscribe((params) => {
             this.getUpdatedList(params);
         });
-        this.skipEntries =
-            JSON.parse(localStorage.getItem('patientFilters')).skipEntries || 0;
-        this.searchFilter =
-            JSON.parse(localStorage.getItem('patientFilters')).searchFilter ||
+        this.currentUrl =
+            JSON.parse(localStorage.getItem('patientFilters'))?.currentUrl ||
             '';
+        this.skipEntries =
+            JSON.parse(localStorage.getItem('patientFilters'))?.skipEntries ||
+            0;
+        this.searchFilter =
+            JSON.parse(localStorage.getItem('patientFilters'))?.searchFilter ||
+            '';
+        if (this.currentUrl != this.router.url) {
+            this.skipEntries = 0;
+            localStorage.setItem(
+                'patientFilters',
+                JSON.stringify({
+                    skipEntries: 0,
+                    searchFilter: '',
+                    currentUrl: this.router.url,
+                })
+            );
+        }
     }
 
     getUpdatedList(params) {
@@ -78,9 +94,18 @@ export class CaseListComponent implements OnInit {
             this.whereFilter.case_type = {
                 like: `${params.status}%`,
             };
-            this.whereFilter.case_status = {
-                neq: 'completed',
-            };
+            this.whereFilter.or = [
+                {
+                    case_status: {
+                        neq: 'completed',
+                    },
+                },
+                {
+                    case_status: {
+                        eq: null,
+                    },
+                },
+            ];
         }
 
         this.getCaseList();
@@ -88,7 +113,7 @@ export class CaseListComponent implements OnInit {
 
     getCaseList() {
         let where: any = {
-            deleted: false
+            deleted: false,
         };
         this.admin = JSON.parse(localStorage.getItem('user'))?.role === 'admin';
         if (!this.admin) {
@@ -106,6 +131,18 @@ export class CaseListComponent implements OnInit {
         const filter = {
             include: [
                 {
+                    relation: 'history',
+                    scope: {
+                        include: [
+                            {
+                                relation: 'user'
+                            }
+                        ],
+                        order: 'id DESC',
+                        limit: 1
+                    },
+                },
+                {
                     relation: 'patient',
                     include: [{ relation: 'scan' }],
                 },
@@ -120,14 +157,25 @@ export class CaseListComponent implements OnInit {
             ],
             where,
         };
-        this.caseController
-            .find({ filter: JSON.stringify(filter) })
-            .subscribe((data) => {
+        this.caseController.find({ filter: JSON.stringify(filter) }).subscribe(
+            (data) => {
                 this.cases = data.map((item: any) => {
                     item.patient = item.patient.name;
                     item.user = item.user.username;
+                    item.history = item?.history?.map((r: any) => {
+                        r.by = r?.details?.toLowerCase().includes('update')
+                        ? 'Updated'
+                        : r?.details?.toLowerCase().includes('added')
+                        ? 'Added'
+                        : r?.details?.toLowerCase().includes('upload')
+                        ? 'Uploaded'
+                        : r?.details?.toLowerCase().includes('deleted')
+                        ? 'Deleted'
+                        : '';
+                        return r;
+                      });
                     return item;
-                });
+                }) || [];
                 this.loading = false;
                 this.dt1.filterGlobal(this.searchFilter, 'contains');
                 this.skipEntries = 0;
@@ -145,11 +193,13 @@ export class CaseListComponent implements OnInit {
                         }, 2000);
                     }
                 });
-            }, error => {
+            },
+            (error) => {
                 console.log('error: ', error);
-                
+
                 this.loader.hideLoader();
-            });
+            }
+        );
     }
 
     onGlobalFilter(table: Table, event: Event) {
@@ -223,7 +273,10 @@ export class CaseListComponent implements OnInit {
         if (_case.deleted == null || _case.deleted == '') {
             _case.deleted = false;
         }
-        _case.details = type == 'stage' ? 'Patient Stage has been updated to ' + selectedCase.case_type : 'Case Status has been updated to ' + selectedCase.case_status;
+        _case.details =
+            type == 'stage'
+                ? 'Patient Stage has been updated to ' + selectedCase.case_type
+                : 'Case Status has been updated to ' + selectedCase.case_status;
         _case.notify = true;
         this.caseController
             .updateCaseStageById({
@@ -248,15 +301,29 @@ export class CaseListComponent implements OnInit {
 
     onPageChange(event: any) {
         this.skipEntries = event.first;
+        const skipEntries = this.skipEntries;
+        localStorage.setItem(
+            'patientFilters',
+            JSON.stringify({
+                skipEntries,
+                searchFilter: this.searchFilter,
+                currentUrl: this.router.url,
+            })
+        );
     }
 
     ngOnDestroy(): void {
-        const skipEntries = this.router.url.includes('/case/view')
-            ? this.skipEntries
-            : 0;
+        // const skipEntries = this.router.url.includes('/case/view')
+        //     ? this.skipEntries
+        //     : 0;
+        const skipEntries = this.skipEntries;
         localStorage.setItem(
             'patientFilters',
-            JSON.stringify({ skipEntries, searchFilter: this.searchFilter })
+            JSON.stringify({
+                skipEntries,
+                searchFilter: this.searchFilter,
+                currentUrl: this.currentUrl,
+            })
         );
     }
 }

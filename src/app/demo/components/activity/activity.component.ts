@@ -68,7 +68,15 @@ export class ActivityComponent {
             });
     }
     getHistoriesCount() {
-        this.history.count({}).subscribe((res) => {
+        let where;
+        if (this.caseId) {
+            where = {
+                caseId: this.caseId
+            }
+        }
+        this.history.count({
+            where: JSON.stringify(where)
+        }).subscribe((res) => {
             if (res) {
                 this.total = res.count;
             }

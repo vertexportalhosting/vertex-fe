@@ -54,7 +54,8 @@
               <div class="col-6 px-0">
                 <div class="flex flex-column gap-2">
                   <label for="delivery_date">Delivery Date<span class="required-asterisk">*</span></label>
-                  <p-calendar name="delivery_date" [(ngModel)]="case.delivery_date" />
+                  <p-calendar name="delivery_date" required="true" [(ngModel)]="case.delivery_date" />
+                  <span class="text-red" *ngIf="submitted && !case.delivery_date">Delivery Date is required*</span>
                 </div>
               </div>
 <!-- 
@@ -73,7 +74,7 @@
                 <div class="flex flex-column gap-2">
                   <label for="urgent">Need your design WITHIN same day</label>
                   <div class="flex flex-column align-items-start">
-                    <p-inputSwitch name="urgent" [(ngModel)]="case.urgent" />
+                    <p-inputSwitch name="urgent" [(ngModel)]="case.urgent" (onChange)="onUrgentSwitch($event)"/>
                     <p>(Enabing this feature will result in a $200 rush fee)</p>
                   </div>
                 </div>

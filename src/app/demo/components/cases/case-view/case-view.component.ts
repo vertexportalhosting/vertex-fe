@@ -74,7 +74,7 @@ export class CaseViewComponent {
         private cdr: ChangeDetectorRef,
         private router: Router,
         private loader: StoreService,
-        private store : StoreService,
+        private store: StoreService
     ) {}
 
     ngOnInit() {
@@ -86,9 +86,9 @@ export class CaseViewComponent {
         this.isDarkTheme =
             JSON.parse(localStorage.getItem('theme_config'))?.colorScheme ==
             'dark';
-            if (this.caseId) {
-                this.store.setCaseId(this.caseId);
-              }
+        if (this.caseId) {
+            this.store.setCaseId(this.caseId);
+        }
     }
 
     ngAfterViewInit() {
@@ -119,6 +119,8 @@ export class CaseViewComponent {
             ],
         };
         this.scans = [];
+        this.adminScans = [];
+        this.doctorScans = [];
         this.patient = {};
         this.case = {};
         this.user = {};
@@ -129,7 +131,9 @@ export class CaseViewComponent {
                     this.uploadedFiles = [];
                     data.delivery_date = new Date(data.delivery_date);
                     this.scans = data.scan || [];
-                    this.scans = this.scans.filter((scan) => scan.stage == this.activeFolder);
+                    this.scans = this.scans.filter(
+                        (scan) => scan.stage == this.activeFolder
+                    );
                     this.patient = data.patient;
                     this.case = data;
                     this.user = data.user;

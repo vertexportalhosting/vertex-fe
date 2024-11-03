@@ -221,6 +221,13 @@ ul.menu-list {
   flex-direction: column;
 }
 
+.menu-text.stage {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .menu-text .title {
   font-size: 14px;
   font-weight: bold;

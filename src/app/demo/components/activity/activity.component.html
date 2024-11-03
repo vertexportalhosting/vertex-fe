@@ -6,10 +6,23 @@
         <div class="time">
           <h1>{{history?.details}}</h1>
         </div>
-        <p><a *ngIf="history?.case" [routerLink]="['/case/view', history?.caseId]"
-            [queryParams]="{stage: history?.scan?.stage}">View Case</a>
-          <span *ngIf="!history?.case">Deleted</span> <br /> <span>{{history?.action}} By: </span>
-          <strong>{{history?.user?.username | titlecase}}</strong><br> <span>{{history?.action}} At: </span>
+        <p><a *ngIf="!caseId" [routerLink]="['/case/view', history?.caseId]"
+            [queryParams]="{stage: history?.scan?.stage}">Open Details</a>
+
+
+          <ng-container *ngIf="!caseId">
+            <br>
+            <span>Patient: </span>
+            <strong>{{history?.patient?.name | titlecase}}</strong>
+            <br>
+          </ng-container>
+
+          <span *ngIf="!history?.case">Deleted</span>
+
+          <span>{{history?.action}} By: </span>
+          <strong>{{history?.user?.username | titlecase}}</strong>
+          <br>
+          <span>{{history?.action}} At: </span>
           <span>{{history?.actionDate | date: 'medium' }}</span>
         </p>
       </li>

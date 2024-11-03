@@ -5,67 +5,77 @@
 
     </div>
     <div class="p-grid flex p-m-4">
-        <div class="col-2">
+        <div class="col-3">
             <div class="sidebar">
                 <ul class="menu-list">
-                    <li class="menu-item" [ngClass]="{'active': activeFolder == -1}" (click)="onItemClick('-1');$event.preventDefault()">
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == -1}"
+                        (click)="onItemClick('-1');$event.preventDefault()">
                         <span class="icon pi pi-briefcase"></span>
                         <div class="menu-text">
                             <p class="title">OverView</p>
                         </div>
                     </li>
-                    <li class="menu-item" [ngClass]="{'active': activeFolder == 0}" (click)="onItemClick('0');$event.preventDefault()">
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == 0}"
+                        (click)="onItemClick('0');$event.preventDefault()">
                         <span class="icon pi pi-folder"></span>
-                        <div class="menu-text">
+                        <div class="menu-text stage">
                             <p class="title">Stage 0 - Pre-Surgery</p>
                             <p class="subtitle">
-                                <a *ngIf="!case.isStageOneComplete; else completedText" (click)="markAsCompleted('Stage 0 - Pre-Surgery'); $event.preventDefault()">Mark as
-                                    Complete</a>
+                                <i *ngIf="!case.isStageOneComplete; else completedText"
+                                    (click)="markAsCompleted('Stage 0 - Pre-Surgery'); $event.stopPropagation()"
+                                    class="text-2xl pi pi-circle"></i>
                             </p>
 
                         </div>
                     </li>
-                    <li class="menu-item" [ngClass]="{'active': activeFolder == 1}" (click)="onItemClick('1');$event.preventDefault()">
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == 1}"
+                        (click)="onItemClick('1');$event.preventDefault()">
                         <span class="icon pi pi-folder"></span>
-                        <div class="menu-text">
+                        <div class="menu-text stage">
                             <p class="title">Stage 1 - Surgery</p>
                             <p class="subtitle">
-                                <a *ngIf="!case.isStageTwoComplete; else completedText" (click)="markAsCompleted('Stage 1 - Surgery'); $event.preventDefault()">Mark as
-                                    Complete</a>
+                                <i *ngIf="!case.isStageTwoComplete; else completedText"
+                                    (click)="markAsCompleted('Stage 1 - Surgery'); $event.stopPropagation()"
+                                    class="text-2xl pi pi-circle"></i>
                             </p>
                         </div>
                     </li>
-                    <li class="menu-item" [ngClass]="{'active': activeFolder == 2}" (click)="onItemClick('2');$event.preventDefault()">
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == 2}"
+                        (click)="onItemClick('2');$event.preventDefault()">
                         <span class="icon pi pi-folder"></span>
-                        <div class="menu-text">
+                        <div class="menu-text stage">
                             <p class="title">Stage 2 - Prototype Try In </p>
                             <p class="subtitle">
-                                <a *ngIf="!case.isStageThreeComplete; else completedText" (click)="markAsCompleted('Stage 2 - Pre-Surgery'); $event.preventDefault()">Mark as
-                                    Complete</a>
+                                <i *ngIf="!case.isStageThreeComplete; else completedText"
+                                    (click)="markAsCompleted('Stage 2 - Pre-Surgery'); $event.stopPropagation()"
+                                    class="text-2xl pi pi-circle"></i>
                             </p>
                         </div>
                     </li>
-                    <li class="menu-item" [ngClass]="{'active': activeFolder == 3}" (click)="onItemClick('3');$event.preventDefault()">
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == 3}"
+                        (click)="onItemClick('3');$event.preventDefault()">
                         <span class="icon pi pi-folder"></span>
-                        <div class="menu-text">
+                        <div class="menu-text stage">
                             <p class="title">Stage 3 - Final </p>
                             <p class="subtitle">
-                                <a *ngIf="!case?.isStageFourComplete; else completedText" (click)="markAsCompleted('Stage 3 - Final'); $event.preventDefault()">Mark as
-                                    Complete</a>
+                                <i *ngIf="!case?.isStageFourComplete; else completedText"
+                                    (click)="markAsCompleted('Stage 3 - Final'); $event.stopPropagation()"
+                                    class="text-2xl pi pi-circle"></i>
                             </p>
                         </div>
                     </li>
-                    <li class="menu-item" [ngClass]="{'active': activeFolder == 'activity'}" (click)="onItemClick('activity');$event.preventDefault()">
-                        <span class="icon pi pi-briefcase"></span>
+                    <li class="menu-item" [ngClass]="{'active': activeFolder == 'activity'}"
+                        (click)="onItemClick('activity');$event.preventDefault()">
+                        <span class="icon pi pi-bolt"></span>
                         <div class="menu-text">
-                            <p class="title">Activity </p>
+                            <p class="title">Recent Activity </p>
                             <p class="subtitle">View Case Activity </p>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="col-10">
+        <div class="col-9">
             <div class="grid w-full">
                 <!-- <div class="col-12 h-full md:col-6">
                     <div class="p-col-12 h-full p-md-4 p-p-2 mb-5">
@@ -134,10 +144,15 @@
                 </div> -->
                 <div class="flex flex-column p-5 w-full" *ngIf="activeFolder == -1">
                     <p-card class="w-full ">
-                        <div class="flex flex-column p-5 w-full">
-                            <h1 class="text-5xl mb-0">{{patient?.name}}</h1>
-                            <h4 class="text-600 mt-2">{{case?.case_type}}</h4>
-                            <h5>{{case?.delivery_date | date}}</h5>
+                        <div class="flex flex-column px-5 w-full">
+                            <h5 class="text-600 mt-0"><strong>Patient Info</strong></h5>
+                            <h2 class="text-5xl my-0">{{patient?.name}}</h2>
+                            <h4 class="text-600 mt-2"> <strong>Current Stage: </strong> {{case?.case_type}}</h4>
+                            <h5 *ngIf="case?.created_at"><strong class="text-600 mb-0">Created At:
+                                </strong>{{case?.created_at | date}}</h5>
+                            <h5 *ngIf="case?.delivery_date?.length"><strong class="text-600 my-0">Delivery Date:
+                                </strong>{{case?.delivery_date | date}}</h5>
+                            <h5 *ngIf="case?.urgent" class="my-0 text-red-600"><strong>Urgent</strong></h5>
                         </div>
                     </p-card>
                 </div>
@@ -399,5 +414,5 @@
     <p-progressSpinner ariaLabel="loading" />
   </p-blockUI> -->
 <ng-template #completedText>
-    <span class="completed">Completed</span>
+    <i (click)="$event.stopPropagation()" class="text-2xl completed pi pi-check-circle"></i>
 </ng-template>

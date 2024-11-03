@@ -4,7 +4,7 @@
 			<h5>Cases</h5>
 			<p-table #dt1 [value]="cases" dataKey="id" [rows]="20" [loading]="loading" [rowHover]="true"
 				[paginator]="true" (onPage)="onPageChange($event)" [rowsPerPageOptions]="[5, 10, 20, 50]"
-				[first]="skipEntries" 
+				[first]="skipEntries"
 				[globalFilterFields]="['case_type','patient','user','notes', 'delivery_date', 'case_status', 'id']"
 				responsiveLayout="scroll" class="p-datatable-responsive mobile-responsive-table">
 				<ng-template pTemplate="caption">
@@ -12,11 +12,12 @@
 						<div class="flex gap-2">
 							<span class="p-input-icon-left mb-2">
 								<i class="pi pi-search"></i>
-								<input pInputText type="text" [(ngModel)]="searchFilter" #filter (input)="onGlobalFilter(dt1, $event)"
-									placeholder="Search Keyword" class="w-full" />
+								<input pInputText type="text" [(ngModel)]="searchFilter" #filter
+									(input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full" />
 							</span>
-							<button *ngIf="whereFilter.case_status || whereFilter.case_type || searchFilter.length" pButton
-								label="Clear filters" class="p-button-outlined mb-2" icon="pi pi-filter-clear" (click)="clearFilters()"></button>
+							<button *ngIf="whereFilter.case_status || whereFilter.case_type || searchFilter.length"
+								pButton label="Clear filters" class="p-button-outlined mb-2" icon="pi pi-filter-clear"
+								(click)="clearFilters()"></button>
 						</div>
 						<button pButton label="Add new Case" class="p-button-outlined mb-2" icon="pi pi-filter-add"
 							[routerLink]="['/case/add']" routerLinkActive="router-link-active"></button>
@@ -26,9 +27,10 @@
 					<tr>
 						<th style="min-width: 6rem">Case ID</th>
 						<th style="min-width: 6rem">Patient</th>
-						<th class="mobile-hide" style="min-width: 6rem">Doctor</th>
+						<th class="mobile-hide" style="min-width: 6rem">Office</th>
 						<th style="min-width: 6rem">Stage</th>
 						<th class="mobile-hide" style="min-width: 6rem">Case Status</th>
+						<th>Most Recent Activity</th>
 						<th class="mobile-hide" style="min-width: 6rem">Urgent/Delivery Date</th>
 						<th style="min-width: 6rem">Actions</th>
 					</tr>
@@ -36,8 +38,7 @@
 				<ng-template pTemplate="body" let-case>
 					<tr>
 						<td>{{case.id}}</td>
-						<td><a [routerLink]="['/case/view', case.id]"
-								>{{case.patient | titlecase}}</a></td>
+						<td><a [routerLink]="['/case/view', case.id]">{{case.patient | titlecase}}</a></td>
 						<td class="mobile-hide">{{case.user | titlecase }}</td>
 						<td>
 							<p-dropdown *ngIf="case.show" appendTo="body" [options]="caseTypes"
@@ -56,6 +57,15 @@
 							<div *ngIf="!admin">
 								<span class="text-green-500">{{ getCaseStatus(case.case_status) }}</span>
 							</div>
+						</td>
+						<td class="mobile-hide">
+								@if (case?.history) {
+									{{ case?.history[0]?.details }} <br> <span> {{ case?.history[0]?.by }} by: </span>
+									<strong>{{ case?.history[0]?.user?.username }}</strong>
+								} @else {
+									<td></td>
+								}
+								
 						</td>
 						<td class="mobile-hide">
 							<span [class]="case.urgent ? 'text-red-500' : 'text-green-500'">{{case.urgent ? 'Yes' :
