@@ -114,6 +114,7 @@ export class CaseManagementComponent {
                                     )?.id,
                                     patientId: patientId,
                                     caseId: caseId,
+                                    stage: 0
                                 });
                             }
                         });
