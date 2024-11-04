@@ -114,7 +114,7 @@ export class CaseManagementComponent {
                                     )?.id,
                                     patientId: patientId,
                                     caseId: caseId,
-                                    stage: 0
+                                    stage: Number(this.caseTypes.find((case_) => case_.name == this.case.case_type)?.code) ?? 0
                                 });
                             }
                         });
@@ -159,10 +159,10 @@ export class CaseManagementComponent {
 
     submit() {
         this.submitted =  true;
-        if (this.case.urgent) {
-            this.case.delivery_date = new Date().toISOString();
+        if (this.case?.urgent) {
+            this.case.delivery_date = new Date() as any;
         }
-        if (!(this.case.delivery_date && this.case.urgent)) {
+        if (!this.case.delivery_date) {
             this.activeIndex = 1;
             return;
         }
