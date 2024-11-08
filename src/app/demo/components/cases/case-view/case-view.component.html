@@ -21,9 +21,13 @@
                         <div class="menu-text stage">
                             <p class="title">Stage 0 - Pre-Surgery</p>
                             <p class="subtitle">
-                                <i *ngIf="!case.isStageOneComplete; else completedText"
+                                <i *ngIf="!case.isStageOneComplete"
                                     (click)="markAsCompleted('Stage 0 - Pre-Surgery'); $event.stopPropagation()"
                                     class="text-2xl pi pi-circle"></i>
+                                <i *ngIf="case.isStageOneComplete"
+                                    (click)="markAsUnComplete('Stage 0 - Pre-Surgery'); $event.stopPropagation()"
+                                    class="text-2xl completed pi pi-check-circle"></i>
+
                             </p>
 
                         </div>
@@ -34,9 +38,13 @@
                         <div class="menu-text stage">
                             <p class="title">Stage 1 - Surgery</p>
                             <p class="subtitle">
-                                <i *ngIf="!case.isStageTwoComplete; else completedText"
+                                <i *ngIf="!case.isStageTwoComplete"
                                     (click)="markAsCompleted('Stage 1 - Surgery'); $event.stopPropagation()"
                                     class="text-2xl pi pi-circle"></i>
+                                <i *ngIf="case.isStageTwoComplete"
+                                    (click)="markAsUnComplete('Stage 1 - Surgery'); $event.stopPropagation()"
+                                    class="text-2xl completed pi pi-check-circle"></i>
+
                             </p>
                         </div>
                     </li>
@@ -46,9 +54,13 @@
                         <div class="menu-text stage">
                             <p class="title">Stage 2 - Prototype Try In </p>
                             <p class="subtitle">
-                                <i *ngIf="!case.isStageThreeComplete; else completedText"
+                                <i *ngIf="!case.isStageThreeComplete"
                                     (click)="markAsCompleted('Stage 2 - Pre-Surgery'); $event.stopPropagation()"
                                     class="text-2xl pi pi-circle"></i>
+                                <i *ngIf="case.isStageThreeComplete"
+                                    (click)="markAsUnComplete('Stage 2 - Pre-Surgery'); $event.stopPropagation()"
+                                    class="text-2xl completed pi pi-check-circle"></i>
+
                             </p>
                         </div>
                     </li>
@@ -58,9 +70,13 @@
                         <div class="menu-text stage">
                             <p class="title">Stage 3 - Final </p>
                             <p class="subtitle">
-                                <i *ngIf="!case?.isStageFourComplete; else completedText"
+                                <i *ngIf="!case?.isStageFourComplete"
                                     (click)="markAsCompleted('Stage 3 - Final'); $event.stopPropagation()"
                                     class="text-2xl pi pi-circle"></i>
+                                <i *ngIf="case.isStageFourComplete"
+                                    (click)="markAsUnComplete('Stage 3 - Final'); $event.stopPropagation()"
+                                    class="text-2xl completed pi pi-check-circle"></i>
+
                             </p>
                         </div>
                     </li>
@@ -418,6 +434,5 @@
 <!-- <p-blockUI [blocked]="loading" [baseZIndex]="99999">
     <p-progressSpinner ariaLabel="loading" />
   </p-blockUI> -->
-<ng-template #completedText>
-    <i (click)="$event.stopPropagation()" class="text-2xl completed pi pi-check-circle"></i>
-</ng-template>
+<!-- <ng-template #completedText>
+</ng-template> -->

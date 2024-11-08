@@ -475,6 +475,31 @@ export class CaseViewComponent {
             });
     }
 
+    markAsUnComplete(stage: any) {
+        const _stage = `isStage${
+            stage.includes('0')
+                ? 'One'
+                : stage.includes('1')
+                ? 'Two'
+                : stage.includes('2')
+                ? 'Three'
+                : stage.includes('3')
+                ? 'Four'
+                : ''
+        }Complete`;
+        this.caseController
+            .updateCaseStageById({
+                id: this.caseId,
+                body: {
+                    [_stage]: false,
+                    details: `Patient's ${stage} has been marked uncompleted`,
+                } as any,
+            })
+            .subscribe(() => {
+                this.getCaseInfo(this.caseId);
+            });
+    }
+
     async onItemClick(selected) {
         if (selected === 'activity') {
             this.activeFolder = selected;

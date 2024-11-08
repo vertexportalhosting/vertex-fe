@@ -156,13 +156,13 @@ export class CaseListComponent implements OnInit {
                 },
             ],
             where,
-            order: ['id DESC']
+            order: ['updated_at DESC']
         };
         this.caseController.find({ filter: JSON.stringify(filter) }).subscribe(
             (data) => {
                 this.cases = data.map((item: any) => {
-                    item.patient = item.patient.name;
-                    item.user = item.user.username;
+                    item.patient = item?.patient?.name;
+                    item.user = item?.user?.username;
                     item.history = item?.history?.map((r: any) => {
                         r.by = r?.details?.toLowerCase().includes('update')
                         ? 'Updated'
@@ -268,6 +268,7 @@ export class CaseListComponent implements OnInit {
         delete _case.user;
         delete _case.patient;
         delete _case.show;
+        delete _case.history;
         if (_case.urgent == null || _case.urgent == '') {
             _case.urgent = false;
         }
