@@ -89,6 +89,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             });
     }
     getHistories() {
+        const { role, id } = JSON.parse(localStorage.getItem('user')) || {};
         const filter: any = {
             limit: 50,
             offset: 0,
@@ -105,6 +106,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 },
             ],
         };
+        if (role === 'Doctor') {
+            filter['where'] = {
+                ...filter['where'],
+                userId: id
+            }
+        }
         this.history
             .find({
                 filter: JSON.stringify(filter),

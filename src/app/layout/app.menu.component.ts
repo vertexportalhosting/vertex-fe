@@ -41,7 +41,7 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Recent Activity',
-                roles: ['admin'],
+                roles: ['admin', 'Doctor'],
                 items: [
                     { label: 'Activity', icon: 'pi pi-fw pi-bolt', routerLink: ['/activity'] }
                 ]

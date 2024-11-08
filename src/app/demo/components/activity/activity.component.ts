@@ -24,6 +24,7 @@ export class ActivityComponent {
     }
 
     getHistories() {
+        const { role, id } = JSON.parse(localStorage.getItem('user')) || {};
         const filter: any = {
             limit: this.limit,
             offset: this.offset,
@@ -45,6 +46,14 @@ export class ActivityComponent {
                 caseId: this.caseId
             }
         }
+
+        if (role === 'Doctor') {
+            filter['where'] = {
+                ...filter.where,
+                userId: id
+            }
+        }
+
         this.history
             .find({
                 filter: JSON.stringify(filter),
@@ -68,10 +77,17 @@ export class ActivityComponent {
             });
     }
     getHistoriesCount() {
+        const { role, id } = JSON.parse(localStorage.getItem('user')) || {};
         let where;
         if (this.caseId) {
             where = {
                 caseId: this.caseId
+            }
+        }
+        if (role === 'Doctor') {
+            where = {
+                ...where,
+                userId: id
             }
         }
         this.history.count({
