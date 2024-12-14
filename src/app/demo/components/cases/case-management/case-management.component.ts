@@ -159,6 +159,7 @@ export class CaseManagementComponent {
 
     submit() {
         this.submitted =  true;
+        const doctor = this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id;
         if (this.case?.urgent) {
             this.case.delivery_date = new Date() as any;
         }
@@ -180,9 +181,9 @@ export class CaseManagementComponent {
                     ...this.case,
                     case_status: 'new',
                     patientId: patient.id,
-                    userId: this.selectedDoctor
-                        ? this.selectedDoctor
-                        : JSON.parse(localStorage.getItem('user'))?.id,
+                    patient_name: patient.name,
+                    userId: doctor,
+                    doctor_name: this.doctorList.find((dr) => dr.value == doctor)?.name
                 } as any;
                 this.caseSevice
                     .create({ body: this.case })
