@@ -91,13 +91,6 @@ export class CaseViewComponent {
         }
 
         const { role } = JSON.parse(localStorage.getItem('user')) || {};
-        this.caseController.updateById({
-            id: this.caseId,
-            body: {
-                isViewedByDoctor: role != "admin",
-                isViewedByAdmin: role == "admin"
-            } as any
-        }).subscribe();
     }
 
     ngAfterViewInit() {
