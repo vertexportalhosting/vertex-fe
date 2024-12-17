@@ -322,16 +322,10 @@ export class CaseListComponent implements OnInit {
     }
 
     readCase(id) {
-        const { role } = JSON.parse(localStorage.getItem('user')) || {};
-        this.caseController.updateById({
+        this.caseController.updateCaseStatusById({
             id: id,
-            body: {
-                isViewedByDoctor: role != "admin",
-                isViewedByAdmin: role == "admin"
-            } as any
-        }).subscribe(() => {
-            this.getCaseList();
-        });
+            body: {}
+        }).subscribe(() =>  this.getCaseList())
     }
 
     ngOnDestroy(): void {

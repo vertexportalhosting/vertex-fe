@@ -90,7 +90,10 @@ export class CaseViewComponent {
             this.store.setCaseId(this.caseId);
         }
 
-        const { role } = JSON.parse(localStorage.getItem('user')) || {};
+        this.caseController.updateCaseStatusById({
+            id: this.caseId,
+            body: {}
+        }).subscribe()
     }
 
     ngAfterViewInit() {

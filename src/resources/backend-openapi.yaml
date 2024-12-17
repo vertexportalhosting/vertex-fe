@@ -55,9 +55,35 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CasePartial'
+              type: object
         x-parameter-index: 1
       operationId: CaseController.updateCaseStageById
+  /cases/status/{id}:
+    patch:
+      x-controller-name: CaseController
+      x-operation-name: updateCaseStatusById
+      tags:
+        - CaseController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Case Stage Update success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        x-parameter-index: 1
+      operationId: CaseController.updateCaseStatusById
   /cases/{id}:
     put:
       x-controller-name: CaseController
@@ -1468,6 +1494,24 @@ components:
           type: boolean
         isStageFourComplete:
           type: boolean
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_by:
+          type: string
+        created_by:
+          type: string
+        patient_name:
+          type: string
+        doctor_name:
+          type: string
+        isViewedByDoctor:
+          type: boolean
+        isViewedByAdmin:
+          type: boolean
         patientId:
           type: number
         userId:
@@ -1481,6 +1525,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ScanWithRelations'
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatientHistoryWithRelations'
       additionalProperties: false
       x-typescript-type: CaseWithRelations
     PatientHistoryWithRelations:
@@ -1766,6 +1814,24 @@ components:
           type: boolean
         isStageFourComplete:
           type: boolean
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_by:
+          type: string
+        created_by:
+          type: string
+        patient_name:
+          type: string
+        doctor_name:
+          type: string
+        isViewedByDoctor:
+          type: boolean
+        isViewedByAdmin:
+          type: boolean
         patientId:
           type: number
         userId:
@@ -1799,6 +1865,24 @@ components:
         isStageThreeComplete:
           type: boolean
         isStageFourComplete:
+          type: boolean
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_by:
+          type: string
+        created_by:
+          type: string
+        patient_name:
+          type: string
+        doctor_name:
+          type: string
+        isViewedByDoctor:
+          type: boolean
+        isViewedByAdmin:
           type: boolean
         patientId:
           type: number
@@ -1834,6 +1918,24 @@ components:
         isStageThreeComplete:
           type: boolean
         isStageFourComplete:
+          type: boolean
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_by:
+          type: string
+        created_by:
+          type: string
+        patient_name:
+          type: string
+        doctor_name:
+          type: string
+        isViewedByDoctor:
+          type: boolean
+        isViewedByAdmin:
           type: boolean
         patientId:
           type: number
@@ -1897,6 +1999,7 @@ components:
             - patient
             - user
             - scan
+            - history
         scope:
           $ref: '#/components/schemas/Case.ScopeFilter'
     Case.Filter:
@@ -1947,6 +2050,22 @@ components:
                   type: boolean
                 isStageFourComplete:
                   type: boolean
+                updated_at:
+                  type: boolean
+                created_at:
+                  type: boolean
+                updated_by:
+                  type: boolean
+                created_by:
+                  type: boolean
+                patient_name:
+                  type: boolean
+                doctor_name:
+                  type: boolean
+                isViewedByDoctor:
+                  type: boolean
+                isViewedByAdmin:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -1968,6 +2087,14 @@ components:
                   - isStageTwoComplete
                   - isStageThreeComplete
                   - isStageFourComplete
+                  - updated_at
+                  - created_at
+                  - updated_by
+                  - created_by
+                  - patient_name
+                  - doctor_name
+                  - isViewedByDoctor
+                  - isViewedByAdmin
                   - patientId
                   - userId
                 example: id
@@ -2034,6 +2161,22 @@ components:
                   type: boolean
                 isStageFourComplete:
                   type: boolean
+                updated_at:
+                  type: boolean
+                created_at:
+                  type: boolean
+                updated_by:
+                  type: boolean
+                created_by:
+                  type: boolean
+                patient_name:
+                  type: boolean
+                doctor_name:
+                  type: boolean
+                isViewedByDoctor:
+                  type: boolean
+                isViewedByAdmin:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -2055,6 +2198,14 @@ components:
                   - isStageTwoComplete
                   - isStageThreeComplete
                   - isStageFourComplete
+                  - updated_at
+                  - created_at
+                  - updated_by
+                  - created_by
+                  - patient_name
+                  - doctor_name
+                  - isViewedByDoctor
+                  - isViewedByAdmin
                   - patientId
                   - userId
                 example: id

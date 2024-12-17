@@ -7,14 +7,14 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface UpdateCaseStageById$Params {
+export interface UpdateCaseStatusById$Params {
   id: number;
       body?: {
 }
 }
 
-export function updateCaseStageById(http: HttpClient, rootUrl: string, params: UpdateCaseStageById$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
-  const rb = new RequestBuilder(rootUrl, updateCaseStageById.PATH, 'patch');
+export function updateCaseStatusById(http: HttpClient, rootUrl: string, params: UpdateCaseStatusById$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  const rb = new RequestBuilder(rootUrl, updateCaseStatusById.PATH, 'patch');
   if (params) {
     rb.path('id', params.id, {});
     rb.body(params.body, 'application/json');
@@ -30,4 +30,4 @@ export function updateCaseStageById(http: HttpClient, rootUrl: string, params: U
   );
 }
 
-updateCaseStageById.PATH = '/cases/stage/{id}';
+updateCaseStatusById.PATH = '/cases/status/{id}';
