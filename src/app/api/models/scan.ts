@@ -5,6 +5,7 @@ export interface Scan {
   filename?: string;
   id?: number;
   patientId?: number;
+  stage?: number;
   uploadDate: string;
   url: string;
   userId?: string;

@@ -11,9 +11,10 @@ import { AuthGuard } from './guards/auth.guard';
                 path: '', component: AppLayoutComponent,
                 canActivate: [AuthGuard],
                 children: [
-                    { path: '', canActivate: [AuthGuard],loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
+                    { path: 'dashboard' ,loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
                     { path: 'case', loadChildren: () => import('./demo/components/cases/cases.module').then(m => m.CasesModule) },
                     { path: 'doctor', loadChildren: () => import('./demo/components/user-management/user.module').then(m => m.UserModule) },
+                    { path: 'activity', loadChildren: () => import('./demo/components/activity/activity.module').then(m => m.ActivityModule) },
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },

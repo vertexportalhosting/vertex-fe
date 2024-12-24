@@ -32,6 +32,58 @@ paths:
                 additionalProperties: true
                 x-typescript-type: '@loopback/repository#Where<Case>'
       operationId: CaseController.count
+  /cases/stage/{id}:
+    patch:
+      x-controller-name: CaseController
+      x-operation-name: updateCaseStageById
+      tags:
+        - CaseController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Case Stage Update success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        x-parameter-index: 1
+      operationId: CaseController.updateCaseStageById
+  /cases/status/{id}:
+    patch:
+      x-controller-name: CaseController
+      x-operation-name: updateCaseStatusById
+      tags:
+        - CaseController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Case Stage Update success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        x-parameter-index: 1
+      operationId: CaseController.updateCaseStatusById
   /cases/{id}:
     put:
       x-controller-name: CaseController
@@ -801,6 +853,16 @@ paths:
             schema:
               $ref: '#/components/schemas/NewUser'
       operationId: UserController.signUp
+  /test-email:
+    get:
+      x-controller-name: UserController
+      x-operation-name: testEmail
+      tags:
+        - UserController
+      responses:
+        '204':
+          description: Email test
+      operationId: UserController.testEmail
   /todos/count:
     get:
       x-controller-name: TodoController
@@ -1145,7 +1207,7 @@ paths:
                 type: string
       operationId: UserController.whoAmI
 servers:
-  - url: https://vertex-be.onrender.com
+  - url: http://localhost:3000
 components:
   schemas:
     User:
@@ -1364,6 +1426,8 @@ components:
         uploadDate:
           type: string
           format: date-time
+        stage:
+          type: number
         patientId:
           type: number
         userId:
@@ -1388,6 +1452,8 @@ components:
         uploadDate:
           type: string
           format: date-time
+        stage:
+          type: number
         patientId:
           type: number
         userId:
@@ -1420,6 +1486,32 @@ components:
           type: string
         deleted:
           type: boolean
+        isStageOneComplete:
+          type: boolean
+        isStageTwoComplete:
+          type: boolean
+        isStageThreeComplete:
+          type: boolean
+        isStageFourComplete:
+          type: boolean
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_by:
+          type: string
+        created_by:
+          type: string
+        patient_name:
+          type: string
+        doctor_name:
+          type: string
+        isViewedByDoctor:
+          type: boolean
+        isViewedByAdmin:
+          type: boolean
         patientId:
           type: number
         userId:
@@ -1433,6 +1525,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ScanWithRelations'
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/PatientHistoryWithRelations'
       additionalProperties: false
       x-typescript-type: CaseWithRelations
     PatientHistoryWithRelations:
@@ -1517,6 +1613,8 @@ components:
         uploadDate:
           type: string
           format: date-time
+        stage:
+          type: number
         patientId:
           type: number
         userId:
@@ -1549,6 +1647,8 @@ components:
         uploadDate:
           type: string
           format: date-time
+        stage:
+          type: number
         patientId:
           type: number
         userId:
@@ -1706,6 +1806,32 @@ components:
           type: string
         deleted:
           type: boolean
+        isStageOneComplete:
+          type: boolean
+        isStageTwoComplete:
+          type: boolean
+        isStageThreeComplete:
+          type: boolean
+        isStageFourComplete:
+          type: boolean
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_by:
+          type: string
+        created_by:
+          type: string
+        patient_name:
+          type: string
+        doctor_name:
+          type: string
+        isViewedByDoctor:
+          type: boolean
+        isViewedByAdmin:
+          type: boolean
         patientId:
           type: number
         userId:
@@ -1731,6 +1857,32 @@ components:
         payment_status:
           type: string
         deleted:
+          type: boolean
+        isStageOneComplete:
+          type: boolean
+        isStageTwoComplete:
+          type: boolean
+        isStageThreeComplete:
+          type: boolean
+        isStageFourComplete:
+          type: boolean
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_by:
+          type: string
+        created_by:
+          type: string
+        patient_name:
+          type: string
+        doctor_name:
+          type: string
+        isViewedByDoctor:
+          type: boolean
+        isViewedByAdmin:
           type: boolean
         patientId:
           type: number
@@ -1758,6 +1910,32 @@ components:
         payment_status:
           type: string
         deleted:
+          type: boolean
+        isStageOneComplete:
+          type: boolean
+        isStageTwoComplete:
+          type: boolean
+        isStageThreeComplete:
+          type: boolean
+        isStageFourComplete:
+          type: boolean
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_by:
+          type: string
+        created_by:
+          type: string
+        patient_name:
+          type: string
+        doctor_name:
+          type: string
+        isViewedByDoctor:
+          type: boolean
+        isViewedByAdmin:
           type: boolean
         patientId:
           type: number
@@ -1821,6 +1999,7 @@ components:
             - patient
             - user
             - scan
+            - history
         scope:
           $ref: '#/components/schemas/Case.ScopeFilter'
     Case.Filter:
@@ -1863,6 +2042,30 @@ components:
                   type: boolean
                 deleted:
                   type: boolean
+                isStageOneComplete:
+                  type: boolean
+                isStageTwoComplete:
+                  type: boolean
+                isStageThreeComplete:
+                  type: boolean
+                isStageFourComplete:
+                  type: boolean
+                updated_at:
+                  type: boolean
+                created_at:
+                  type: boolean
+                updated_by:
+                  type: boolean
+                created_by:
+                  type: boolean
+                patient_name:
+                  type: boolean
+                doctor_name:
+                  type: boolean
+                isViewedByDoctor:
+                  type: boolean
+                isViewedByAdmin:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -1880,6 +2083,18 @@ components:
                   - case_status
                   - payment_status
                   - deleted
+                  - isStageOneComplete
+                  - isStageTwoComplete
+                  - isStageThreeComplete
+                  - isStageFourComplete
+                  - updated_at
+                  - created_at
+                  - updated_by
+                  - created_by
+                  - patient_name
+                  - doctor_name
+                  - isViewedByDoctor
+                  - isViewedByAdmin
                   - patientId
                   - userId
                 example: id
@@ -1938,6 +2153,30 @@ components:
                   type: boolean
                 deleted:
                   type: boolean
+                isStageOneComplete:
+                  type: boolean
+                isStageTwoComplete:
+                  type: boolean
+                isStageThreeComplete:
+                  type: boolean
+                isStageFourComplete:
+                  type: boolean
+                updated_at:
+                  type: boolean
+                created_at:
+                  type: boolean
+                updated_by:
+                  type: boolean
+                created_by:
+                  type: boolean
+                patient_name:
+                  type: boolean
+                doctor_name:
+                  type: boolean
+                isViewedByDoctor:
+                  type: boolean
+                isViewedByAdmin:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -1955,6 +2194,18 @@ components:
                   - case_status
                   - payment_status
                   - deleted
+                  - isStageOneComplete
+                  - isStageTwoComplete
+                  - isStageThreeComplete
+                  - isStageFourComplete
+                  - updated_at
+                  - created_at
+                  - updated_by
+                  - created_by
+                  - patient_name
+                  - doctor_name
+                  - isViewedByDoctor
+                  - isViewedByAdmin
                   - patientId
                   - userId
                 example: id
@@ -2404,6 +2655,8 @@ components:
                   type: boolean
                 uploadDate:
                   type: boolean
+                stage:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -2419,6 +2672,7 @@ components:
                   - url
                   - filename
                   - uploadDate
+                  - stage
                   - patientId
                   - userId
                   - caseId
@@ -2470,6 +2724,8 @@ components:
                   type: boolean
                 uploadDate:
                   type: boolean
+                stage:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -2485,6 +2741,7 @@ components:
                   - url
                   - filename
                   - uploadDate
+                  - stage
                   - patientId
                   - userId
                   - caseId

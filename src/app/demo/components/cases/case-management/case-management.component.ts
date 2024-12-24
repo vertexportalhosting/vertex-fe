@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { InputSwitchChangeEvent } from 'primeng/inputswitch';
 import { Case, Patient, Scan } from 'src/app/api/models';
 import {
     CaseControllerService,
@@ -9,7 +11,7 @@ import {
     UserControllerService,
 } from 'src/app/api/services';
 import { StoreService } from 'src/app/demo/service/store.service';
-declare var Dropzone
+declare var Dropzone;
 @Component({
     selector: 'app-case-management',
     templateUrl: './case-management.component.html',
@@ -36,11 +38,12 @@ export class CaseManagementComponent {
     selectedCaseType = null;
 
     uploadedFiles: any = [];
-    loading= false;
+    loading = false;
     admin = false;
     selectedDoctor = null;
     doctorList = [];
     isDarkTheme = false;
+    submitted = false;
 
     constructor(
         private patientService: PatientControllerControllerService,
@@ -50,17 +53,22 @@ export class CaseManagementComponent {
         private http: HttpClient,
         private router: Router,
         private loader: StoreService,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private messageService: MessageService
     ) {}
 
     ngOnInit(): void {
         this.admin = JSON.parse(localStorage.getItem('user'))?.role === 'admin';
         this.userService.findAllUsers().subscribe({
             next: (res) => {
-              this.doctorList = res.filter(doc => doc.role !== 'admin').map((doc) => ({name: doc.username, value: doc.id}));
+                this.doctorList = res
+                    .filter((doc) => doc.role !== 'admin')
+                    .map((doc) => ({ name: doc.username, value: doc.id }));
             },
         });
-        this.isDarkTheme = JSON.parse(localStorage.getItem('theme_config'))?.colorScheme == 'dark';
+        this.isDarkTheme =
+            JSON.parse(localStorage.getItem('theme_config'))?.colorScheme ==
+            'dark';
     }
 
     isCaseTypeValid(): boolean {
@@ -106,6 +114,7 @@ export class CaseManagementComponent {
                                     )?.id,
                                     patientId: patientId,
                                     caseId: caseId,
+                                    stage: Number(this.caseTypes.find((case_) => case_.name == this.case.case_type)?.code) ?? 0
                                 });
                             }
                         });
@@ -131,7 +140,9 @@ export class CaseManagementComponent {
 
     next() {
         if (this.uploadedFiles.length) {
-            this.uploadedFiles = this.uploadedFiles.filter(file => file.size <= 1181116006);
+            this.uploadedFiles = this.uploadedFiles.filter(
+                (file) => file.size <= 1181116006
+            );
         }
         if (this.activeIndex < 2) {
             this.activeIndex++;
@@ -147,6 +158,16 @@ export class CaseManagementComponent {
     }
 
     submit() {
+        this.submitted =  true;
+        const doctor = this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id;
+        if (this.case?.urgent) {
+            this.case.delivery_date = new Date() as any;
+        }
+        if (!this.case.delivery_date) {
+            this.activeIndex = 1;
+            return;
+        }
+
         this.loading = true;
         this.patient = {
             ...this.patient,
@@ -158,38 +179,53 @@ export class CaseManagementComponent {
             .subscribe((patient) => {
                 this.case = {
                     ...this.case,
+                    case_status: 'new',
                     patientId: patient.id,
-                    userId: this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id,
+                    patient_name: patient.name,
+                    userId: doctor,
+                    doctor_name: this.doctorList.find((dr) => dr.value == doctor)?.name
                 } as any;
                 this.caseSevice
                     .create({ body: this.case })
                     .subscribe((acase) => {
-                        this.uploadScans(patient.id, acase.id).then((res) => {
-                            this.scans.forEach((scan) => {
-                                this.scanService.create({body: scan}).subscribe();
-                            });
-                            this.loading = false;
-                            this.router.navigate(['/case/list']);
-                        }, err => {
-                            this.loading = false;
-                        });
+                        this.uploadScans(patient.id, acase.id).then(
+                            (res) => {
+                                this.scans.forEach((scan) => {
+                                    this.scanService
+                                        .create({ body: scan })
+                                        .subscribe();
+                                });
+                                this.loading = false;
+                                this.router.navigate(['/case/list']);
+                            },
+                            (err) => {
+                                this.loading = false;
+                            }
+                        );
                     });
             });
     }
 
     initDropzone() {
         const _this = this;
-        let myDropzone = new Dropzone("#demo-upload", {
+        let myDropzone = new Dropzone('#demo-upload', {
             maxFilesize: 1024, // MB
             addRemoveLinks: true,
             autoProcessQueue: false,
             dictDefaultMessage: 'Drop Files here or click to upload',
             init: function () {
-                this.on("addedfile", function (file) {
+                this.on('addedfile', function (file) {
                     _this.uploadedFiles.push(file);
                     _this.cdr.detectChanges();
-                    });
-            }
+                });
+            },
         });
+    }
+
+    onUrgentSwitch(event: InputSwitchChangeEvent) {
+        console.log('event: ', event);
+        if (event.checked) {
+            this.case.delivery_date = new Date().toISOString();
+        }
     }
 }

@@ -33,6 +33,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CaseViewComponent } from './case-view/case-view.component';
 import { DialogModule } from 'primeng/dialog';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { ActivityComponent } from '../activity/activity.component';
+import { ActivityModule } from '../activity/activity.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -72,7 +74,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
             { path: 'add', component: CaseManagementComponent },
             { path: 'edit/:id', component: CaseManagementComponent },
             { path: 'view/:id', component: CaseViewComponent },
-        ] as Routes)
+        ] as Routes),
+        ActivityModule
     ],
     declarations: [
         CaseManagementComponent,

@@ -173,3 +173,76 @@
 .remove-btn:hover {
   background-color: #d43b3b;
 }
+
+.text-ellipsis {
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  display: block; 
+  width: 100%; 
+}
+
+.sidebar {
+  border-radius: 8px;
+}
+
+ul.menu-list {
+  padding: 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, padding 0.3s ease;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: #e0f7fab5;
+}
+
+.menu-item.active {
+  background-color: #e0f7fab5;
+}
+
+.icon {
+  font-size: 18px;
+  color: #007ad9;
+  margin-right: 12px;
+  align-self: flex-start; 
+  margin-top: 2px; 
+}
+
+.menu-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-text.stage {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-text .title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1px;
+  @extend .text-ellipsis;
+}
+
+.menu-text .subtitle {
+  font-size: 12px;
+  color: #777;
+  margin-top: 2px; 
+}
+
+.completed {
+  color: green;
+  font-weight: bold;
+}

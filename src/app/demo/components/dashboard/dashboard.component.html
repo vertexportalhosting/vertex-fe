@@ -6,7 +6,7 @@
     <div class="col-12 sm:col-4">
         <div class="card main_card button mb-0" routerLink="/case/add">
             <div class="flex  justify-content-center align-items-center">
-                    <h1 class="block font-medium text-xxl my-4">Submit New Case</h1>
+                <h1 class="block font-medium text-xxl my-4">Submit New Case</h1>
             </div>
         </div>
     </div>
@@ -40,7 +40,8 @@
         <div class="card main_card mb-0" routerLink="/case/listing" [queryParams]="{status: 'Stage 0'}">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <h1 class="block font-medium text-xl mb-3">Pre Surgery <small style="font-size: 15px;color: #6d6d6d;">(Stage 0)</small></h1>
+                    <h1 class="block font-medium text-xl mb-3">Pre Surgery <small
+                            style="font-size: 15px;color: #6d6d6d;">(Stage 0)</small></h1>
                     <h2 class="text-900 font-medium text-xl">{{stage0}}</h2>
                 </div>
             </div>
@@ -50,7 +51,8 @@
         <div class="card main_card mb-0" routerLink="/case/listing" [queryParams]="{status: 'Stage 1'}">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <h1 class="block font-medium text-xl mb-3">Surgery <small style="font-size: 15px;color: #6d6d6d;">(Stage 1)</small></h1>
+                    <h1 class="block font-medium text-xl mb-3">Surgery <small
+                            style="font-size: 15px;color: #6d6d6d;">(Stage 1)</small></h1>
                     <h2 class="text-900 font-medium text-xl">{{stage1}}</h2>
                 </div>
             </div>
@@ -60,7 +62,8 @@
         <div class="card main_card mb-0" routerLink="/case/listing" [queryParams]="{status: 'Stage 2'}">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <h1 class="block font-medium text-xl mb-3"> Prototype Try-In <small style="font-size: 15px;color: #6d6d6d;">(Stage 2)</small></h1>
+                    <h1 class="block font-medium text-xl mb-3"> Prototype Try-In <small
+                            style="font-size: 15px;color: #6d6d6d;">(Stage 2)</small></h1>
                     <h2 class="text-900 font-medium text-xl">{{stage2}}</h2>
                 </div>
             </div>
@@ -70,9 +73,28 @@
         <div class="card main_card mb-0" routerLink="/case/listing" [queryParams]="{status: 'Stage 3'}">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <h1 class="block font-medium text-xl mb-3"> Final <small style="font-size: 15px;color: #6d6d6d;">(Stage 3)</small></h1>
+                    <h1 class="block font-medium text-xl mb-3"> Final <small
+                            style="font-size: 15px;color: #6d6d6d;">(Stage 3)</small></h1>
                     <h2 class="text-900 font-medium text-xl">{{stage3}}</h2>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <h3>Most Recent Activity</h3>
+        <div class="card scroller-container">
+            <div class="item-container" *ngFor="let item of events">
+                <div class="text-container">
+                    
+                    <span>{{ item?.details }}</span>
+                    <span> For {{item?.patient?.name}} </span>
+                    <span *ngIf="!item?.case">Deleted</span>
+                    <span> By: <strong>{{item?.user?.username | titlecase}}</strong></span>
+                    <span> At: {{item?.actionDate | date: 'medium' }}</span>
+                </div>
+                <button class="open-details-button" [routerLink]="['/case/view/', item.caseId]">
+                    Open Details
+                </button>
             </div>
         </div>
     </div>

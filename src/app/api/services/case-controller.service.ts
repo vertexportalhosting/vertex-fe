@@ -28,6 +28,10 @@ import { updateAll } from '../fn/case-controller/update-all';
 import { UpdateAll$Params } from '../fn/case-controller/update-all';
 import { updateById } from '../fn/case-controller/update-by-id';
 import { UpdateById$Params } from '../fn/case-controller/update-by-id';
+import { updateCaseStageById } from '../fn/case-controller/update-case-stage-by-id';
+import { UpdateCaseStageById$Params } from '../fn/case-controller/update-case-stage-by-id';
+import { updateCaseStatusById } from '../fn/case-controller/update-case-status-by-id';
+import { UpdateCaseStatusById$Params } from '../fn/case-controller/update-case-status-by-id';
 
 @Injectable({ providedIn: 'root' })
 export class CaseControllerService extends BaseService {
@@ -57,6 +61,56 @@ export class CaseControllerService extends BaseService {
   count(params?: Count$Params, context?: HttpContext): Observable<LoopbackCount> {
     return this.count$Response(params, context).pipe(
       map((r: StrictHttpResponse<LoopbackCount>): LoopbackCount => r.body)
+    );
+  }
+
+  /** Path part for operation `caseControllerUpdateCaseStageById()` */
+  static readonly CaseControllerUpdateCaseStageByIdPath = '/cases/stage/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateCaseStageById()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateCaseStageById$Response(params: UpdateCaseStageById$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+    return updateCaseStageById(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `updateCaseStageById$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateCaseStageById(params: UpdateCaseStageById$Params, context?: HttpContext): Observable<any> {
+    return this.updateCaseStageById$Response(params, context).pipe(
+      map((r: StrictHttpResponse<any>): any => r.body)
+    );
+  }
+
+  /** Path part for operation `caseControllerUpdateCaseStatusById()` */
+  static readonly CaseControllerUpdateCaseStatusByIdPath = '/cases/status/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateCaseStatusById()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateCaseStatusById$Response(params: UpdateCaseStatusById$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+    return updateCaseStatusById(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `updateCaseStatusById$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateCaseStatusById(params: UpdateCaseStatusById$Params, context?: HttpContext): Observable<any> {
+    return this.updateCaseStatusById$Response(params, context).pipe(
+      map((r: StrictHttpResponse<any>): any => r.body)
     );
   }
 
