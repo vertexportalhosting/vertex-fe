@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { PatientHistory } from 'src/app/api/models';
-import { PatientHistoryControllerService } from 'src/app/api/services';
+import { CaseControllerService, PatientHistoryControllerService } from 'src/app/api/services';
 
 @Component({
     selector: 'app-activity',
@@ -16,14 +16,14 @@ export class ActivityComponent {
     currentIndex: number = 0;
 
     @Input() caseId;
-    constructor(private history: PatientHistoryControllerService, private cdr: ChangeDetectorRef) {}
+    constructor(private history: PatientHistoryControllerService, private cases: CaseControllerService, private cdr: ChangeDetectorRef) {}
 
     ngOnInit(): void {
         this.getHistories();
         this.getHistoriesCount();
     }
 
-    getHistories() {
+    async getHistories() {
         const { role, id } = JSON.parse(localStorage.getItem('user')) || {};
         const filter: any = {
             limit: this.limit,
@@ -47,12 +47,21 @@ export class ActivityComponent {
             }
         }
 
-        // if (role === 'Doctor') {
-        //     filter['where'] = {
-        //         ...filter.where,
-        //         userId: id
-        //     }
-        // }
+        if (role === 'Doctor') {
+            const cases: any = await this.cases.find({
+                filter: JSON.stringify({
+                    where: {
+                        userId: id
+                    }
+                })
+            }).toPromise();
+            filter['where'] = {
+                ...filter.where,
+                caseId: {
+                    inq: cases.map(cases => cases.id)
+                }
+            }
+        }
 
         this.history
             .find({
