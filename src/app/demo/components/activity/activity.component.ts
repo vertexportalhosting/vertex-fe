@@ -47,12 +47,12 @@ export class ActivityComponent {
             }
         }
 
-        if (role === 'Doctor') {
-            filter['where'] = {
-                ...filter.where,
-                userId: id
-            }
-        }
+        // if (role === 'Doctor') {
+        //     filter['where'] = {
+        //         ...filter.where,
+        //         userId: id
+        //     }
+        // }
 
         this.history
             .find({
