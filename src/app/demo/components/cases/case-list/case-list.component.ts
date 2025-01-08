@@ -169,7 +169,7 @@ export class CaseListComponent implements OnInit {
                 },
             ],
             where,
-            order: ['updated_at DESC']
+            order: this.admin ? ['updated_at DESC'] : ['updated_at2 DESC']
         };
         this.caseController.find({ filter: JSON.stringify(filter) }).subscribe(
             (data) => {
