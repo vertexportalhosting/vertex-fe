@@ -89,6 +89,11 @@ export class CaseListComponent implements OnInit {
 
     getUpdatedList(params) {
         if (!params?.status) {
+            if (params?.delivery_date) {
+                this.whereFilter.delivery_date = {
+                    between: JSON.parse(params?.delivery_date)
+                }
+            }
             this.getCaseList();
             return;
         }
@@ -135,6 +140,12 @@ export class CaseListComponent implements OnInit {
             };
         }
         if (this.whereFilter?.case_status || this.whereFilter?.case_type) {
+            where = {
+                ...where,
+                ...this.whereFilter,
+            };
+        }
+        if (this.whereFilter?.delivery_date) {
             where = {
                 ...where,
                 ...this.whereFilter,
