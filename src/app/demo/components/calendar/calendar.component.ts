@@ -147,8 +147,6 @@ export class CalendarComponent {
   }
 
   handleEvent(action: string, event: any): void {
-    console.log('action: ', action);
-    console.log('event: ', event);
     if (action == 'Clicked') {
       this.router.navigate(['/case/view', event.caseId])
     }
