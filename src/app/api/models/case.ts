@@ -7,6 +7,10 @@ export interface Case {
   created_by?: string;
   deleted?: boolean;
   delivery_date?: string;
+  delivery_date_stage_0?: string;
+  delivery_date_stage_1?: string;
+  delivery_date_stage_2?: string;
+  delivery_date_stage_3?: string;
   doctor_name?: string;
   id?: number;
   isStageFourComplete?: boolean;
@@ -20,6 +24,7 @@ export interface Case {
   patient_name?: string;
   payment_status?: string;
   updated_at?: string;
+  updated_at2?: string;
   updated_by?: string;
   urgent?: boolean;
   userId?: string;

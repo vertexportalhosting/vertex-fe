@@ -135,6 +135,10 @@ export class CaseViewComponent {
                 (data: any) => {
                     this.uploadedFiles = [];
                     data.delivery_date = new Date(data.delivery_date);
+                    data.delivery_date_stage_0 = data.delivery_date_stage_0 ? new Date(data.delivery_date_stage_0) : '';
+                    data.delivery_date_stage_1 = data.delivery_date_stage_1 ? new Date(data.delivery_date_stage_1) : '';
+                    data.delivery_date_stage_2 = data.delivery_date_stage_2 ? new Date(data.delivery_date_stage_2) : '';
+                    data.delivery_date_stage_3 = data.delivery_date_stage_3 ? new Date(data.delivery_date_stage_3) : '';
                     this.scans = data.scan || [];
                     this.scans = this.scans.filter(
                         (scan) => scan.stage == this.activeFolder
@@ -537,5 +541,25 @@ export class CaseViewComponent {
         } else {
             this.activeFolder = selected;
         }
+    }
+
+    updateDeliveryDate(date, stage) {
+        const delivery_dates = {
+            delivery_date_stage_0: this.case.delivery_date_stage_0,
+            delivery_date_stage_1: this.case.delivery_date_stage_1,
+            delivery_date_stage_2: this.case.delivery_date_stage_2,
+            delivery_date_stage_3: this.case.delivery_date_stage_3,
+            delivery_date: this.case[`delivery_date_stage_${stage}`]
+        };
+        let body = {};
+        Object.keys(delivery_dates).forEach(a => {
+            if (!(delivery_dates[a] == null || delivery_dates[a] == '')) {
+                body[a] = delivery_dates[a];
+            }
+        });
+        this.caseController.updateById({
+            id: this.caseId,
+            body: body
+        }).subscribe();
     }
 }

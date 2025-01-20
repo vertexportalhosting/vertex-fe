@@ -5,7 +5,7 @@
 
     </div>
     <div class="p-grid flex p-m-4">
-        <div class="col-3">
+        <div class="col-4">
             <div class="sidebar">
                 <ul class="menu-list">
                     <li class="menu-item" [ngClass]="{'active': activeFolder == -1}"
@@ -20,6 +20,7 @@
                         <span class="icon pi pi-folder"></span>
                         <div class="menu-text stage">
                             <p class="title">Stage 0 - Pre-Surgery</p>
+                            <p-calendar  class="mx-2" (onSelect)="updateDeliveryDate($event,0)" (click)="$event.stopPropagation()" [(ngModel)]="case.delivery_date_stage_0" />
                             <p class="subtitle">
                                 <i *ngIf="!case.isStageOneComplete"
                                     (click)="markAsCompleted('Stage 0 - Pre-Surgery'); $event.stopPropagation()"
@@ -27,7 +28,6 @@
                                 <i *ngIf="case.isStageOneComplete"
                                     (click)="markAsUnComplete('Stage 0 - Pre-Surgery'); $event.stopPropagation()"
                                     class="text-2xl completed pi pi-check-circle"></i>
-
                             </p>
 
                         </div>
@@ -37,6 +37,7 @@
                         <span class="icon pi pi-folder"></span>
                         <div class="menu-text stage">
                             <p class="title">Stage 1 - Surgery</p>
+                            <p-calendar  class="mx-2" (onSelect)="updateDeliveryDate($event,1)"  (click)="$event.stopPropagation()" [(ngModel)]="case.delivery_date_stage_1" />
                             <p class="subtitle">
                                 <i *ngIf="!case.isStageTwoComplete"
                                     (click)="markAsCompleted('Stage 1 - Surgery'); $event.stopPropagation()"
@@ -53,6 +54,7 @@
                         <span class="icon pi pi-folder"></span>
                         <div class="menu-text stage">
                             <p class="title">Stage 2 - Prototype Try In </p>
+                            <p-calendar  class="mx-2" (onSelect)="updateDeliveryDate($event,2)"  (click)="$event.stopPropagation()" [(ngModel)]="case.delivery_date_stage_2" />
                             <p class="subtitle">
                                 <i *ngIf="!case.isStageThreeComplete"
                                     (click)="markAsCompleted('Stage 2 - Pre-Surgery'); $event.stopPropagation()"
@@ -69,6 +71,7 @@
                         <span class="icon pi pi-folder"></span>
                         <div class="menu-text stage">
                             <p class="title">Stage 3 - Final </p>
+                            <p-calendar  class="mx-2" (onSelect)="updateDeliveryDate($event,3)" (click)="$event.stopPropagation()" [(ngModel)]="case.delivery_date_stage_3" />
                             <p class="subtitle">
                                 <i *ngIf="!case?.isStageFourComplete"
                                     (click)="markAsCompleted('Stage 3 - Final'); $event.stopPropagation()"
@@ -91,7 +94,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-9">
+        <div class="col-8">
             <div class="grid w-full">
                 <!-- <div class="col-12 h-full md:col-6">
                     <div class="p-col-12 h-full p-md-4 p-p-2 mb-5">

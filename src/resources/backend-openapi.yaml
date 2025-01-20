@@ -1207,7 +1207,7 @@ paths:
                 type: string
       operationId: UserController.whoAmI
 servers:
-  - url: https://vertex-be.onrender.com
+  - url: http://localhost:3000
 components:
   schemas:
     User:
@@ -1512,6 +1512,21 @@ components:
           type: boolean
         isViewedByAdmin:
           type: boolean
+        updated_at2:
+          type: string
+          format: date-time
+        delivery_date_stage_0:
+          type: string
+          format: date-time
+        delivery_date_stage_1:
+          type: string
+          format: date-time
+        delivery_date_stage_2:
+          type: string
+          format: date-time
+        delivery_date_stage_3:
+          type: string
+          format: date-time
         patientId:
           type: number
         userId:
@@ -1832,6 +1847,21 @@ components:
           type: boolean
         isViewedByAdmin:
           type: boolean
+        updated_at2:
+          type: string
+          format: date-time
+        delivery_date_stage_0:
+          type: string
+          format: date-time
+        delivery_date_stage_1:
+          type: string
+          format: date-time
+        delivery_date_stage_2:
+          type: string
+          format: date-time
+        delivery_date_stage_3:
+          type: string
+          format: date-time
         patientId:
           type: number
         userId:
@@ -1884,6 +1914,21 @@ components:
           type: boolean
         isViewedByAdmin:
           type: boolean
+        updated_at2:
+          type: string
+          format: date-time
+        delivery_date_stage_0:
+          type: string
+          format: date-time
+        delivery_date_stage_1:
+          type: string
+          format: date-time
+        delivery_date_stage_2:
+          type: string
+          format: date-time
+        delivery_date_stage_3:
+          type: string
+          format: date-time
         patientId:
           type: number
         userId:
@@ -1937,6 +1982,21 @@ components:
           type: boolean
         isViewedByAdmin:
           type: boolean
+        updated_at2:
+          type: string
+          format: date-time
+        delivery_date_stage_0:
+          type: string
+          format: date-time
+        delivery_date_stage_1:
+          type: string
+          format: date-time
+        delivery_date_stage_2:
+          type: string
+          format: date-time
+        delivery_date_stage_3:
+          type: string
+          format: date-time
         patientId:
           type: number
         userId:
@@ -2066,6 +2126,16 @@ components:
                   type: boolean
                 isViewedByAdmin:
                   type: boolean
+                updated_at2:
+                  type: boolean
+                delivery_date_stage_0:
+                  type: boolean
+                delivery_date_stage_1:
+                  type: boolean
+                delivery_date_stage_2:
+                  type: boolean
+                delivery_date_stage_3:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -2095,6 +2165,11 @@ components:
                   - doctor_name
                   - isViewedByDoctor
                   - isViewedByAdmin
+                  - updated_at2
+                  - delivery_date_stage_0
+                  - delivery_date_stage_1
+                  - delivery_date_stage_2
+                  - delivery_date_stage_3
                   - patientId
                   - userId
                 example: id
@@ -2177,6 +2252,16 @@ components:
                   type: boolean
                 isViewedByAdmin:
                   type: boolean
+                updated_at2:
+                  type: boolean
+                delivery_date_stage_0:
+                  type: boolean
+                delivery_date_stage_1:
+                  type: boolean
+                delivery_date_stage_2:
+                  type: boolean
+                delivery_date_stage_3:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -2206,6 +2291,11 @@ components:
                   - doctor_name
                   - isViewedByDoctor
                   - isViewedByAdmin
+                  - updated_at2
+                  - delivery_date_stage_0
+                  - delivery_date_stage_1
+                  - delivery_date_stage_2
+                  - delivery_date_stage_3
                   - patientId
                   - userId
                 example: id
