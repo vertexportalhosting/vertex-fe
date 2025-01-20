@@ -1207,7 +1207,7 @@ paths:
                 type: string
       operationId: UserController.whoAmI
 servers:
-  - url: http://localhost:3000
+  - url: https://vertex-be.onrender.com
 components:
   schemas:
     User:
