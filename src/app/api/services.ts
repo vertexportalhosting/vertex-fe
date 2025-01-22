@@ -1,4 +1,5 @@
 export { CaseControllerService } from './services/case-controller.service';
+export { MessagesControllerService } from './services/messages-controller.service';
 export { PatientHistoryControllerService } from './services/patient-history-controller.service';
 export { PatientControllerControllerService } from './services/patient-controller-controller.service';
 export { ScanControllerService } from './services/scan-controller.service';

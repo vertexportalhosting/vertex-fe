@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Observable, scan } from 'rxjs';
+import { Observable, scan, Subject, takeUntil } from 'rxjs';
 import {
     Case,
     CaseWithRelations,
@@ -19,6 +19,7 @@ import {
 } from 'src/app/api/models';
 import {
     CaseControllerService,
+    MessagesControllerService,
     ScanControllerService,
 } from 'src/app/api/services';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
@@ -60,7 +61,11 @@ export class CaseViewComponent {
     loading = true;
     isBack = false;
     isCompleted = false;
-    activeFolder: any = -1;
+    activeFolder: any = 'overview';
+    message: string = '';
+    messageList: any = [];
+    activeUser: any;
+    $ngDestroy = new Subject<void>();
 
     constructor(
         private route: ActivatedRoute,
@@ -69,6 +74,7 @@ export class CaseViewComponent {
         private scanController: ScanControllerService,
         private http: HttpClient,
         private messageService: MessageService,
+        private messageController: MessagesControllerService,
         private confirmationService: ConfirmationService,
         public location: Location,
         private cdr: ChangeDetectorRef,
@@ -90,10 +96,16 @@ export class CaseViewComponent {
             this.store.setCaseId(this.caseId);
         }
 
+        this.activeUser = JSON.parse(
+            localStorage.getItem(
+                'user'
+            )
+        )?.id,
+
         this.caseController.updateCaseStatusById({
             id: this.caseId,
             body: {}
-        }).subscribe()
+        }).pipe(takeUntil(this.$ngDestroy)).subscribe();
     }
 
     ngAfterViewInit() {
@@ -109,6 +121,16 @@ export class CaseViewComponent {
                 },
                 {
                     relation: 'user',
+                },
+                {
+                    relation: 'messages',
+                    scope: {
+                        include: [
+                            {
+                                relation: 'user',
+                            },
+                        ],
+                    },
                 },
                 {
                     relation: 'scan',
@@ -131,7 +153,7 @@ export class CaseViewComponent {
         this.user = {};
         this.caseController
             .findById({ id: case_id, filter: JSON.stringify(filter) })
-            .subscribe(
+            .pipe(takeUntil(this.$ngDestroy)).subscribe(
                 (data: any) => {
                     this.uploadedFiles = [];
                     data.delivery_date = new Date(data.delivery_date);
@@ -143,6 +165,7 @@ export class CaseViewComponent {
                     this.scans = this.scans.filter(
                         (scan) => scan.stage == this.activeFolder
                     );
+                    this.messageList = data?.messages?.filter((res) => res.stage == this.activeFolder);
                     this.patient = data.patient;
                     this.case = data;
                     this.user = data.user;
@@ -156,6 +179,7 @@ export class CaseViewComponent {
                     this.cdr.detectChanges();
                 },
                 (error) => {
+                    console.log('error: ', error);
                     this.messageService.add({
                         severity: 'error',
                         summary: 'Patient Not found',
@@ -192,7 +216,7 @@ export class CaseViewComponent {
                 body: updated_case,
             });
 
-            request.subscribe({
+            request.pipe(takeUntil(this.$ngDestroy)).subscribe({
                 next: () => {
                     this.caseDialog = false;
                 },
@@ -214,7 +238,7 @@ export class CaseViewComponent {
                 body: this.patient,
             });
 
-            request.subscribe({
+            request.pipe(takeUntil(this.$ngDestroy)).subscribe({
                 next: () => {
                     this.caseDialog = false;
                 },
@@ -276,7 +300,7 @@ export class CaseViewComponent {
     downloadScan(scan) {
         // Open the scan download URL in a new window
         // window.open(url, '_blank');
-        this.http.get(scan.url, { responseType: 'blob' }).subscribe(
+        this.http.get(scan.url, { responseType: 'blob' }).pipe(takeUntil(this.$ngDestroy)).subscribe(
             (blob) => {
                 const link = document.createElement('a');
                 const url = window.URL.createObjectURL(blob);
@@ -299,7 +323,7 @@ export class CaseViewComponent {
             icon: 'pi pi-exclamation-triangle',
             key: 'scan',
             accept: () => {
-                this.scanController.deleteById({ id: _scan.id }).subscribe({
+                this.scanController.deleteById({ id: _scan.id }).pipe(takeUntil(this.$ngDestroy)).subscribe({
                     next: () => {
                         this.getCaseInfo(this.case.id);
                     },
@@ -336,18 +360,18 @@ export class CaseViewComponent {
     }
 
     _deleteCase(_case: CaseWithRelations) {
-        this.caseController.deleteById({ id: _case.id }).subscribe({
+        this.caseController.deleteById({ id: _case.id }).pipe(takeUntil(this.$ngDestroy)).subscribe({
             next: (res) => {
                 this.patientController
                     .deleteById({
                         id: _case.patient.id,
                     })
-                    .subscribe(() => {
+                    .pipe(takeUntil(this.$ngDestroy)).subscribe(() => {
                         if (this.case?.scan?.length) {
                             this.case.scan.forEach((scan) => {
                                 this.scanController
                                     .deleteById({ id: scan.id })
-                                    .subscribe();
+                                    .pipe(takeUntil(this.$ngDestroy)).subscribe();
                             });
                         }
                         this.location.back();
@@ -457,6 +481,8 @@ export class CaseViewComponent {
             data.searchFilter = '';
             localStorage.setItem('patientFilters', JSON.stringify(data));
         }
+        this.$ngDestroy.next();
+        this.$ngDestroy.complete();
     }
 
     markAsCompleted(stage: any) {
@@ -479,7 +505,7 @@ export class CaseViewComponent {
                     details: `Patient's ${stage} has been marked as Completed`,
                 } as any,
             })
-            .subscribe(() => {
+            .pipe(takeUntil(this.$ngDestroy)).subscribe(() => {
                 this.getCaseInfo(this.caseId);
             });
     }
@@ -504,43 +530,42 @@ export class CaseViewComponent {
                     details: `Patient's ${stage} has been marked uncompleted`,
                 } as any,
             })
-            .subscribe(() => {
+            .pipe(takeUntil(this.$ngDestroy)).subscribe(() => {
                 this.getCaseInfo(this.caseId);
             });
     }
 
     async onItemClick(selected) {
-        if (selected === 'activity') {
+        if (selected === 'activity' || selected == 'overview') {
             this.activeFolder = selected;
+            this.getMessageList();
             this.cdr.detectChanges();
             return;
         }
-        if (selected != -1) {
-            this.activeFolder = +selected;
-            this.adminScans = [];
-            this.doctorScans = [];
-            this.cdr.detectChanges();
-            this.scans = await this.scanController
-                .find({
-                    filter: JSON.stringify({
-                        where: {
-                            caseId: this.caseId,
-                            stage: this.activeFolder,
-                        },
-                        include: [{ relation: 'user' }],
-                    }),
-                })
-                .toPromise();
-            this.adminScans = this.scans.filter(
-                (scan) => scan.user.role == 'admin'
-            );
-            this.doctorScans = this.admin
-                ? this.scans.filter((scan) => scan.user.role != 'admin')
-                : this.scans;
-            this.cdr.detectChanges();
-        } else {
-            this.activeFolder = selected;
-        }
+        this.activeFolder = +selected;
+        this.adminScans = [];
+        this.doctorScans = [];
+        this.cdr.detectChanges();
+        this.scans = await this.scanController
+            .find({
+                filter: JSON.stringify({
+                    where: {
+                        caseId: this.caseId,
+                        stage: this.activeFolder,
+                    },
+                    include: [{ relation: 'user' }],
+                }),
+            })
+            .toPromise();
+        this.adminScans = this.scans.filter(
+            (scan) => scan.user.role == 'admin'
+        );
+        this.doctorScans = this.admin
+            ? this.scans.filter((scan) => scan.user.role != 'admin')
+            : this.scans;
+
+        this.getMessageList();
+        this.cdr.detectChanges();
     }
 
     updateDeliveryDate(date, stage) {
@@ -560,6 +585,41 @@ export class CaseViewComponent {
         this.caseController.updateById({
             id: this.caseId,
             body: body
-        }).subscribe();
+        }).pipe(takeUntil(this.$ngDestroy)).subscribe();
+    }
+
+    getMessageList() {
+        this.messageList = [];
+        this.messageController.find({
+            filter: JSON.stringify({
+                where: {
+                    caseId: this.caseId,
+                    stage: String(this.activeFolder)
+                },
+                include: [
+                    {
+                        relation: 'user'
+                    }
+                ]
+            })
+        }).pipe(takeUntil(this.$ngDestroy)).subscribe(res => {
+            this.messageList = [...res];
+            this.cdr.detectChanges();
+        });
+    }
+
+    sendMessage() {
+        const body = {
+            userId: this.activeUser,
+            caseId: this.case.id,
+            message: this.message,
+            stage: String(this.activeFolder)
+        };
+        this.messageController.create({
+            body
+        }).pipe(takeUntil(this.$ngDestroy)).subscribe(() => {
+            this.message = '';
+            this.getMessageList();
+        })
     }
 }

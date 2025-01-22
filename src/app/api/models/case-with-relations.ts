@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+import { MessagesWithRelations } from '../models/messages-with-relations';
 import { PatientHistoryWithRelations } from '../models/patient-history-with-relations';
 import { PatientWithRelations } from '../models/patient-with-relations';
 import { ScanWithRelations } from '../models/scan-with-relations';
@@ -29,6 +30,7 @@ export interface CaseWithRelations {
   isStageTwoComplete?: boolean;
   isViewedByAdmin?: boolean;
   isViewedByDoctor?: boolean;
+  messages?: Array<MessagesWithRelations>;
   notes?: string;
   patient?: PatientWithRelations;
   patientId?: number;

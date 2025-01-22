@@ -248,6 +248,194 @@ paths:
               schema:
                 $ref: '#/components/schemas/Case.Filter1'
       operationId: CaseController.find
+  /messages/count:
+    get:
+      x-controller-name: MessagesController
+      x-operation-name: count
+      tags:
+        - MessagesController
+      responses:
+        '200':
+          description: Messages model count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Messages.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<Messages>'
+      operationId: MessagesController.count
+  /messages/{id}:
+    put:
+      x-controller-name: MessagesController
+      x-operation-name: replaceById
+      tags:
+        - MessagesController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Messages PUT success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Messages'
+        x-parameter-index: 1
+      operationId: MessagesController.replaceById
+    patch:
+      x-controller-name: MessagesController
+      x-operation-name: updateById
+      tags:
+        - MessagesController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Messages PATCH success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessagesPartial'
+        x-parameter-index: 1
+      operationId: MessagesController.updateById
+    get:
+      x-controller-name: MessagesController
+      x-operation-name: findById
+      tags:
+        - MessagesController
+      responses:
+        '200':
+          description: Messages model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagesWithRelations'
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Messages.Filter'
+      operationId: MessagesController.findById
+    delete:
+      x-controller-name: MessagesController
+      x-operation-name: deleteById
+      tags:
+        - MessagesController
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                description: Messages DELETE success
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: number
+          required: true
+      operationId: MessagesController.deleteById
+  /messages:
+    post:
+      x-controller-name: MessagesController
+      x-operation-name: create
+      tags:
+        - MessagesController
+      responses:
+        '200':
+          description: Messages model instance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Messages'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMessages'
+      operationId: MessagesController.create
+    patch:
+      x-controller-name: MessagesController
+      x-operation-name: updateAll
+      tags:
+        - MessagesController
+      responses:
+        '200':
+          description: Messages PATCH success count
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loopback.Count'
+      parameters:
+        - name: where
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Messages.WhereFilter
+                additionalProperties: true
+                x-typescript-type: '@loopback/repository#Where<Messages>'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessagesPartial'
+      operationId: MessagesController.updateAll
+    get:
+      x-controller-name: MessagesController
+      x-operation-name: find
+      tags:
+        - MessagesController
+      responses:
+        '200':
+          description: Array of Messages model instances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessagesWithRelations'
+      parameters:
+        - name: filter
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Messages.Filter1'
+      operationId: MessagesController.find
   /patient-histories/count:
     get:
       x-controller-name: PatientHistoryController
@@ -1465,6 +1653,33 @@ components:
         - uploadDate
       additionalProperties: false
       x-typescript-type: Omit<Scan, 'id'>
+    MessagesWithRelations:
+      title: MessagesWithRelations
+      type: object
+      description: >-
+        (tsType: MessagesWithRelations, schemaOptions: { includeRelations: true
+        })
+      properties:
+        id:
+          type: number
+        message:
+          type: string
+        stage:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        userId:
+          type: string
+        caseId:
+          type: number
+        user:
+          $ref: '#/components/schemas/UserWithRelations'
+        foreignKey: {}
+        case:
+          $ref: '#/components/schemas/CaseWithRelations'
+      additionalProperties: false
+      x-typescript-type: MessagesWithRelations
     CaseWithRelations:
       title: CaseWithRelations
       type: object
@@ -1544,6 +1759,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PatientHistoryWithRelations'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessagesWithRelations'
       additionalProperties: false
       x-typescript-type: CaseWithRelations
     PatientHistoryWithRelations:
@@ -1801,6 +2020,64 @@ components:
           type: number
       additionalProperties: false
       x-typescript-type: Partial<PatientHistory>
+    Messages:
+      title: Messages
+      type: object
+      properties:
+        id:
+          type: number
+        message:
+          type: string
+        stage:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        userId:
+          type: string
+        caseId:
+          type: number
+      additionalProperties: false
+    NewMessages:
+      title: NewMessages
+      type: object
+      description: >-
+        (tsType: Omit<Messages, 'id'>, schemaOptions: { title: 'NewMessages',
+        exclude: [ 'id' ] })
+      properties:
+        message:
+          type: string
+        stage:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        userId:
+          type: string
+        caseId:
+          type: number
+      additionalProperties: false
+      x-typescript-type: Omit<Messages, 'id'>
+    MessagesPartial:
+      title: MessagesPartial
+      type: object
+      description: '(tsType: Partial<Messages>, schemaOptions: { partial: true })'
+      properties:
+        id:
+          type: number
+        message:
+          type: string
+        stage:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        userId:
+          type: string
+        caseId:
+          type: number
+      additionalProperties: false
+      x-typescript-type: Partial<Messages>
     Case:
       title: Case
       type: object
@@ -2060,6 +2337,7 @@ components:
             - user
             - scan
             - history
+            - messages
         scope:
           $ref: '#/components/schemas/Case.ScopeFilter'
     Case.Filter:
@@ -2310,6 +2588,178 @@ components:
               - type: string
       additionalProperties: false
       x-typescript-type: '@loopback/repository#Filter<Case>'
+    Messages.ScopeFilter:
+      type: object
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties: {}
+              additionalProperties: true
+            - type: array
+              items:
+                type: string
+              uniqueItems: true
+        include:
+          type: array
+          items:
+            type: object
+            properties: {}
+            additionalProperties: true
+      additionalProperties: false
+      title: Messages.ScopeFilter
+    Messages.IncludeFilter.Items:
+      title: Messages.IncludeFilter.Items
+      type: object
+      properties:
+        relation:
+          type: string
+          enum:
+            - user
+            - case
+        scope:
+          $ref: '#/components/schemas/Messages.ScopeFilter'
+    Messages.Filter:
+      type: object
+      title: Messages.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                message:
+                  type: boolean
+                stage:
+                  type: boolean
+                created_at:
+                  type: boolean
+                userId:
+                  type: boolean
+                caseId:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - message
+                  - stage
+                  - created_at
+                  - userId
+                  - caseId
+                example: id
+              uniqueItems: true
+          title: Messages.Fields
+        include:
+          title: Messages.IncludeFilter
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Messages.IncludeFilter.Items'
+              - type: string
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<Messages>'
+    Messages.Filter1:
+      type: object
+      title: Messages.Filter
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        skip:
+          type: integer
+          minimum: 0
+        order:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        where:
+          title: Messages.WhereFilter
+          type: object
+          additionalProperties: true
+        fields:
+          oneOf:
+            - type: object
+              properties:
+                id:
+                  type: boolean
+                message:
+                  type: boolean
+                stage:
+                  type: boolean
+                created_at:
+                  type: boolean
+                userId:
+                  type: boolean
+                caseId:
+                  type: boolean
+              additionalProperties: false
+            - type: array
+              items:
+                type: string
+                enum:
+                  - id
+                  - message
+                  - stage
+                  - created_at
+                  - userId
+                  - caseId
+                example: id
+              uniqueItems: true
+          title: Messages.Fields
+        include:
+          title: Messages.IncludeFilter
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Messages.IncludeFilter.Items'
+              - type: string
+      additionalProperties: false
+      x-typescript-type: '@loopback/repository#Filter<Messages>'
     PatientHistory.ScopeFilter:
       type: object
       properties:

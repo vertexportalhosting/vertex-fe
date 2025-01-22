@@ -16,11 +16,12 @@ import { AuthGuard } from './guards/auth.guard';
                     { path: 'doctor', loadChildren: () => import('./demo/components/user-management/user.module').then(m => m.UserModule) },
                     { path: 'activity', loadChildren: () => import('./demo/components/activity/activity.module').then(m => m.ActivityModule) },
                     { path: 'calendar', loadChildren: () => import('./demo/components/calendar/calendar.module').then(m => m.CalendarsModule) },
+                    { path: '**', redirectTo: '/dashboard' },
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },
             { path: 'notfound', component: NotfoundComponent },
-            { path: '**', redirectTo: '/notfound' },
+            { path: '**', redirectTo: '/dashboard' },
         ], { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled', onSameUrlNavigation: 'reload' })
     ],
     exports: [RouterModule]
