@@ -94,12 +94,12 @@
                 </ul>
                 <p-card>
                     <div class="flex flex-column">
-                        <div class="chat-wrapper">
+                        <div class="chat-wrapper" #chatWrapper>
                             <div class="flex w-full">
                                 <ul class="chat-container">
-                                    <li *ngFor="let message of messageList" [class]="message.userId==activeUser ? 'chat-wrapper sent' : 'chat-wrapper' ">
+                                    <li *ngFor="let message of messageList" [class]="message.userId==activeUser ? 'chat-wrapper sent' : 'chat-wrapper' " data-user-id={{message?.user?.id}}>
                                        <span> {{message?.message}} </span>
-                                       <span id="username" *ngIf="message.userId!=activeUser">{{message?.user?.username | titlecase }}</span>
+                                       <span id="username" > <ng-container *ngIf="message.userId!=activeUser">{{message?.user?.username | titlecase }} - </ng-container>  {{message?.created_at | date: 'short' }} </span>
                                     </li>
                                 </ul>
                               </div>  

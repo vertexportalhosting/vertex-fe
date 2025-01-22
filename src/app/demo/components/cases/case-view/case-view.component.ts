@@ -36,6 +36,7 @@ declare var Dropzone;
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaseViewComponent {
+    @ViewChild('chatWrapper') chatWrapper: any;
     patient: Patient | any = {};
     case: CaseWithRelations = {};
     user: User | any = {};
@@ -605,7 +606,13 @@ export class CaseViewComponent {
         }).pipe(takeUntil(this.$ngDestroy)).subscribe(res => {
             this.messageList = [...res];
             this.cdr.detectChanges();
+            this.scrollToBottom();
         });
+    }
+
+    private scrollToBottom() {
+        const chatContainerElement = this.chatWrapper.nativeElement;
+        chatContainerElement.scrollTop = chatContainerElement.scrollHeight;
     }
 
     sendMessage() {
