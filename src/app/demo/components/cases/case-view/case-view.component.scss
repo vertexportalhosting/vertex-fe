@@ -179,7 +179,7 @@
   overflow: hidden; 
   text-overflow: ellipsis; 
   display: block; 
-  width: 100%; 
+  width: 150px; 
 }
 
 .sidebar {
@@ -433,4 +433,12 @@ background-color: #cecece;
       padding-top: 0 !important;
     }
   }
+  .calendar {
+    max-width: 300px;
+    width: 100%;
+    .p-calendar {
+      width: 100%;
+    }
+  }
+  
 }
