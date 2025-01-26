@@ -46,10 +46,10 @@ export class CalendarComponent {
   public visible = false;
   public listEvents = [];
   caseTypes: any[] = [
-    { name: 'Stage 0 - Pre-Surgery', code: '1' },
-    { name: 'Stage 1 - Surgery', code: '2' },
-    { name: 'Stage 2 - Prototype/ Try In', code: '3' },
-    { name: 'Stage 3 - Final', code: '4' },
+    { name: 'Stage 0 - Pre-Surgery', code: '0' },
+    { name: 'Stage 1 - Surgery', code: '1' },
+    { name: 'Stage 2 - Prototype/ Try In', code: '2' },
+    { name: 'Stage 3 - Final', code: '3' },
 ];
 
   public actions: CalendarEventAction[] = [
@@ -136,7 +136,7 @@ export class CalendarComponent {
           start: new Date(a.delivery_date),
           title: a.patient_name,
           caseId: a.id,
-          latest: this.caseTypes.find(c => c.code == a?.scan[0]?.stage)?.name,
+          latest: a?.scan && a.scan.length > 0 ? this.caseTypes.find(c => c.code == a?.scan[0]?.stage)?.name : null,
           color: a.urgent ? {...colors['red']} : null,
           urgent: a.urgent,
         }
