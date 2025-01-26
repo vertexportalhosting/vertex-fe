@@ -33,3 +33,21 @@
     </div>
   </ng-template>
 </div>
+<div class="flex justify-content-end mt-4">
+  <p-button (click)="generatePDF()">Download PDF for the month</p-button>
+</div>
+
+<p-dialog header="All Cases for {{listEvents[0]?.start | date: 'shortDate'}}" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }">
+  <div class="p-fluid">
+      <div *ngFor="let ev of listEvents" class="flex justify-content-between align-items-center my-3 p-3 bg-secondary shadow-3">
+        <span class="text-900">{{ev?.title}}</span>
+        <div class="flex justify-content-between align-items-center w-6">
+          <span class="text-900">{{ev.latest}}</span>
+          <span class="text-primary cursor-pointer" [routerLink]="['/case/view/', ev.caseId]">View Details</span>
+        </div>
+      </div>
+      <div class="flex justify-content-end">
+        <p-button (click)="viewAllForTheDay(listEvents[0]?.start)">View All</p-button>
+      </div>
+   </div>
+</p-dialog>

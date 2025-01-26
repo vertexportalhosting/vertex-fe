@@ -66,6 +66,7 @@ export class CaseViewComponent {
     message: string = '';
     messageList: any = [];
     activeUser: any;
+    visible = false;
     $ngDestroy = new Subject<void>();
 
     constructor(
@@ -482,6 +483,7 @@ export class CaseViewComponent {
             data.searchFilter = '';
             localStorage.setItem('patientFilters', JSON.stringify(data));
         }
+        this.visible = false;
         this.$ngDestroy.next();
         this.$ngDestroy.complete();
     }

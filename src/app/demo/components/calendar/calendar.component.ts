@@ -4,6 +4,11 @@ import { Router } from '@angular/router';
 import { CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, MOMENT } from 'angular-calendar';
 import { Subject } from 'rxjs';
 import { CaseControllerService } from 'src/app/api/services';
+import autoTable from 'jspdf-autotable';
+import { jsPDF } from 'jspdf';
+import { DatePipe } from '@angular/common';
+
+
 
 const colors: Record<string, any> = {
   red: {
@@ -23,7 +28,8 @@ const colors: Record<string, any> = {
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.scss'
+  styleUrl: './calendar.component.scss',
+  providers: [DatePipe]
 })
 export class CalendarComponent {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
@@ -37,6 +43,14 @@ export class CalendarComponent {
   public scheduledCampaigns: any;
   public marketingCampaigns: any;
   public fetchPolicy: string = 'no-cache';
+  public visible = false;
+  public listEvents = [];
+  caseTypes: any[] = [
+    { name: 'Stage 0 - Pre-Surgery', code: '1' },
+    { name: 'Stage 1 - Surgery', code: '2' },
+    { name: 'Stage 2 - Prototype/ Try In', code: '3' },
+    { name: 'Stage 3 - Final', code: '4' },
+];
 
   public actions: CalendarEventAction[] = [
       {
@@ -67,7 +81,7 @@ export class CalendarComponent {
   public activeDayIsOpen: boolean = true;
   public scheduledEvents: any[] = []
 
-  constructor(private caseService: CaseControllerService, private router: Router) { }
+  constructor(private caseService: CaseControllerService, private router: Router,private datePipe: DatePipe) { }
 
   ngOnInit(): void {
       this.getEvent();
@@ -75,14 +89,9 @@ export class CalendarComponent {
 
   dayClicked({ date, events }: { date: Date; events: any[] }): void {
     if (events.length) {
-      this.router.navigate(['/case/list'], {
-        queryParams: {
-          delivery_date: JSON.stringify([
-            new Date(new Date(date).setHours(0,0,0,0)),
-            new Date(new Date(date).setHours(23,59,59,59))
-          ])
-        }
-      });
+      this.visible = false;
+      this.listEvents = events;
+      this.visible = true;
     }
   }
 
@@ -110,7 +119,16 @@ export class CalendarComponent {
             ]
           },
           deleted: false,
-        }
+        },
+        include: [
+          {
+            relation: 'scan',
+            scope: {
+              order: 'id DESC',
+              limit: 1
+            }
+          }
+        ]
       })
      }).subscribe(b => {
       this.events = b.map(a => {
@@ -118,10 +136,23 @@ export class CalendarComponent {
           start: new Date(a.delivery_date),
           title: a.patient_name,
           caseId: a.id,
-          color: a.urgent ? {...colors['red']} : null
+          latest: this.caseTypes.find(c => c.code == a?.scan[0]?.stage)?.name,
+          color: a.urgent ? {...colors['red']} : null,
+          urgent: a.urgent,
         }
        });
      });
+  }
+
+  viewAllForTheDay(date: string) {
+    this.router.navigate(['/case/list'], {
+      queryParams: {
+        delivery_date: JSON.stringify([
+          new Date(new Date(date).setHours(0,0,0,0)),
+          new Date(new Date(date).setHours(23,59,59,59))
+        ])
+      }
+    });
   }
 
   /**
@@ -199,5 +230,15 @@ export class CalendarComponent {
   closeOpenMonthViewDay(event: any) {
       this.activeDayIsOpen = false;
       this.getEvent();
+  }
+
+  generatePDF() {
+    const event = this.events.sort((a,b) => a?.latest?.localeCompare(b?.latest))
+    const doc = new jsPDF();
+    autoTable(doc, {
+      head: [['Name', 'Current Stage', 'Delivery Date']],
+      body: event.map(patient => [patient.title, patient.latest, patient.urgent ? 'Urgent: ' + this.datePipe.transform(patient.start, 'fullDate')! : this.datePipe.transform(patient.start, 'fullDate')!]),
+    });
+    doc.save(this.datePipe.transform(this.events[0]?.start, 'MMMM YYYY')+'.pdf');
   }
 }
