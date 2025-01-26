@@ -136,7 +136,7 @@ export class CalendarComponent {
           start: new Date(a.delivery_date),
           title: a.patient_name,
           caseId: a.id,
-          latest: this.caseTypes.find(c => c.code == a?.scan[0]?.stage)?.name,
+          latest: a?.scan && a.scan.length > 0 ? this.caseTypes.find(c => c.code == a?.scan[0]?.stage)?.name : null,
           color: a.urgent ? {...colors['red']} : null,
           urgent: a.urgent,
         }
