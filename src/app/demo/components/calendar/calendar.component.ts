@@ -141,6 +141,7 @@ export class CalendarComponent {
           urgent: a.urgent,
         }
        });
+       console.log("events", this.events);
      });
   }
 
@@ -240,5 +241,10 @@ export class CalendarComponent {
       body: event.map(patient => [patient.title, patient.latest, patient.urgent ? 'Urgent: ' + this.datePipe.transform(patient.start, 'fullDate')! : this.datePipe.transform(patient.start, 'fullDate')!]),
     });
     doc.save(this.datePipe.transform(this.events[0]?.start, 'MMMM YYYY')+'.pdf');
+  }
+  
+  getEventTitles(day: any): string {
+    console.log("day", day)
+    return day.events.map((event: any) => event.title).join(', ');
   }
 }

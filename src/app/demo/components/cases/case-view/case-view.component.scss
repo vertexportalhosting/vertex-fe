@@ -438,6 +438,9 @@ background-color: #cecece;
     width: 100%;
     .p-calendar {
       width: 100%;
+      input::placeholder {
+        text-align: center; 
+      }
     }
   }
   
