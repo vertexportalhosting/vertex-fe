@@ -232,6 +232,11 @@ export class CalendarComponent {
       this.getEvent();
   }
 
+  openDialog(ev) {
+    this.listEvents = ev;
+    this.visible = true;
+  }
+
   generatePDF() {
     const event = this.events.sort((a,b) => a?.latest?.localeCompare(b?.latest))
     const doc = new jsPDF();

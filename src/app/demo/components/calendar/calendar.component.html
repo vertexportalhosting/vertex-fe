@@ -1,4 +1,4 @@
-<div class="flex flex-column justify-content-start justify-content-center mt-2">
+<div class="flex flex-column justify-content-start justify-content-center mt-2" id="callendar">
   <div class="flex justify-content-between items-center bg-primary">
     <div class="p-button" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
       (viewDateChange)="closeOpenMonthViewDay($event)">
@@ -14,6 +14,7 @@
     <mwl-calendar-month-view [viewDate]="viewDate" [events]="events"
       [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
       (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)"
+      [cellTemplate]="customCellTemplate"
       >
     </mwl-calendar-month-view>
 
@@ -21,13 +22,13 @@
 
   <ng-template #customCellTemplate let-day="day" let-locale="locale">
     <div class="cal-cell-top">
-      <span class="campaign" *ngIf="day?.events[0]?.title"
-        (click)="$event.stopPropagation(); setEvent(day?.events[0], day.date,i)">
-        <p title={{day?.events[0]?.title}}>{{day?.events[0]?.title}}</p>
+      <span class="campaign {{ev.urgent ? 'urgent': ''}}" *ngFor="let ev of day?.events?.slice(0,7)"
+        (click)="$event.stopPropagation(); setEvent(ev, ev.date,i)">
+        <p tooltipPosition="top" pTooltip="{{ev?.title}} - {{ev?.latest}}">{{ev?.title}} - {{ev?.latest?.split('-')[0]}}</p>
       </span>
       <div class="more-event-wrapper">
-        <span (click)='$event.stopPropagation()' class="more-title" *ngIf=" day?.events?.length > 2" mat-button
-          [matMenuTriggerFor]="menu">{{day?.events?.length - 2}} more...</span>
+        <span (click)='$event.stopPropagation();openDialog(day?.events);' class="more-title" *ngIf=" day?.events?.length > 7" mat-button
+         >+{{day?.events?.length - 7}} more</span>
         <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
       </div>
     </div>

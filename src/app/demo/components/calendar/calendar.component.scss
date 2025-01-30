@@ -161,20 +161,24 @@ h3 {
 }
 .campaign {
     color: #fff;
-    width: 95%;
+    width: calc(100% - 20px);
     display: block !important;
-    background-color: #e7661a;
+    background-color: var(--primary-color);
     border-radius: 5px !important;
-    padding: 0.4rem 0.7rem;
+    padding: 5px 8px;
+    margin: 1px 0;
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 12px;
-    font-weight: 700;
-    line-height: 1;
-    .time{
-        font-size: 10px;
+    font-weight: bold;
+    &.urgent {
+        background-color: var(--red-500);
+    }
+    p {
+        margin: 0 !important;
+        line-height: unset;
     }
 }
 

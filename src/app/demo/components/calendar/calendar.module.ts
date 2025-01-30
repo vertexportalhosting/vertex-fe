@@ -7,6 +7,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { TooltipModule } from 'primeng/tooltip';
 @NgModule({
     imports: [
         CommonModule,
@@ -16,7 +17,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
         ] as Routes),
         CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
         DialogModule,
-        ButtonModule
+        ButtonModule,
+        TooltipModule
     ],
     declarations: [
         CalendarComponent,
