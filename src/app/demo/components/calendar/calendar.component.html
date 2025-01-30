@@ -14,50 +14,21 @@
     <mwl-calendar-month-view [viewDate]="viewDate" [events]="events"
       [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
       (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)"
-      [cellTemplate]="customCellTemplate"
-      dragActiveClass="drag-active-cell"
       >
     </mwl-calendar-month-view>
 
   </div>
- 
+
   <ng-template #customCellTemplate let-day="day" let-locale="locale">
     <div class="cal-cell-top">
-      <div class="cal-events" *ngIf="day.events.length > 0">
-        <div
-          class="cal-event"
-          *ngFor="let event of day.events; trackBy:trackByEventId"
-          [style.backgroundColor]="event.color?.primary"
-          [ngClass]="event?.cssClass"
-          (mouseenter)="highlightDay.emit({event: event})"
-          (mouseleave)="unhighlightDay.emit({event: event})"
-          [mwlCalendarTooltip]="event.title | calendarEventTitle:'monthTooltip':event"
-          [tooltipPlacement]="tooltipPlacement"
-          [tooltipEvent]="event"
-          [tooltipTemplate]="tooltipTemplate"
-          [tooltipAppendToBody]="tooltipAppendToBody"
-          mwlDraggable
-          [class.cal-draggable]="event.draggable"
-          dragActiveClass="drag-active-cell"
-          [dropData]="{event: event}"
-          [dragAxis]="{x: event.draggable, y: event.draggable}"
-          (mwlClick)="eventClicked.emit({ event: event })">
-          <div class="event-badge-container" *ngIf="day?.events?.length">
-            <span class="campaign" (click)="$event.stopPropagation(); setEvent(day?.events, day.date)" [title]="getEventTitles(day)">{{ getEventTitles(day)}}</span>
-          </div>
-        </div>
-   
-      </div>
-      <div class="badge-container">
-        <div class="badge-dot" *ngIf="day?.events?.length > 0">
-          <span class="time">{{ day?.events?.length }}</span>
-        </div>
-      </div>
-
+      <span class="campaign" *ngIf="day?.events[0]?.title"
+        (click)="$event.stopPropagation(); setEvent(day?.events[0], day.date,i)">
+        <p title={{day?.events[0]?.title}}>{{day?.events[0]?.title}}</p>
+      </span>
       <div class="more-event-wrapper">
-        <span (click)='$event.stopPropagation()' class="more-title" mat-button
-          [matMenuTriggerFor]="menu"></span>
-        <span class="cal-day-number">{{ day?.date | calendarDate:'monthViewDayNumber':locale }}</span>
+        <span (click)='$event.stopPropagation()' class="more-title" *ngIf=" day?.events?.length > 2" mat-button
+          [matMenuTriggerFor]="menu">{{day?.events?.length - 2}} more...</span>
+        <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
       </div>
     </div>
   </ng-template>

@@ -241,9 +241,4 @@ export class CalendarComponent {
     });
     doc.save(this.datePipe.transform(this.events[0]?.start, 'MMMM YYYY')+'.pdf');
   }
-
-  getEventTitles(day: any): string {
-    console.log("day", day)
-    return day.events.map((event: any) => event.title).join(', ');
-  }
 }

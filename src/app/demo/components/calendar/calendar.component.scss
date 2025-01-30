@@ -20,55 +20,16 @@
         .cal-month-view .cal-cell-row:hover{
             background: none
         }
-        .cal-month-view .cal-cell-top {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            height: 200px;
-            cursor: pointer;
-            background: var(--surface-card);
+
+        .cal-month-view .cal-cell .cal-event {
+            height: 15px;
+            width: 15px;
         }
 
-    .cal-month-view .cal-cell .cal-events {
-            position: absolute;
-            bottom: 5px; 
-            left: 5px;  
-             display: flex;
-            
+        .cal-month-view .cal-cell .cal-events {
+            background-color: var(--surface-card);
+            border:none;
         }
-
-    .cal-month-view .cal-cell .cal-event {
-     width: 20px;
-     height: 20px;
-     border-radius: 50%;
-     display: inline-block;
-
-    }
-
-    .cal-month-view .cal-cell .event-badge-container {
-        position: absolute;
-        top: -40px; 
-        text-align: center;
-        max-width: fit-content;
-        width: auto;
-    }
-
-    .cal-month-view .cal-cell .campaign {
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        color: #fff;
-        background-color: #e7661a;
-        border-radius: 5px;
-        padding: 0.4rem 1.5rem;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        font-size: 10px;
-        font-weight: 700;
-        max-width: 100%;
-    }
-
-        
 
         // .cal-month-view .cal-header .cal-cell .active{
         //     background-color: var(--primary-color) !important;
@@ -81,14 +42,13 @@
         .cal-month-view .cal-day-badge {
             background-color: var(--primary-color);
             .time{
-                font-size: 20px;
+                font-size: 10px;
             }
         }
         .cal-month-view .cal-cell-top {
-            position: relative;
             display: flex;
             flex-direction: column;
-            height: 200px;
+            height: 100px;
             cursor: pointer;
             background: var(--surface-card);
             &:hover{
@@ -120,9 +80,9 @@
             justify-content: flex-end;
             background: #aaa;
             margin: 0;
-            padding: 25px;
-            min-height: 250px;
-            width: 200%;
+            padding: 10px;
+            min-height: 100px;
+            width: 100%;
         }
         .cal-out-month{
             pointer-events: none;
@@ -156,33 +116,33 @@
 .today {
     background: none;
     color: var(--primary-color);
-    border-radius: 10px;
+    border-radius: 5px;
     font-weight: bold;
-    font-size: 24px;
-    height: 60px;
+    font-size: 12px;
+    height: 30px;
 }
 .search {
-    width: 400px;
-    height: 56px;
+    width: 200px;
+    height: 28px;
     background: #fff;
-    padding: 6px 20px;
-    border-radius: 20px;
-    margin-left: 40px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-left: 20px;
 }
 
 .search input[type="text"] {
-    width: 310px;
-    height: 44px;
+    width: 155px;
+    height: 22px;
     padding: 0px;
     background: #fff;
-    padding: 6px 20px;
-    border-radius: 20px;
+    padding: 3px 10px;
+    border-radius: 10px;
     border: 0px;
     outline: none;
 }
 
 h3 {
-    font-size: 60px;
+    font-size: 30px;
     color: #7fc8b2;
     text-align: center;
     text-transform: uppercase;
@@ -192,41 +152,40 @@ h3 {
     select {
         background: none;
         color: var(--primary-color);
-        border-radius: 10px;
+        border-radius: 5px;
         font-weight: bold;
-        font-size: 24px;
-        height: 60px;
-        padding: 0px 20px;
+        font-size: 12px;
+        height: 30px;
+        padding: 0px 10px;
     }
 }
-// .campaign {
-//     color: #fff;
-//     width: 50%;
-//     margin: 25px !important;
-//     display: block !important;
-//     background-color: #e7661a;
-//     border-radius: 5px !important;
-//     padding: 0.4rem 0.7rem;
-//     text-align: left;
-//     white-space: nowrap;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     font-size: 10px;
-//     font-weight: 700;
-//     line-height: 1;
-//     .time{
-//         font-size: 10px;
-//     }
-// }
+.campaign {
+    color: #fff;
+    width: 95%;
+    display: block !important;
+    background-color: #e7661a;
+    border-radius: 5px !important;
+    padding: 0.4rem 0.7rem;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    .time{
+        font-size: 10px;
+    }
+}
 
 .cal-cell-top .more-title{
     text-align: center;
-    font-weight: 1400;
-    font-size: 24px;
+    font-weight: 700;
+    font-size: 12px;
 }
 
 .close.mat-icon{
-        font-size: 34px;
+        font-size: 18px;
         font-weight: bold;
         color: #000;
         cursor: pointer;
@@ -235,13 +194,13 @@ h3 {
     display: block;
     text-align: center;
     color: #000;
-    font-size: 28px;
+    font-size: 14px;
 }
 .calender-menu-content h2{
     text-align: center;
     color: #000;
-    font-size: 60px;
-    font-weight: 1000;
+    font-size: 30px;
+    font-weight: 500;
 }
 .calender-menu-content .cal-day-badge {
     color: #fff;
@@ -263,30 +222,30 @@ h3 {
 }
 .calender-menu-content .campaign {
     color: #fff;
-    width: 50%;
+    width: 95%;
     display: block !important;
     background-color: #e7661a;
-    border-radius: 10px !important;
-    padding: 0.8rem 0.14rem;
-    margin: 4px auto !important;
+    border-radius: 5px !important;
+    padding: 0.4rem 0.7rem;
+    margin: 2px auto !important;
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 10px;
-    font-weight: 1400;
+    font-size: 12px;
+    font-weight: 700;
     line-height: 1;
     .time{
-        font-size: 20px;
+        font-size: 10px;
     }
 }
 .menu-container{
     position: relative;
 }
 .calender-menu-content .cal-day-badge .title{
-    font-size: 24px;
-    font-weight: 1400;
-    line-height: 24px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 12px;
 }
 
 .more-event-wrapper{
@@ -299,84 +258,8 @@ h3 {
         color: var(--text-color);
     }
     .more-title{
-        margin-left: 80px;
-        margin-top: 6px;
+        margin-left: 40px;
+        margin-top: 3px;
         white-space: nowrap;
     }
 }
-
-:host::ng-deep{
-//     .event-badge-container {
-//     display: flex;
-//     justify-content: flex-start;
-//     width: 100%; 
-//     gap: 50px;
-//   }
-
-//   .campaign {
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     color: #fff;
-//     background-color: #e7661a;
-//     border-radius: 5px;
-//     padding: 0.4rem 4rem;
-//     white-space: nowrap;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     font-size: 10px;
-//     font-weight: 700;
-//     max-width: 100%;
-//   }
-
-//   .campaign span {
-//    font-size: 10px;
-//   }
-    
-      .badge-container {
-        position: absolute;
-        top: 5px; 
-        left: 5px; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10; 
-    }
-    
-    .badge-dot {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        width: 20px; 
-        height: 20px;
-        background-color: var(--primary-color);
-        border-radius: 50%;
-        font-size: 12px;
-        font-weight: bold;
-    }
-      .time {
-        font-size: 10px;
-        line-height: 5px;
-        font-weight: bold;
-      }
-
-      .drag-active-cell {
-        background-color: var(--surface-ground) !important;
-        position: absolute;
-        bottom: 3px;
-        left: 3px;
-        display: flex;
-      }
-    
-      /* Add a dot at the top left when an event is dragged over */
-      .drag-active-cell::before {
-        content: "•";
-        color: var(--primary-color);
-        font-size: 20px;
-        font-weight: bold;
-        top: 5px;
-        left: 5px;
-      }
-      
-    }
