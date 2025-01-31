@@ -48,7 +48,7 @@
         .cal-month-view .cal-cell-top {
             display: flex;
             flex-direction: column;
-            height: 100px;
+            height: 200px;
             cursor: pointer;
             background: var(--surface-card);
             &:hover{
@@ -71,6 +71,10 @@
                 background-color: var(--surface-ground);
                 color: var(--text-color);
             }
+        }
+
+        .cal-month-view .cal-day-cell {
+            min-height: 186px;
         }
 
         // Previous disabled dates
@@ -162,6 +166,7 @@ h3 {
 .campaign {
     color: #fff;
     width: calc(100% - 20px);
+    max-width: 280px;
     display: block !important;
     background-color: var(--primary-color);
     border-radius: 5px !important;

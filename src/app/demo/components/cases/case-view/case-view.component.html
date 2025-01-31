@@ -118,7 +118,7 @@
                 </ul>
                 <p-card *ngIf="[0,1,2,3].includes(activeFolder)">
                     <div class="flex flex-column" >
-                        <h3 class="mb-0">Leave a npte</h3>
+                        <h3 class="mb-0">Leave a note</h3>
                         <div class="chat-wrapper" #chatWrapper>
                             <div class="flex w-full">
                                 <ul class="chat-container">
@@ -223,6 +223,9 @@
 
                             <h4 class="text-600 mt-5"><strong>Office</strong></h4>
                             <h2 class="text-5xl my-0">{{case?.user?.username | titlecase }}</h2>
+
+                            <h4 class="text-600 mt-5" *ngIf="(case?.notes || case?.patient?.notes)"><strong>Case Notes</strong></h4>
+                            <h2 class="text-xl my-0">{{(case?.notes || case?.patient?.notes) | titlecase }}</h2>
 
 
                         </div>
