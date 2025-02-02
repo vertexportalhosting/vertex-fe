@@ -577,7 +577,7 @@ export class CaseViewComponent {
             delivery_date_stage_1: this.case.delivery_date_stage_1,
             delivery_date_stage_2: this.case.delivery_date_stage_2,
             delivery_date_stage_3: this.case.delivery_date_stage_3,
-            delivery_date: this.case[`delivery_date_stage_${stage}`]
+            delivery_date: this.formatDate(new Date(this.case[`delivery_date_stage_${stage}`])),
         };
         let body = {};
         Object.keys(delivery_dates).forEach(a => {
@@ -630,5 +630,9 @@ export class CaseViewComponent {
             this.message = '';
             this.getMessageList();
         })
+    }
+
+    formatDate(date) {
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     }
 }

@@ -161,9 +161,9 @@ export class CaseManagementComponent {
         this.submitted =  true;
         const doctor = this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id;
         if (this.case?.urgent) {
-            this.case.delivery_date = new Date().toISOString() as any;
+            this.case.delivery_date = this.formatDate(new Date());
         }
-        this.case.delivery_date = new Date(this.case.delivery_date).toISOString();
+        this.case.delivery_date = this.formatDate(new Date(this.case.delivery_date));
         if (!this.case.delivery_date) {
             this.activeIndex = 1;
             return;
@@ -228,5 +228,10 @@ export class CaseManagementComponent {
         if (event.checked) {
             this.case.delivery_date = new Date().toISOString();
         }
+    }
+
+    // format date to display in the table like year-month-day without ISO 
+    formatDate(date: Date) {
+        return `${new Date(date).getFullYear()}-${new Date(date).getMonth() + 1}-${new Date(date).getDate()}`;
     }
 }
