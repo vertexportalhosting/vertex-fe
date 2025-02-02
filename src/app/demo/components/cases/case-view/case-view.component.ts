@@ -582,7 +582,7 @@ export class CaseViewComponent {
         let body = {};
         Object.keys(delivery_dates).forEach(a => {
             if (!(delivery_dates[a] == null || delivery_dates[a] == '')) {
-                body[a] = new Date(delivery_dates[a]).toISOString();
+                body[a] = delivery_dates[a]
             }
         });
         this.caseController.updateById({
