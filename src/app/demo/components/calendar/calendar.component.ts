@@ -132,7 +132,9 @@ export class CalendarComponent {
      }).subscribe(b => {
       this.events = b.map(a => {
         return {
-          start: new Date(a.delivery_date),
+          // prevent browser auto timezone conversion
+          
+          start: new Date(new Date(a.delivery_date).getTime() + (new Date(a.delivery_date).getTimezoneOffset() * 60000)),
           title: a.patient_name,
           caseId: a.id,
           latest: a?.scan && a.scan.length > 0 ? this.caseTypes.find(c => c.code == a?.scan[0]?.stage)?.name : null,
