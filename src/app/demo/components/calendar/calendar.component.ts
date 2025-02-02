@@ -114,8 +114,8 @@ export class CalendarComponent {
         where: {
           delivery_date: {
             between: [
-              new Date(new Date(date).getFullYear(), new Date(date).getMonth(), 1), 
-              new Date(new Date(date).getFullYear(), new Date(date).getMonth() + 1, 0),
+              this.formatDate(new Date(new Date(date).getFullYear(), new Date(date).getMonth(), 1)), 
+              this.formatDate(new Date(new Date(date).getFullYear(), new Date(date).getMonth() + 1, 0)),
             ]
           },
           deleted: false,
@@ -245,5 +245,9 @@ export class CalendarComponent {
       body: event.map(patient => [patient.title, patient.latest, patient.urgent ? 'Urgent: ' + this.datePipe.transform(patient.start, 'fullDate')! : this.datePipe.transform(patient.start, 'fullDate')!]),
     });
     doc.save(this.datePipe.transform(this.events[0]?.start, 'MMMM YYYY')+'.pdf');
+  }
+
+  formatDate(date) {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   }
 }
