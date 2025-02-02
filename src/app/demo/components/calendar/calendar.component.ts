@@ -1,4 +1,3 @@
-import { formatDate } from '@angular/common';
 import { ChangeDetectorRef, Component, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, MOMENT } from 'angular-calendar';
@@ -217,15 +216,6 @@ export class CalendarComponent {
       this.view = view;
   }
 
-  /**
-   *  gets month view Title.
-   * @param date
-   * @param locale
-   * @returns curretnt month.
-   */
-  public monthViewTitle(date, locale): string {
-      return formatDate(date, 'MMM ', locale);
-  }
 
   closeOpenMonthViewDay(event: any) {
       this.activeDayIsOpen = false;

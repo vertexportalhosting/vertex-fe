@@ -232,6 +232,8 @@ export class CaseManagementComponent {
 
     // format date to display in the table like year-month-day without ISO 
     formatDate(date: Date) {
-        return `${new Date(date).getFullYear()}-${new Date(date).getMonth() + 1}-${new Date(date).getDate()}`;
+        const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        return date.getFullYear() + '-' + month + '-' + day;
     }
 }
