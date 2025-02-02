@@ -108,7 +108,7 @@ export class CaseManagementComponent {
                                 this.scans.push({
                                     filename: file.filename,
                                     url: url.imageUrl,
-                                    uploadDate: new Date(),
+                                    uploadDate: new Date().toISOString(),
                                     userId: JSON.parse(
                                         localStorage.getItem('user')
                                     )?.id,
@@ -161,8 +161,9 @@ export class CaseManagementComponent {
         this.submitted =  true;
         const doctor = this.selectedDoctor ? this.selectedDoctor : JSON.parse(localStorage.getItem('user'))?.id;
         if (this.case?.urgent) {
-            this.case.delivery_date = new Date() as any;
+            this.case.delivery_date = new Date().toISOString() as any;
         }
+        this.case.delivery_date = new Date(this.case.delivery_date).toISOString();
         if (!this.case.delivery_date) {
             this.activeIndex = 1;
             return;

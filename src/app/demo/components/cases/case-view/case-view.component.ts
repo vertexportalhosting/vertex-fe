@@ -209,7 +209,7 @@ export class CaseViewComponent {
                 notes: this.case.notes,
                 case_type: this.case.case_type,
                 deleted: this.case.deleted || false,
-                delivery_date: this.case.delivery_date,
+                delivery_date: new Date(this.case.delivery_date).toISOString(),
                 urgent: this.case.urgent || false,
                 id: this.case.id,
             };
@@ -273,7 +273,7 @@ export class CaseViewComponent {
                                     body: {
                                         filename: file.name,
                                         url: url.imageUrl,
-                                        uploadDate: new Date(),
+                                        uploadDate: new Date().toISOString(),
                                         userId:
                                             this.uploadSide == 1
                                                 ? this.case.userId
@@ -582,7 +582,7 @@ export class CaseViewComponent {
         let body = {};
         Object.keys(delivery_dates).forEach(a => {
             if (!(delivery_dates[a] == null || delivery_dates[a] == '')) {
-                body[a] = delivery_dates[a];
+                body[a] = new Date(delivery_dates[a]).toISOString();
             }
         });
         this.caseController.updateById({
