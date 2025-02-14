@@ -224,8 +224,8 @@
                             <h4 class="text-600 mt-5"><strong>Office</strong></h4>
                             <h2 class="text-5xl my-0">{{case?.user?.username | titlecase }}</h2>
 
-                            <h4 class="text-600 mt-5" *ngIf="(case?.notes || case?.patient?.notes)"><strong>Case Notes</strong></h4>
-                            <h2 class="text-xl my-0">{{(case?.notes || case?.patient?.notes) | titlecase }}</h2>
+                            <h4 class="text-600 mt-5" *ngIf="(case?.patient?.notes || case?.notes)"><strong>Case Notes</strong></h4>
+                            <h2 class="text-xl my-0">{{(case?.patient?.notes || case?.notes) | titlecase }}</h2>
 
 
                         </div>
