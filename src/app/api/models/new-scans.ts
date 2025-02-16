@@ -10,6 +10,7 @@ export interface NewScans {
   patientId?: number;
   stage?: number;
   uploadDate: string;
+  upload_table?: number;
   url: string;
   userId?: string;
 }

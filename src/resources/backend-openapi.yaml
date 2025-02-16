@@ -1616,6 +1616,8 @@ components:
           format: date-time
         stage:
           type: number
+        upload_table:
+          type: number
         patientId:
           type: number
         userId:
@@ -1641,6 +1643,8 @@ components:
           type: string
           format: date-time
         stage:
+          type: number
+        upload_table:
           type: number
         patientId:
           type: number
@@ -1668,7 +1672,10 @@ components:
           type: string
         created_at:
           type: string
-          format: date-time
+        isReadByAdmin:
+          type: boolean
+        isReadByDoctor:
+          type: boolean
         userId:
           type: string
         caseId:
@@ -1711,10 +1718,8 @@ components:
           type: boolean
         updated_at:
           type: string
-          format: date-time
         created_at:
           type: string
-          format: date-time
         updated_by:
           type: string
         created_by:
@@ -1729,19 +1734,14 @@ components:
           type: boolean
         updated_at2:
           type: string
-          format: date-time
         delivery_date_stage_0:
           type: string
-          format: date-time
         delivery_date_stage_1:
           type: string
-          format: date-time
         delivery_date_stage_2:
           type: string
-          format: date-time
         delivery_date_stage_3:
           type: string
-          format: date-time
         patientId:
           type: number
         userId:
@@ -1849,6 +1849,8 @@ components:
           format: date-time
         stage:
           type: number
+        upload_table:
+          type: number
         patientId:
           type: number
         userId:
@@ -1882,6 +1884,8 @@ components:
           type: string
           format: date-time
         stage:
+          type: number
+        upload_table:
           type: number
         patientId:
           type: number
@@ -2032,7 +2036,10 @@ components:
           type: string
         created_at:
           type: string
-          format: date-time
+        isReadByAdmin:
+          type: boolean
+        isReadByDoctor:
+          type: boolean
         userId:
           type: string
         caseId:
@@ -2051,7 +2058,10 @@ components:
           type: string
         created_at:
           type: string
-          format: date-time
+        isReadByAdmin:
+          type: boolean
+        isReadByDoctor:
+          type: boolean
         userId:
           type: string
         caseId:
@@ -2071,7 +2081,10 @@ components:
           type: string
         created_at:
           type: string
-          format: date-time
+        isReadByAdmin:
+          type: boolean
+        isReadByDoctor:
+          type: boolean
         userId:
           type: string
         caseId:
@@ -2108,10 +2121,8 @@ components:
           type: boolean
         updated_at:
           type: string
-          format: date-time
         created_at:
           type: string
-          format: date-time
         updated_by:
           type: string
         created_by:
@@ -2126,19 +2137,14 @@ components:
           type: boolean
         updated_at2:
           type: string
-          format: date-time
         delivery_date_stage_0:
           type: string
-          format: date-time
         delivery_date_stage_1:
           type: string
-          format: date-time
         delivery_date_stage_2:
           type: string
-          format: date-time
         delivery_date_stage_3:
           type: string
-          format: date-time
         patientId:
           type: number
         userId:
@@ -2175,10 +2181,8 @@ components:
           type: boolean
         updated_at:
           type: string
-          format: date-time
         created_at:
           type: string
-          format: date-time
         updated_by:
           type: string
         created_by:
@@ -2193,19 +2197,14 @@ components:
           type: boolean
         updated_at2:
           type: string
-          format: date-time
         delivery_date_stage_0:
           type: string
-          format: date-time
         delivery_date_stage_1:
           type: string
-          format: date-time
         delivery_date_stage_2:
           type: string
-          format: date-time
         delivery_date_stage_3:
           type: string
-          format: date-time
         patientId:
           type: number
         userId:
@@ -2243,10 +2242,8 @@ components:
           type: boolean
         updated_at:
           type: string
-          format: date-time
         created_at:
           type: string
-          format: date-time
         updated_by:
           type: string
         created_by:
@@ -2261,19 +2258,14 @@ components:
           type: boolean
         updated_at2:
           type: string
-          format: date-time
         delivery_date_stage_0:
           type: string
-          format: date-time
         delivery_date_stage_1:
           type: string
-          format: date-time
         delivery_date_stage_2:
           type: string
-          format: date-time
         delivery_date_stage_3:
           type: string
-          format: date-time
         patientId:
           type: number
         userId:
@@ -2670,6 +2662,10 @@ components:
                   type: boolean
                 created_at:
                   type: boolean
+                isReadByAdmin:
+                  type: boolean
+                isReadByDoctor:
+                  type: boolean
                 userId:
                   type: boolean
                 caseId:
@@ -2683,6 +2679,8 @@ components:
                   - message
                   - stage
                   - created_at
+                  - isReadByAdmin
+                  - isReadByDoctor
                   - userId
                   - caseId
                 example: id
@@ -2733,6 +2731,10 @@ components:
                   type: boolean
                 created_at:
                   type: boolean
+                isReadByAdmin:
+                  type: boolean
+                isReadByDoctor:
+                  type: boolean
                 userId:
                   type: boolean
                 caseId:
@@ -2746,6 +2748,8 @@ components:
                   - message
                   - stage
                   - created_at
+                  - isReadByAdmin
+                  - isReadByDoctor
                   - userId
                   - caseId
                 example: id
@@ -3197,6 +3201,8 @@ components:
                   type: boolean
                 stage:
                   type: boolean
+                upload_table:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -3213,6 +3219,7 @@ components:
                   - filename
                   - uploadDate
                   - stage
+                  - upload_table
                   - patientId
                   - userId
                   - caseId
@@ -3266,6 +3273,8 @@ components:
                   type: boolean
                 stage:
                   type: boolean
+                upload_table:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -3282,6 +3291,7 @@ components:
                   - filename
                   - uploadDate
                   - stage
+                  - upload_table
                   - patientId
                   - userId
                   - caseId

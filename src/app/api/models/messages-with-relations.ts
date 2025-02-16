@@ -12,6 +12,8 @@ export interface MessagesWithRelations {
   created_at?: string;
   foreignKey?: any;
   id?: number;
+  isReadByAdmin?: boolean;
+  isReadByDoctor?: boolean;
   message?: string;
   stage?: string;
   user?: UserWithRelations;

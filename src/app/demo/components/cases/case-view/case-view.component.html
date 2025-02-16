@@ -451,11 +451,11 @@
 
         <p-dialog header="Edit Patient" [draggable]="false" [(visible)]="patientDialog" [modal]="true"
             [style]="{width: '500px', 'margin-top': '20px'}" [responsive]="true">
-            <div class="p-fluid p-formgrid p-grid" [style]="{'gap': '20px'}">
+            <div class="p-fluid p-formgrid p-grid" [style]="{'gap': '20px'}" *ngIf="patient">
                 <div class="p-field p-col-12 p-md-6" [style]="{'margin-bottom': '1em'}">
                     <label for="patientName">Name</label>
                     <input id="patientName" type="text" pInputText [(ngModel)]="patient.name" required />
-                    <small *ngIf="!patient.name" class="p-error">Name is required.</small>
+                    <small *ngIf="!patient?.name" class="p-error">Name is required.</small>
                 </div>
                 <!-- <div class="p-field p-col-12 p-md-6" [style]="{'margin-bottom': '1em'}">
                     <label for="age">Age</label>

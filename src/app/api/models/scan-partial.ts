@@ -11,6 +11,7 @@ export interface ScanPartial {
   patientId?: number;
   stage?: number;
   uploadDate?: string;
+  upload_table?: number;
   url?: string;
   userId?: string;
 }

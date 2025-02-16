@@ -17,6 +17,7 @@ export interface ScanWithRelations {
   patientId?: number;
   stage?: number;
   uploadDate: string;
+  upload_table?: number;
   url: string;
   user?: UserWithRelations;
   userId?: string;

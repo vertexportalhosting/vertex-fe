@@ -15,6 +15,7 @@ import {
     CaseWithRelations,
     Patient,
     Scan,
+    ScanWithRelations,
     User,
 } from 'src/app/api/models';
 import {
@@ -172,10 +173,10 @@ export class CaseViewComponent {
                     this.case = data;
                     this.user = data.user;
                     this.adminScans = this.scans.filter(
-                        (scan) => scan.user.role == 'admin'
+                        (scan: ScanWithRelations) => scan.upload_table == 2 || (scan.user.role == 'admin')
                     );
                     this.doctorScans = this.admin
-                        ? this.scans.filter((scan) => scan.user.role != 'admin')
+                        ? this.scans.filter((scan: ScanWithRelations) => scan.upload_table == 1 || scan.user.role == 'Doctor')
                         : this.scans;
                     this.loading = false;
                     this.cdr.detectChanges();
@@ -274,6 +275,7 @@ export class CaseViewComponent {
                                         filename: file.name,
                                         url: url.imageUrl,
                                         uploadDate: new Date().toISOString(),
+                                        upload_table: this.uploadSide,
                                         userId:
                                             this.uploadSide == 1
                                                 ? this.case.userId
