@@ -13,6 +13,8 @@ import { count } from '../fn/scan-controller/count';
 import { Count$Params } from '../fn/scan-controller/count';
 import { create } from '../fn/scan-controller/create';
 import { Create$Params } from '../fn/scan-controller/create';
+import { createAllScans } from '../fn/scan-controller/create-all-scans';
+import { CreateAllScans$Params } from '../fn/scan-controller/create-all-scans';
 import { deleteById } from '../fn/scan-controller/delete-by-id';
 import { DeleteById$Params } from '../fn/scan-controller/delete-by-id';
 import { fileUpload } from '../fn/scan-controller/file-upload';
@@ -35,6 +37,35 @@ import { UpdateById$Params } from '../fn/scan-controller/update-by-id';
 export class ScanControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `scanControllerCreateAllScans()` */
+  static readonly ScanControllerCreateAllScansPath = '/createAllScans';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `createAllScans()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  createAllScans$Response(params?: CreateAllScans$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return createAllScans(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `createAllScans$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  createAllScans(params?: CreateAllScans$Params, context?: HttpContext): Observable<{
+}> {
+    return this.createAllScans$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
+    );
   }
 
   /** Path part for operation `scanControllerCount()` */

@@ -5,10 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { CaseControllerService } from './services/case-controller.service';
+import { ScanControllerService } from './services/scan-controller.service';
 import { MessagesControllerService } from './services/messages-controller.service';
 import { PatientHistoryControllerService } from './services/patient-history-controller.service';
 import { PatientControllerControllerService } from './services/patient-controller-controller.service';
-import { ScanControllerService } from './services/scan-controller.service';
 import { UserControllerService } from './services/user-controller.service';
 import { TodoControllerService } from './services/todo-controller.service';
 
@@ -21,10 +21,10 @@ import { TodoControllerService } from './services/todo-controller.service';
   declarations: [],
   providers: [
     CaseControllerService,
+    ScanControllerService,
     MessagesControllerService,
     PatientHistoryControllerService,
     PatientControllerControllerService,
-    ScanControllerService,
     UserControllerService,
     TodoControllerService,
     ApiConfiguration

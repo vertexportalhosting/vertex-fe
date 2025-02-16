@@ -99,16 +99,14 @@ export class CaseViewComponent {
             this.store.setCaseId(this.caseId);
         }
 
-        this.activeUser = JSON.parse(
-            localStorage.getItem(
-                'user'
-            )
-        )?.id,
-
-        this.caseController.updateCaseStatusById({
-            id: this.caseId,
-            body: {}
-        }).pipe(takeUntil(this.$ngDestroy)).subscribe();
+        (this.activeUser = JSON.parse(localStorage.getItem('user'))?.id),
+            this.caseController
+                .updateCaseStatusById({
+                    id: this.caseId,
+                    body: {},
+                })
+                .pipe(takeUntil(this.$ngDestroy))
+                .subscribe();
     }
 
     ngAfterViewInit() {
@@ -156,27 +154,43 @@ export class CaseViewComponent {
         this.user = {};
         this.caseController
             .findById({ id: case_id, filter: JSON.stringify(filter) })
-            .pipe(takeUntil(this.$ngDestroy)).subscribe(
+            .pipe(takeUntil(this.$ngDestroy))
+            .subscribe(
                 (data: any) => {
                     this.uploadedFiles = [];
                     data.delivery_date = new Date(data.delivery_date);
-                    data.delivery_date_stage_0 = data.delivery_date_stage_0 ? new Date(data.delivery_date_stage_0) : '';
-                    data.delivery_date_stage_1 = data.delivery_date_stage_1 ? new Date(data.delivery_date_stage_1) : '';
-                    data.delivery_date_stage_2 = data.delivery_date_stage_2 ? new Date(data.delivery_date_stage_2) : '';
-                    data.delivery_date_stage_3 = data.delivery_date_stage_3 ? new Date(data.delivery_date_stage_3) : '';
+                    data.delivery_date_stage_0 = data.delivery_date_stage_0
+                        ? new Date(data.delivery_date_stage_0)
+                        : '';
+                    data.delivery_date_stage_1 = data.delivery_date_stage_1
+                        ? new Date(data.delivery_date_stage_1)
+                        : '';
+                    data.delivery_date_stage_2 = data.delivery_date_stage_2
+                        ? new Date(data.delivery_date_stage_2)
+                        : '';
+                    data.delivery_date_stage_3 = data.delivery_date_stage_3
+                        ? new Date(data.delivery_date_stage_3)
+                        : '';
                     this.scans = data.scan || [];
                     this.scans = this.scans.filter(
                         (scan) => scan.stage == this.activeFolder
                     );
-                    this.messageList = data?.messages?.filter((res) => res.stage == this.activeFolder);
+                    this.messageList = data?.messages?.filter(
+                        (res) => res.stage == this.activeFolder
+                    );
                     this.patient = data.patient;
                     this.case = data;
                     this.user = data.user;
                     this.adminScans = this.scans.filter(
-                        (scan: ScanWithRelations) => scan.upload_table == 2 || (scan.user.role == 'admin')
+                        (scan: ScanWithRelations) =>
+                            scan.upload_table == 2 || scan.user.role == 'admin'
                     );
                     this.doctorScans = this.admin
-                        ? this.scans.filter((scan: ScanWithRelations) => scan.upload_table == 1 || scan.user.role == 'Doctor')
+                        ? this.scans.filter(
+                              (scan: ScanWithRelations) =>
+                                  scan.upload_table == 1 ||
+                                  scan.user.role == 'Doctor'
+                          )
                         : this.scans;
                     this.loading = false;
                     this.cdr.detectChanges();
@@ -260,63 +274,64 @@ export class CaseViewComponent {
 
     onFileSelected(files) {
         this.loading = true;
+        const bodyArray = []; // Collect all body objects
+    
         const uploadPromises = files.map((file) => {
             const formData = new FormData();
             formData.append('file', file);
+    
             if (file) {
                 return this.http
                     .post('https://vertex-be.onrender.com/upload', formData)
                     .toPromise()
                     .then(async (url: any) => {
                         if (url.imageUrl) {
-                            await this.scanController
-                                .create({
-                                    body: {
-                                        filename: file.name,
-                                        url: url.imageUrl,
-                                        uploadDate: new Date().toISOString(),
-                                        upload_table: this.uploadSide,
-                                        userId:
-                                            this.uploadSide == 1
-                                                ? this.case.userId
-                                                : JSON.parse(
-                                                      localStorage.getItem(
-                                                          'user'
-                                                      )
-                                                  )?.id,
-                                        patientId: this.patient.id,
-                                        caseId: this.case.id,
-                                        stage: Number(this.activeFolder),
-                                    } as any,
-                                })
-                                .toPromise();
+                            const body = {
+                                filename: file.name,
+                                url: url.imageUrl,
+                                uploadDate: new Date().toISOString(),
+                                upload_table: this.uploadSide,
+                                userId:
+                                    this.uploadSide == 1
+                                        ? this.case.userId
+                                        : JSON.parse(localStorage.getItem('user'))?.id,
+                                patientId: this.patient.id,
+                                caseId: this.case.id,
+                                stage: Number(this.activeFolder),
+                            };
+                            bodyArray.push(body); // Store in array
                         }
                     });
             } else {
-                return Promise.resolve(); // If no file, resolve immediately
+                return Promise.resolve(); // Resolve immediately for empty files
             }
         });
-        return Promise.all(uploadPromises);
+    
+        return Promise.all(uploadPromises).then(() => bodyArray);
     }
+    
 
     uploadNewScan() {}
 
     downloadScan(scan) {
         // Open the scan download URL in a new window
         // window.open(url, '_blank');
-        this.http.get(scan.url, { responseType: 'blob' }).pipe(takeUntil(this.$ngDestroy)).subscribe(
-            (blob) => {
-                const link = document.createElement('a');
-                const url = window.URL.createObjectURL(blob);
-                link.href = url;
-                link.download = this.getFilename(scan);
-                link.click();
-                window.URL.revokeObjectURL(url);
-            },
-            (error) => {
-                console.error('Download error:', error);
-            }
-        );
+        this.http
+            .get(scan.url, { responseType: 'blob' })
+            .pipe(takeUntil(this.$ngDestroy))
+            .subscribe(
+                (blob) => {
+                    const link = document.createElement('a');
+                    const url = window.URL.createObjectURL(blob);
+                    link.href = url;
+                    link.download = this.getFilename(scan);
+                    link.click();
+                    window.URL.revokeObjectURL(url);
+                },
+                (error) => {
+                    console.error('Download error:', error);
+                }
+            );
     }
 
     deleteScan(_scan) {
@@ -327,12 +342,15 @@ export class CaseViewComponent {
             icon: 'pi pi-exclamation-triangle',
             key: 'scan',
             accept: () => {
-                this.scanController.deleteById({ id: _scan.id }).pipe(takeUntil(this.$ngDestroy)).subscribe({
-                    next: () => {
-                        this.getCaseInfo(this.case.id);
-                    },
-                    error: () => {},
-                });
+                this.scanController
+                    .deleteById({ id: _scan.id })
+                    .pipe(takeUntil(this.$ngDestroy))
+                    .subscribe({
+                        next: () => {
+                            this.getCaseInfo(this.case.id);
+                        },
+                        error: () => {},
+                    });
             },
             reject: () => {
                 this.messageService.add({
@@ -364,24 +382,29 @@ export class CaseViewComponent {
     }
 
     _deleteCase(_case: CaseWithRelations) {
-        this.caseController.deleteById({ id: _case.id }).pipe(takeUntil(this.$ngDestroy)).subscribe({
-            next: (res) => {
-                this.patientController
-                    .deleteById({
-                        id: _case.patient.id,
-                    })
-                    .pipe(takeUntil(this.$ngDestroy)).subscribe(() => {
-                        if (this.case?.scan?.length) {
-                            this.case.scan.forEach((scan) => {
-                                this.scanController
-                                    .deleteById({ id: scan.id })
-                                    .pipe(takeUntil(this.$ngDestroy)).subscribe();
-                            });
-                        }
-                        this.location.back();
-                    });
-            },
-        });
+        this.caseController
+            .deleteById({ id: _case.id })
+            .pipe(takeUntil(this.$ngDestroy))
+            .subscribe({
+                next: (res) => {
+                    this.patientController
+                        .deleteById({
+                            id: _case.patient.id,
+                        })
+                        .pipe(takeUntil(this.$ngDestroy))
+                        .subscribe(() => {
+                            if (this.case?.scan?.length) {
+                                this.case.scan.forEach((scan) => {
+                                    this.scanController
+                                        .deleteById({ id: scan.id })
+                                        .pipe(takeUntil(this.$ngDestroy))
+                                        .subscribe();
+                                });
+                            }
+                            this.location.back();
+                        });
+                },
+            });
     }
 
     getFilename(scan) {
@@ -458,7 +481,10 @@ export class CaseViewComponent {
         if (this.uploadedFiles?.length) {
             this.loading = true;
             this.cdr.detectChanges();
-            this.onFileSelected(this.uploadedFiles).then((res) => {
+            this.onFileSelected(this.uploadedFiles).then(async (res:any) => {
+                await this.scanController.createAllScans({
+                    body: res,
+                }).toPromise();
                 this.getCaseInfo(this.case.id);
                 this.loading = false;
                 this.cdr.detectChanges();
@@ -510,7 +536,8 @@ export class CaseViewComponent {
                     details: `Patient's ${stage} has been marked as Completed`,
                 } as any,
             })
-            .pipe(takeUntil(this.$ngDestroy)).subscribe(() => {
+            .pipe(takeUntil(this.$ngDestroy))
+            .subscribe(() => {
                 this.getCaseInfo(this.caseId);
             });
     }
@@ -535,7 +562,8 @@ export class CaseViewComponent {
                     details: `Patient's ${stage} has been marked uncompleted`,
                 } as any,
             })
-            .pipe(takeUntil(this.$ngDestroy)).subscribe(() => {
+            .pipe(takeUntil(this.$ngDestroy))
+            .subscribe(() => {
                 this.getCaseInfo(this.caseId);
             });
     }
@@ -579,39 +607,47 @@ export class CaseViewComponent {
             delivery_date_stage_1: this.case.delivery_date_stage_1,
             delivery_date_stage_2: this.case.delivery_date_stage_2,
             delivery_date_stage_3: this.case.delivery_date_stage_3,
-            delivery_date: this.formatDate(new Date(this.case[`delivery_date_stage_${stage}`])),
+            delivery_date: this.formatDate(
+                new Date(this.case[`delivery_date_stage_${stage}`])
+            ),
         };
         let body = {};
-        Object.keys(delivery_dates).forEach(a => {
+        Object.keys(delivery_dates).forEach((a) => {
             if (!(delivery_dates[a] == null || delivery_dates[a] == '')) {
-                body[a] = delivery_dates[a]
+                body[a] = delivery_dates[a];
             }
         });
-        this.caseController.updateById({
-            id: this.caseId,
-            body: body
-        }).pipe(takeUntil(this.$ngDestroy)).subscribe();
+        this.caseController
+            .updateById({
+                id: this.caseId,
+                body: body,
+            })
+            .pipe(takeUntil(this.$ngDestroy))
+            .subscribe();
     }
 
     getMessageList() {
         this.messageList = [];
-        this.messageController.find({
-            filter: JSON.stringify({
-                where: {
-                    caseId: this.caseId,
-                    stage: String(this.activeFolder)
-                },
-                include: [
-                    {
-                        relation: 'user'
-                    }
-                ]
+        this.messageController
+            .find({
+                filter: JSON.stringify({
+                    where: {
+                        caseId: this.caseId,
+                        stage: String(this.activeFolder),
+                    },
+                    include: [
+                        {
+                            relation: 'user',
+                        },
+                    ],
+                }),
             })
-        }).pipe(takeUntil(this.$ngDestroy)).subscribe(res => {
-            this.messageList = [...res];
-            this.cdr.detectChanges();
-            this.scrollToBottom();
-        });
+            .pipe(takeUntil(this.$ngDestroy))
+            .subscribe((res) => {
+                this.messageList = [...res];
+                this.cdr.detectChanges();
+                this.scrollToBottom();
+            });
     }
 
     private scrollToBottom() {
@@ -624,18 +660,24 @@ export class CaseViewComponent {
             userId: this.activeUser,
             caseId: this.case.id,
             message: this.message,
-            stage: String(this.activeFolder)
+            stage: String(this.activeFolder),
         };
-        this.messageController.create({
-            body
-        }).pipe(takeUntil(this.$ngDestroy)).subscribe(() => {
-            this.message = '';
-            this.getMessageList();
-        })
+        this.messageController
+            .create({
+                body,
+            })
+            .pipe(takeUntil(this.$ngDestroy))
+            .subscribe(() => {
+                this.message = '';
+                this.getMessageList();
+            });
     }
 
     formatDate(date) {
-        const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+        const month =
+            date.getMonth() + 1 < 10
+                ? '0' + (date.getMonth() + 1)
+                : date.getMonth() + 1;
         const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
         return date.getFullYear() + '-' + month + '-' + day;
     }

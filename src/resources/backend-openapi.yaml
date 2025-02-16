@@ -248,6 +248,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/Case.Filter1'
       operationId: CaseController.find
+  /createAllScans:
+    post:
+      x-controller-name: ScanController
+      x-operation-name: createAllScans
+      tags:
+        - ScanController
+      responses:
+        '200':
+          description: File Upload
+          content:
+            application/json:
+              schema:
+                type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewScans'
+      operationId: ScanController.createAllScans
   /messages/count:
     get:
       x-controller-name: MessagesController
