@@ -72,7 +72,7 @@ export class SignupComponent {
                     this.router.navigate(['/auth/login']);
                 });
         } else {
-            alert('Invalid OTP');
+            alert('Invalid OTP'); 
         }
     }
 }
