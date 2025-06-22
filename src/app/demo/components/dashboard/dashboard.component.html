@@ -88,7 +88,7 @@
                     
                     <span>{{ item?.details }}</span>
                     <span> For {{item?.patient?.name}} </span>
-                    <span *ngIf="!item?.case">Deleted</span>
+                    <span *ngIf="!item?.case && totalCase != 0">Deleted</span>
                     <span> By: <strong>{{item?.user?.username | titlecase}}</strong></span>
                     <span> At: {{item?.actionDate | date: 'medium' }}</span>
                 </div>

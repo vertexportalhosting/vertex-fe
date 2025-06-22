@@ -4,10 +4,12 @@
     </div> -->
     <div class="flex col-12 min-h-screen justify-content-center align-items-center">
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()" style="width: 450px;">
-            <div>
-                <div class="surface-card p-4 lg:p-8 shadow-2 hover:shadow-3 text-center border-round-xl surface-overlay font-bold" style="border-radius:53px">
+            <div *ngIf="step == 1">
+                <div class="surface-card p-4 lg:p-8 shadow-2 hover:shadow-3 text-center border-round-xl surface-overlay font-bold"
+                    style="border-radius:53px">
                     <div class="text-center mb-5">
-                        <div class="text-900 flex align-items-center justify-content-center text-3xl font-medium mb-3">Welcome to <img src="assets/logo.png" width="100px" height="30px" alt="" srcset=""></div>
+                        <div class="text-900 flex align-items-center justify-content-center text-3xl font-medium mb-3">
+                            Welcome to <img src="assets/logo.png" width="100px" height="30px" alt="" srcset=""></div>
                     </div>
                     <label for="username" class="block text-900 text-xl text-left font-medium mb-2">Username</label>
                     <input formControlName="username" id="username" type="text" placeholder="Dr. Mike"
@@ -20,43 +22,54 @@
                         </div>
                     </div>
 
-                        <label for="email1" class="block text-900 text-xl text-left font-medium mb-2">Email</label>
-                        <input formControlName="email" id="email1" type="text" placeholder="Email address"
-                            class=" mb-2 w-full" style="padding:1rem">
+                    <label for="email1" class="block text-900 text-xl text-left font-medium mb-2">Email</label>
+                    <input formControlName="email" id="email1" type="text" placeholder="Email address"
+                        class=" mb-2 w-full" style="padding:1rem">
 
 
-                        <div class="mb-2"
-                            *ngIf="(userForm.get('email')?.touched || userForm.get('email')?.dirty) && userForm.get('email')?.errors">
-                            <div *ngIf="userForm.get('email')?.errors.required" class="p-error">Email is required
-                            </div>
-                            <div *ngIf="this.userForm.get('email')?.hasError('pattern')" class="p-error">Email must
-                                be a valid email address
-                            </div>
+                    <div class="mb-2"
+                        *ngIf="(userForm.get('email')?.touched || userForm.get('email')?.dirty) && userForm.get('email')?.errors">
+                        <div *ngIf="userForm.get('email')?.errors.required" class="p-error">Email is required
                         </div>
-
-                        <label for="password1" class="block text-900 text-left font-medium text-xl mb-2">Password</label>
-                        <input formControlName="password" type="password" id="password1" placeholder="Password"
-                            class="p-3 w-full">
-                        <div class="text-red-600"
-                            *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched) ">
-                            Please enter password
+                        <div *ngIf="this.userForm.get('email')?.hasError('pattern')" class="p-error">Email must
+                            be a valid email address
                         </div>
-                        <p class="flex align-items-center mt-3">Already Registered? <a class="px-3" routerLink="/auth/login">Log in</a></p>
+                    </div>
 
-                        <button type="submit" [disabled]="userForm.invalid" pButton pRipple label="Sign Up"
-                            class="w-full p-3 mt-5 text-xl"></button>
+                    <label for="password1" class="block text-900 text-left font-medium text-xl mb-2">Password</label>
+                    <input formControlName="password" type="password" id="password1" placeholder="Password"
+                        class="p-3 w-full">
+                    <div class="text-red-600"
+                        *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched) ">
+                        Please enter password
+                    </div>
+                    <p class="flex align-items-center mt-3">Already Registered? <a class="px-3"
+                            routerLink="/auth/login">Log in</a></p>
+
+                    <button type="submit" [disabled]="userForm.invalid" pButton pRipple label="Sign Up"
+                        class="w-full p-3 mt-5 text-xl"></button>
+                </div>
+            </div>
+            <div *ngIf="step == 2">
+                <!-- otp-input.component.html -->
+                <div class="surface-card p-4 lg:p-8 shadow-2 hover:shadow-3 text-center border-round-xl surface-overlay font-bold"
+                    style="border-radius:53px">
+                    <div class="text-center mb-5">
+                        <div class="text-900 flex align-items-center justify-content-center text-3xl font-medium mb-3">
+                            Please enter the code sent to your email.</div>
+                    </div>
+                    <div class="otp-container">
+                       <input formControlName="otp" id="otp" type="text" maxlength="6"
+                        class=" mb-2 w-full" style="padding:1rem">
+                        <button type="submit" pButton pRipple label="Confirm" class="w-full p-3 mt-5 text-xl"></button>
+                    </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
-<p-dialog 
-header="Licensed Dentist?" 
-[modal]="true" 
-[(visible)]="visible" 
-[style]="{ width: '20rem',height:'16rem'}" 
-[draggable]="false" 
->
+<p-dialog header="Licensed Dentist?" [modal]="true" [(visible)]="visible" [style]="{ width: '20rem',height:'16rem'}"
+    [draggable]="false">
     <p>
         Are you a licensed dentist? You’re in the right place! If not and have any questions contact us first!
     </p>

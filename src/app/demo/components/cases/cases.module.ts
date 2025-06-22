@@ -35,6 +35,7 @@ import { DialogModule } from 'primeng/dialog';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ActivityComponent } from '../activity/activity.component';
 import { ActivityModule } from '../activity/activity.module';
+import { PatientDetailsComponent } from './patient-details/patient-details.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -80,7 +81,8 @@ import { ActivityModule } from '../activity/activity.module';
     declarations: [
         CaseManagementComponent,
         CaseListComponent,
-        CaseViewComponent
+        CaseViewComponent,
+        PatientDetailsComponent
     ],
     providers: [
         ConfirmationService

@@ -7,15 +7,12 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface CreateAllScans$Params {
-      body?: Array<any>
+export interface ExportDoctorsEmails$Params {
 }
 
-export function createAllScans(http: HttpClient, rootUrl: string, params?: CreateAllScans$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-  const rb = new RequestBuilder(rootUrl, createAllScans.PATH, 'post');
+export function exportDoctorsEmails(http: HttpClient, rootUrl: string, params?: ExportDoctorsEmails$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<string>>> {
+  const rb = new RequestBuilder(rootUrl, exportDoctorsEmails.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -23,10 +20,9 @@ export function createAllScans(http: HttpClient, rootUrl: string, params?: Creat
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return r as StrictHttpResponse<Array<string>>;
     })
   );
 }
 
-createAllScans.PATH = '/createAllScans';
+exportDoctorsEmails.PATH = '/export/users-emails';

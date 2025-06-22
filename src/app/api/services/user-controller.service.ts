@@ -9,8 +9,12 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { authenticateSignUp } from '../fn/user-controller/authenticate-sign-up';
+import { AuthenticateSignUp$Params } from '../fn/user-controller/authenticate-sign-up';
 import { deleteUserById } from '../fn/user-controller/delete-user-by-id';
 import { DeleteUserById$Params } from '../fn/user-controller/delete-user-by-id';
+import { exportDoctorsEmails } from '../fn/user-controller/export-doctors-emails';
+import { ExportDoctorsEmails$Params } from '../fn/user-controller/export-doctors-emails';
 import { findAllUsers } from '../fn/user-controller/find-all-users';
 import { FindAllUsers$Params } from '../fn/user-controller/find-all-users';
 import { findUserById } from '../fn/user-controller/find-user-by-id';
@@ -34,6 +38,56 @@ import { WhoAmI$Params } from '../fn/user-controller/who-am-i';
 export class UserControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `userControllerAuthenticateSignUp()` */
+  static readonly UserControllerAuthenticateSignUpPath = '/authenticate-signup';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `authenticateSignUp()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  authenticateSignUp$Response(params?: AuthenticateSignUp$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
+    return authenticateSignUp(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `authenticateSignUp$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  authenticateSignUp(params?: AuthenticateSignUp$Params, context?: HttpContext): Observable<User> {
+    return this.authenticateSignUp$Response(params, context).pipe(
+      map((r: StrictHttpResponse<User>): User => r.body)
+    );
+  }
+
+  /** Path part for operation `userControllerExportDoctorsEmails()` */
+  static readonly UserControllerExportDoctorsEmailsPath = '/export/users-emails';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `exportDoctorsEmails()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  exportDoctorsEmails$Response(params?: ExportDoctorsEmails$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<string>>> {
+    return exportDoctorsEmails(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `exportDoctorsEmails$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  exportDoctorsEmails(params?: ExportDoctorsEmails$Params, context?: HttpContext): Observable<Array<string>> {
+    return this.exportDoctorsEmails$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<string>>): Array<string> => r.body)
+    );
   }
 
   /** Path part for operation `userControllerSignUp()` */

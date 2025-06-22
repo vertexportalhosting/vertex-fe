@@ -2,26 +2,28 @@
 	<div class="col-12 p-0 sm:p-2">
 		<div class="card p-2 sm:p-5">
 			<h5>Cases</h5>
-			<p-table #dt1 [value]="cases" [lazy]="true" dataKey="id" [(rows)]="limit" [loading]="loading" [rowHover]="true"
-				[paginator]="true" (onPage)="onPageChange($event)" [rowsPerPageOptions]="[5, 10, 20, 50]"
-				[first]="page * limit" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"  [showCurrentPageReport]="true"
-				responsiveLayout="scroll" [totalRecords]="totalCount" class="p-datatable-responsive mobile-responsive-table">
+			<p-table #dt1 [value]="cases" [lazy]="true" dataKey="id" [(rows)]="limit" [loading]="loading"
+				[rowHover]="true" [paginator]="true" (onPage)="onPageChange($event)"
+				[rowsPerPageOptions]="[5, 10, 20, 50]" [first]="page * limit"
+				currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" [showCurrentPageReport]="true"
+				responsiveLayout="scroll" [totalRecords]="totalCount"
+				class="p-datatable-responsive mobile-responsive-table">
 				<ng-template pTemplate="caption">
 					<div class="flex justify-content-between flex-column sm:flex-row">
-						<div class="flex gap-2">
-							<div class="flex align-items-center">
-								<span class="p-input-icon-left mb-2">
+						<div class="flex gap-2 ">
+							<div class="flex align-items-center justify-content-between flex-grow-1 flex-wrap">
+								<span class="p-input-icon-left mb-2 flex-grow-1">
 									<i class="pi pi-search"></i>
 									<input pInputText type="text" [(ngModel)]="searchFilter" #filter
-									 placeholder="Search Keyword" class="w-full" />
+										placeholder="Search Keyword" class="w-full" />
 								</span>
-								<button
-								pButton label="Search" class="p-button-outlined mb-2" icon="pi pi-filter-clear"
-								(click)="onGlobalFilter()"></button>
+								<button pButton label="Search" class="p-button-outlined mb-2 flex-grow-1" icon="pi pi-filter-clear"
+									(click)="onGlobalFilter()"></button>
+								<button *ngIf="whereFilter.case_status || whereFilter.case_type || searchFilter.length"
+									pButton label="Clear filters" class="p-button-outlined mb-2"
+									icon="pi pi-filter-clear" (click)="clearFilters()"></button>
 							</div>
-							<button *ngIf="whereFilter.case_status || whereFilter.case_type || searchFilter.length"
-								pButton label="Clear filters" class="p-button-outlined mb-2" icon="pi pi-filter-clear"
-								(click)="clearFilters()"></button>
+
 						</div>
 						<button pButton label="Add new Case" class="p-button-outlined mb-2" icon="pi pi-filter-add"
 							[routerLink]="['/case/add']" routerLinkActive="router-link-active"></button>
@@ -29,31 +31,34 @@
 				</ng-template>
 				<ng-template pTemplate="header">
 					<tr>
-						<th style="min-width: 6rem">Case ID</th>
+						<th class="mobile-hide">Case ID</th>
 						<th style="min-width: 2rem"></th>
 						<th style="min-width: 6rem">Patient</th>
-						<th class="mobile-hide" style="min-width: 6rem">Office</th>
+						<th style="min-width: 6rem">Office</th>
 						<th style="min-width: 6rem">Stage</th>
 						<th class="mobile-hide" style="min-width: 6rem">Case Status</th>
-						<th>Most Recent Activity</th>
+						<th class="mobile-hide">Most Recent Activity</th>
 						<th class="mobile-hide" style="min-width: 6rem">Urgent/Delivery Date</th>
-						<th style="min-width: 6rem">Actions</th>
+						<th style="min-width: max-content">Actions</th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-case>
 					<tr>
-						<td>{{case.id}}</td>
-						<td><span *ngIf="admin && !case?.isViewedByAdmin" class="unread-case" (click)="readCase(case.id)"></span>
-							<span *ngIf="!admin && !case?.isViewedByDoctor" class="unread-case" (click)="readCase(case.id)"></span></td>
-						<td><a  [routerLink]="['/case/view', case.id]">{{case.patient | titlecase}}</a> </td>
-						<td class="mobile-hide">{{ case.user | titlecase }}</td>
+						<td class="mobile-hide">{{case.id}}</td>
+						<td><span *ngIf="admin && !case?.isViewedByAdmin" class="unread-case"
+								(click)="readCase(case.id)"></span>
+							<span *ngIf="!admin && !case?.isViewedByDoctor" class="unread-case"
+								(click)="readCase(case.id)"></span>
+						</td>
+						<td><a [routerLink]="['/case/view', case.id]">{{case.patient | titlecase}}</a> </td>
+						<td>{{ case.user | titlecase }}</td>
 						<td>
 							<p-dropdown *ngIf="case.show" appendTo="body" [options]="caseTypes"
 								[(ngModel)]="case.case_type" nVal optionLabel="name" optionValue="name"
 								(onChange)="updateCaseStatus(case, 'stage')"></p-dropdown>
 							<div *ngIf="!case.show" class="flex gap-2 align-items-center">
 								<span>{{ case.case_type | uppercase }}</span>
-								<p-button icon="pi pi-pencil" [rounded]="true" [text]="true" [raised]="true"
+								<p-button icon="pi pi-pencil" class="" [rounded]="true" [text]="true" [raised]="true"
 									severity="info" (click)="case.show = true" />
 							</div>
 						</td>
@@ -66,13 +71,13 @@
 							</div>
 						</td>
 						<td class="mobile-hide">
-								@if (case?.history) {
-									{{ case?.history[0]?.details }} <br> <span> {{ case?.history[0]?.by }} by: </span>
-									<strong>{{ case?.history[0]?.user?.username }}</strong>
-								} @else {
-									<td></td>
-								}
-								
+							@if (case?.history) {
+							{{ case?.history[0]?.details }} <br> <span> {{ case?.history[0]?.by }} by: </span>
+							<strong>{{ case?.history[0]?.user?.username }}</strong>
+							} @else {
+						<td></td>
+						}
+
 						</td>
 						<td class="mobile-hide">
 							<span [class]="case.urgent ? 'text-red-500' : 'text-green-500'">{{case.urgent ? 'Yes' :
@@ -80,7 +85,7 @@
 						</td>
 						<td class="flex gap-1">
 							<button pButton type="button" icon="pi pi-eye" routerLink="/case/view/{{case.id}}"
-								class="p-button-rounded"></button>
+								class="p-button-rounded mobile-hide"></button>
 							<button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger"
 								(click)="confirmDeleteCase(case)"></button>
 						</td>

@@ -6,14 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { NewUser } from '../../models/new-user';
+import { User } from '../../models/user';
 
-export interface CreateAllScans$Params {
-      body?: Array<any>
+export interface AuthenticateSignUp$Params {
+      body?: NewUser
 }
 
-export function createAllScans(http: HttpClient, rootUrl: string, params?: CreateAllScans$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-  const rb = new RequestBuilder(rootUrl, createAllScans.PATH, 'post');
+export function authenticateSignUp(http: HttpClient, rootUrl: string, params?: AuthenticateSignUp$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
+  const rb = new RequestBuilder(rootUrl, authenticateSignUp.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -23,10 +24,9 @@ export function createAllScans(http: HttpClient, rootUrl: string, params?: Creat
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return r as StrictHttpResponse<User>;
     })
   );
 }
 
-createAllScans.PATH = '/createAllScans';
+authenticateSignUp.PATH = '/authenticate-signup';

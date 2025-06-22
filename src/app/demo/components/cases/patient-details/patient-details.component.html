@@ -1,0 +1,63 @@
+<div #pdfContainer id="print-section">
+  <!-- Header with logo and QR -->
+  <div class="header-section">
+    <img src="/assets/vertex-letterheed.jpg" alt="Letterhead" class="letterhead-img" />
+    <div class="qr-container">
+      <canvas #qrCanvas></canvas>
+    </div>
+  </div>
+
+  <!-- Patient and Doctor Info Table -->
+  <table class="info-table">
+    <tr>
+      <th colspan="2">Patient Information</th>
+      <th colspan="2">Doctor Information</th>
+    </tr>
+    <tr>
+      <td><strong>Name:</strong></td>
+      <td>{{ case?.patient_name }}</td>
+      <td><strong>Doctor:</strong></td>
+      <td>{{ case?.doctor_name }}</td>
+    </tr>
+    <tr>
+      <td><strong>Patient ID:</strong></td>
+      <td>{{ case?.patientId }}</td>
+      <td><strong>Email:</strong></td>
+      <td>{{ case?.user?.email }}</td>
+    </tr>
+    <tr>
+      <td><strong>Gender:</strong></td>
+      <td>{{ case?.patient?.gender || 'N/A' }}</td>
+      <td><strong>Role:</strong></td>
+      <td>{{ case?.user?.role }}</td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <!-- Case Details Table -->
+  <table class="info-table mt-4">
+    <tr>
+      <th colspan="4">Case Details</th>
+    </tr>
+    <tr>
+      <td><strong>Case Type:</strong></td>
+      <td>{{ case?.case_type }}</td>
+      <td><strong>Status:</strong></td>
+      <td>{{ case?.case_status }}</td>
+    </tr>
+    <tr>
+      <td><strong>Urgent:</strong></td>
+      <td>{{ case?.urgent ? 'Yes' : 'No' }}</td>
+      <td><strong>Delivery Date:</strong></td>
+      <td>{{ case?.delivery_date | date }}</td>
+    </tr>
+  </table>
+
+  <!-- Stage Completion Table -->
+  <hr>
+
+</div>
+
+<!-- Print Button -->
+<!-- <button pButton type="button" label="Print Case Details" (click)="print()">Print</button> -->

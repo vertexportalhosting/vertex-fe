@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './signup.component';
 import { RouterModule } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -21,7 +22,7 @@ import { DialogModule } from 'primeng/dialog';
         FormsModule,
         PasswordModule,
         ReactiveFormsModule,
-        DialogModule
+        DialogModule,
     ],
     declarations: [SignupComponent]
 })

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
 import { AppLayoutComponent } from "./layout/app.layout.component";
 import { AuthGuard } from './guards/auth.guard';
+import { PatientDetailsComponent } from './demo/components/cases/patient-details/patient-details.component';
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { AuthGuard } from './guards/auth.guard';
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },
+            { path: 'patient-details/:id', component: PatientDetailsComponent },
             { path: 'notfound', component: NotfoundComponent },
             { path: '**', redirectTo: '/dashboard' },
         ], { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled', onSameUrlNavigation: 'reload' })

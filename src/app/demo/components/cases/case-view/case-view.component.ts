@@ -29,6 +29,7 @@ import { StoreService } from 'src/app/demo/service/store.service';
 import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 declare var Dropzone;
+import QRCode from 'qrcode';
 
 @Component({
     selector: 'app-case-view',
@@ -48,6 +49,9 @@ export class CaseViewComponent {
     caseId: number;
     @ViewChild('fileInput') fileInput: ElementRef;
     @ViewChild('fileUploader') fileUploader;
+    @ViewChild('canvasElement') canvasElement!: ElementRef<HTMLCanvasElement>;
+    @ViewChild('qrCanvas') qrCanvas!: ElementRef<HTMLCanvasElement>;
+    capturedImage: string | null = null;
     caseTypes: any[] = [
         { name: 'Stage 0 - Pre-Surgery', code: '0' },
         { name: 'Stage 1 - Surgery', code: '1' },
@@ -68,6 +72,9 @@ export class CaseViewComponent {
     messageList: any = [];
     activeUser: any;
     visible = false;
+    displayDialog = false;
+    noImageSelected = true;
+    images: any[] = [];
     $ngDestroy = new Subject<void>();
 
     constructor(
@@ -112,6 +119,22 @@ export class CaseViewComponent {
     ngAfterViewInit() {
         this.initDropzone(1);
         this.initDropzone(2);
+
+        QRCode.toCanvas(
+            this.qrCanvas.nativeElement,
+            `https://vertexdentalstudiocases.com/case/view/${this.caseId}`,
+            {
+                width: 200,
+                margin: 2,
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff',
+                },
+            },
+            (error) => {
+                if (error) console.error(error);
+            }
+        );
     }
 
     getCaseInfo(case_id: number) {
@@ -275,11 +298,11 @@ export class CaseViewComponent {
     onFileSelected(files) {
         this.loading = true;
         const bodyArray = []; // Collect all body objects
-    
+
         const uploadPromises = files.map((file) => {
             const formData = new FormData();
             formData.append('file', file);
-    
+
             if (file) {
                 return this.http
                     .post('https://vertex-be.onrender.com/upload', formData)
@@ -294,7 +317,9 @@ export class CaseViewComponent {
                                 userId:
                                     this.uploadSide == 1
                                         ? this.case.userId
-                                        : JSON.parse(localStorage.getItem('user'))?.id,
+                                        : JSON.parse(
+                                              localStorage.getItem('user')
+                                          )?.id,
                                 patientId: this.patient.id,
                                 caseId: this.case.id,
                                 stage: Number(this.activeFolder),
@@ -306,10 +331,9 @@ export class CaseViewComponent {
                 return Promise.resolve(); // Resolve immediately for empty files
             }
         });
-    
+
         return Promise.all(uploadPromises).then(() => bodyArray);
     }
-    
 
     uploadNewScan() {}
 
@@ -481,10 +505,12 @@ export class CaseViewComponent {
         if (this.uploadedFiles?.length) {
             this.loading = true;
             this.cdr.detectChanges();
-            this.onFileSelected(this.uploadedFiles).then(async (res:any) => {
-                await this.scanController.createAllScans({
-                    body: res,
-                }).toPromise();
+            this.onFileSelected(this.uploadedFiles).then(async (res: any) => {
+                await this.scanController
+                    .createAllScans({
+                        body: res,
+                    })
+                    .toPromise();
                 this.getCaseInfo(this.case.id);
                 this.loading = false;
                 this.cdr.detectChanges();
@@ -680,5 +706,147 @@ export class CaseViewComponent {
                 : date.getMonth() + 1;
         const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
         return date.getFullYear() + '-' + month + '-' + day;
+    }
+
+    onDialogClose() {
+        const body = document.querySelector('body');
+        if (body) {
+            body.classList.remove('no-scroll');
+        }
+        this.images = [];
+        this.capturedImage = null;
+        this.noImageSelected = true;
+        this.displayDialog = false;
+        this.uploadedFiles = [];
+        this.stopCamera();
+    }
+
+    openCamera(camera: any) {
+        this.displayDialog = true;
+        const _this = this;
+        const body = document.querySelector('body');
+        if (body) {
+            body.classList.add('no-scroll');
+        }
+
+        window.addEventListener('popstate', function (event) {
+            if (_this.displayDialog) {
+                event.preventDefault();
+                _this.displayDialog = false;
+                _this.onDialogClose();
+                _this.stopCamera();
+            }
+        });
+
+        setTimeout(() => {
+            const maxBtn: any = document.querySelector(
+                '.p-dialog-header-icons .p-dialog-header-maximize'
+            );
+            if (maxBtn) {
+                maxBtn.click();
+                maxBtn.style.display = 'none';
+            }
+            const video: any = document.getElementById('cameraFeed');
+
+            navigator.mediaDevices
+                .getUserMedia({
+                    video: {
+                        facingMode: { ideal: 'environment' }, // Prefer back camera
+                    },
+                })
+                .then((stream) => {
+                    video.srcObject = stream;
+                })
+                .catch((error) => {
+                    console.error('Error accessing camera:', error);
+                });
+        }, 500);
+    }
+
+    stopCamera() {
+        const videoElement = document.getElementById(
+            'cameraFeed'
+        ) as HTMLVideoElement;
+        if (videoElement && videoElement.srcObject) {
+            const stream = videoElement.srcObject as MediaStream;
+            stream.getTracks().forEach((track) => track.stop());
+            videoElement.srcObject = null;
+        }
+    }
+
+    captureImage() {
+        const video = document.getElementById('cameraFeed') as HTMLVideoElement;
+        const canvas = this.canvasElement.nativeElement;
+        const context = canvas.getContext('2d');
+
+        if (!context) {
+            console.error('Canvas context not supported');
+            return;
+        }
+
+        // Set canvas size to match video frame
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // Draw current video frame on canvas
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Convert canvas to image (PNG)
+        this.capturedImage = canvas.toDataURL('image/png');
+
+        // Optionally, convert to File object to match file input
+        this.uploadedFiles.push(
+            this.dataURLToFile(this.capturedImage, 'captured_image.png')
+        );
+        this.images.push({
+            src: this.capturedImage,
+            name: 'captured_image.png',
+        });
+    }
+
+    // Convert Data URL to File object (for compatibility with file input handling)
+    dataURLToFile(dataUrl: string, filename: string): File {
+        const arr = dataUrl.split(',');
+        const mime = arr[0].match(/:(.*?);/)![1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        const file = new File([u8arr], filename, { type: mime });
+        return file;
+    }
+
+    onFileChange(event: Event) {
+        const input = event.target as HTMLInputElement;
+        const _this = this;
+        if (input.files && input.files.length > 0) {
+            this.uploadedFiles.push(...Array.from(input.files));
+            this.uploadedFiles.forEach((file) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        _this.images.push({
+                            src: e.target?.result,
+                            name: file.name,
+                        });
+                        _this.noImageSelected = false;
+                        _this.cdr.detectChanges();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    }
+    uploadSelectedFiles() {
+        this.uploadSide =
+            JSON.parse(localStorage.getItem('user'))?.role == 'admin' ? 2 : 1;
+        this.onUpload();
+        this.onDialogClose();
+    }
+    printCaseDetails() {
+        localStorage.setItem('caseToPrint', JSON.stringify(this.case));
+        window.open(`/patient-details/${this.case.id}`, '_blank');
     }
 }

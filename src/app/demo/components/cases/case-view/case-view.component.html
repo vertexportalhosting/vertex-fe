@@ -1,11 +1,14 @@
 <div>
     <div class="flex justify-content-between mb-3 gap-4">
         <button pButton label="Go Back" (click)="backToList()"></button>
-        <p-button label="Delete Case" severity="danger" (click)="deleteCase()" />
+        <div class="flex gap-1">
+            <p-button label="Print Patient Details" severity="info" (click)="printCaseDetails()" />
+            <p-button label="Delete Case" severity="danger" (click)="deleteCase()" />
+        </div>
 
     </div>
-    <div class="p-grid flex p-m-4">
-        <div class="col-4">
+    <div class="p-grid flex p-m-4 flex-wrap">
+        <div class="col-12 lg:col-4">
             <div class="sidebar">
                 <ul class="menu-list">
                     <li class="menu-item" [ngClass]="{'active': activeFolder == -1}"
@@ -17,81 +20,85 @@
                     </li>
                     <li class="menu-item" [ngClass]="{'active': activeFolder == 0}"
                         (click)="onItemClick('0');$event.preventDefault()">
-                        <span class="icon pi pi-folder"></span>
+                        <span class="icon pi pi-folder mobile-hide"></span>
+                        <span class="icon pi pi-camera desktop-hide mobile-show"
+                            (click)="openCamera(camera);activeFolder=0;$event.preventDefault()"></span>
                         <div class="menu-text stage">
                             <p class="title">Stage 0 - Pre-Surgery</p>
                             <div class="flex justify-content-end align-items-center flex-grow-1">
-                                <p-calendar placeholder="Click to add patient appointment date"
-                                 class="mx-2 calendar"
-                                pTooltip="Click to add patient appointment date"
-                                (onSelect)="updateDeliveryDate($event,0)" (click)="$event.stopPropagation()"
-                                [(ngModel)]="case.delivery_date_stage_0" />
-                            <p class="subtitle">
-                                <i *ngIf="!case.isStageOneComplete"
-                                    (click)="markAsCompleted('Stage 0 - Pre-Surgery'); $event.stopPropagation()"
-                                    class="text-2xl pi pi-circle"></i>
-                                <i *ngIf="case.isStageOneComplete"
-                                    (click)="markAsUnComplete('Stage 0 - Pre-Surgery'); $event.stopPropagation()"
-                                    class="text-2xl completed pi pi-check-circle"></i>
-                            </p>
+                                <p-calendar placeholder="Click to add patient appointment date" class="mx-2 calendar"
+                                    pTooltip="Click to add patient appointment date"
+                                    (onSelect)="updateDeliveryDate($event,0)" (click)="$event.stopPropagation()"
+                                    [(ngModel)]="case.delivery_date_stage_0" />
+                                <p class="subtitle">
+                                    <i *ngIf="!case.isStageOneComplete"
+                                        (click)="markAsCompleted('Stage 0 - Pre-Surgery'); $event.stopPropagation()"
+                                        class="text-2xl pi pi-circle"></i>
+                                    <i *ngIf="case.isStageOneComplete"
+                                        (click)="markAsUnComplete('Stage 0 - Pre-Surgery'); $event.stopPropagation()"
+                                        class="text-2xl completed pi pi-check-circle"></i>
+                                </p>
                             </div>
 
                         </div>
                     </li>
                     <li class="menu-item" [ngClass]="{'active': activeFolder == 1}"
                         (click)="onItemClick('1');$event.preventDefault()">
-                        <span class="icon pi pi-folder"></span>
+                        <span class="icon pi pi-folder mobile-hide"></span>
+                        <span class="icon pi pi-camera desktop-hide mobile-show"
+                            (click)="openCamera(camera);activeFolder=1;$event.preventDefault()"></span>
                         <div class="menu-text stage">
                             <p class="title">Stage 1 - Surgery</p>
                             <div class="flex justify-content-end align-items-center flex-grow-1">
-                                <p-calendar placeholder="Click to add patient appointment date"
-                                 class="mx-2 calendar"
-                                pTooltip="Click to add patient appointment date"
-                                (onSelect)="updateDeliveryDate($event,1)" (click)="$event.stopPropagation()"
-                                [(ngModel)]="case.delivery_date_stage_1" />
-                            <p class="subtitle">
-                                <i *ngIf="!case.isStageTwoComplete"
-                                    (click)="markAsCompleted('Stage 1 - Surgery'); $event.stopPropagation()"
-                                    class="text-2xl pi pi-circle"></i>
-                                <i *ngIf="case.isStageTwoComplete"
-                                    (click)="markAsUnComplete('Stage 1 - Surgery'); $event.stopPropagation()"
-                                    class="text-2xl completed pi pi-check-circle"></i>
+                                <p-calendar placeholder="Click to add patient appointment date" class="mx-2 calendar"
+                                    pTooltip="Click to add patient appointment date"
+                                    (onSelect)="updateDeliveryDate($event,1)" (click)="$event.stopPropagation()"
+                                    [(ngModel)]="case.delivery_date_stage_1" />
+                                <p class="subtitle">
+                                    <i *ngIf="!case.isStageTwoComplete"
+                                        (click)="markAsCompleted('Stage 1 - Surgery'); $event.stopPropagation()"
+                                        class="text-2xl pi pi-circle"></i>
+                                    <i *ngIf="case.isStageTwoComplete"
+                                        (click)="markAsUnComplete('Stage 1 - Surgery'); $event.stopPropagation()"
+                                        class="text-2xl completed pi pi-check-circle"></i>
 
-                            </p>
+                                </p>
                             </div>
                         </div>
                     </li>
                     <li class="menu-item" [ngClass]="{'active': activeFolder == 2}"
                         (click)="onItemClick('2');$event.preventDefault()">
-                        <span class="icon pi pi-folder"></span>
+                        <span class="icon pi pi-folder mobile-hide"></span>
+                        <span class="icon pi pi-camera desktop-hide mobile-show"
+                            (click)="openCamera(camera);activeFolder=2;$event.preventDefault()"></span>
                         <div class="menu-text stage">
                             <p class="title">Stage 2 - Prototype Try In </p>
                             <div class="flex justify-content-end align-items-center flex-grow-1">
-                                <p-calendar placeholder="Click to add patient appointment date"
-                                 class="mx-2 calendar"
-                                pTooltip="Click to add patient appointment date"
-                                (onSelect)="updateDeliveryDate($event,2)" (click)="$event.stopPropagation()"
-                                [(ngModel)]="case.delivery_date_stage_2" />
-                            <p class="subtitle">
-                                <i *ngIf="!case.isStageThreeComplete"
-                                    (click)="markAsCompleted('Stage 2 - Pre-Surgery'); $event.stopPropagation()"
-                                    class="text-2xl pi pi-circle"></i>
-                                <i *ngIf="case.isStageThreeComplete"
-                                    (click)="markAsUnComplete('Stage 2 - Pre-Surgery'); $event.stopPropagation()"
-                                    class="text-2xl completed pi pi-check-circle"></i>
+                                <p-calendar placeholder="Click to add patient appointment date" class="mx-2 calendar"
+                                    pTooltip="Click to add patient appointment date"
+                                    (onSelect)="updateDeliveryDate($event,2)" (click)="$event.stopPropagation()"
+                                    [(ngModel)]="case.delivery_date_stage_2" />
+                                <p class="subtitle">
+                                    <i *ngIf="!case.isStageThreeComplete"
+                                        (click)="markAsCompleted('Stage 2 - Pre-Surgery'); $event.stopPropagation()"
+                                        class="text-2xl pi pi-circle"></i>
+                                    <i *ngIf="case.isStageThreeComplete"
+                                        (click)="markAsUnComplete('Stage 2 - Pre-Surgery'); $event.stopPropagation()"
+                                        class="text-2xl completed pi pi-check-circle"></i>
 
-                            </p>
+                                </p>
                             </div>
                         </div>
                     </li>
                     <li class="menu-item" [ngClass]="{'active': activeFolder == 3}"
                         (click)="onItemClick('3');$event.preventDefault()">
-                        <span class="icon pi pi-folder"></span>
+                        <span class="icon pi pi-folder mobile-hide"></span>
+                        <span class="icon pi pi-camera desktop-hide mobile-show"
+                            (click)="openCamera(camera);activeFolder=3;$event.preventDefault()"></span>
                         <div class="menu-text stage">
                             <p class="title">Stage 3 - Final </p>
                             <div class="flex justify-content-end align-items-center flex-grow-1">
-                                <p-calendar placeholder="Click to add patient appointment date"
-                                     class="mx-2 calendar"
+                                <p-calendar placeholder="Click to add patient appointment date" class="mx-2 calendar"
                                     pTooltip="Click to add patient appointment date"
                                     (onSelect)="updateDeliveryDate($event,3)" (click)="$event.stopPropagation()"
                                     [(ngModel)]="case.delivery_date_stage_3" />
@@ -117,7 +124,7 @@
                     </li>
                 </ul>
                 <p-card *ngIf="[0,1,2,3].includes(activeFolder)">
-                    <div class="flex flex-column" >
+                    <div class="flex flex-column">
                         <h3 class="mb-0">Leave a note</h3>
                         <div class="chat-wrapper" #chatWrapper>
                             <div class="flex w-full">
@@ -142,7 +149,7 @@
                 </p-card>
             </div>
         </div>
-        <div class="col-8">
+        <div class="col-12 lg:col-8">
             <div class="grid w-full">
                 <!-- <div class="col-12 h-full md:col-6">
                     <div class="p-col-12 h-full p-md-4 p-p-2 mb-5">
@@ -209,29 +216,36 @@
                         </p-card>
                     </div>
                 </div> -->
-                <div class="flex flex-column p-5 w-full" *ngIf="activeFolder == 'overview'">
-                    <p-card class="w-full ">
-                        <div class="flex flex-column px-5 w-full">
-                            <h4 class="text-600 mt-0"><strong>Patient Info</strong></h4>
-                            <h2 class="text-5xl my-0">{{patient?.name}}</h2>
-                            <h4 class="text-600 mt-2"> <strong>Current Stage: </strong> {{case?.case_type}}</h4>
-                            <h5 *ngIf="case?.created_at"><strong class="text-600 mb-0">Created At:
-                                </strong>{{case?.created_at | date}}</h5>
-                            <h5 *ngIf="case?.delivery_date?.length"><strong class="text-600 my-0">Delivery Date:
-                                </strong>{{case?.delivery_date | date}}</h5>
-                            <h5 *ngIf="case?.urgent" class="my-0 text-red-600"><strong>Urgent</strong></h5>
+                <div class="flex flex-column items-center p-1 sm:p-5 w-full" *ngIf="activeFolder == 'overview'">
+                    <p-card class="w-full">
+                        <div class="flex flex-wrap w-full align-items-start justify-content-between">
+                            <div class="flex flex-column px-2 sm:px-5">
+                                <h4 class="text-600 mt-0"><strong>Patient Info</strong></h4>
+                                <h2 class="text-5xl my-0">{{patient?.name}}</h2>
+                                <h4 class="text-600 mt-2"> <strong>Current Stage: </strong> {{case?.case_type}}</h4>
+                                <h5 *ngIf="case?.created_at"><strong class="text-600 mb-0">Created At:
+                                    </strong>{{case?.created_at | date}}</h5>
+                                <h5 *ngIf="case?.delivery_date?.length"><strong class="text-600 my-0">Delivery Date:
+                                    </strong>{{case?.delivery_date | date}}</h5>
+                                <h5 *ngIf="case?.urgent" class="my-0 text-red-600"><strong>Urgent</strong></h5>
 
-                            <h4 class="text-600 mt-5"><strong>Office</strong></h4>
-                            <h2 class="text-5xl my-0">{{case?.user?.username | titlecase }}</h2>
+                                <h4 class="text-600 mt-2 sm:mt-5"><strong>Office</strong></h4>
+                                <h2 class="text-5xl my-0">{{case?.user?.username | titlecase }}</h2>
 
-                            <h4 class="text-600 mt-5" *ngIf="(case?.patient?.notes || case?.notes)"><strong>Case Notes</strong></h4>
-                            <h2 class="text-xl my-0">{{(case?.patient?.notes || case?.notes) | titlecase }}</h2>
+                                <h4 class="text-600 mt-2 sm:mt-5" *ngIf="(case?.patient?.notes || case?.notes)">
+                                    <strong>Case
+                                        Notes</strong></h4>
+                                <h2 class="text-xl my-0">{{(case?.patient?.notes || case?.notes) | titlecase }}</h2>
 
 
+                            </div>
+                            <div class="flex justify-content-center align-items-center mt-5">
+                                <canvas #qrCanvas></canvas>
+                            </div>
                         </div>
                     </p-card>
                 </div>
-                <div class="flex flex-column p-5 w-full" *ngIf="activeFolder == 'activity'">
+                <div class="flex flex-column p-2 sm:p-5 w-full" *ngIf="activeFolder == 'activity'">
                     <app-activity *ngIf="activeFolder == 'activity'" [caseId]="caseId"></app-activity>
                 </div>
             </div>
@@ -490,3 +504,29 @@
   </p-blockUI> -->
 <!-- <ng-template #completedText>
 </ng-template> -->
+<ng-container #camera></ng-container>
+<input type="file" hidden="true" accept="image/*" (change)="onFileChange($event)" #gallery [multiple]="true">
+
+<p-dialog styleClass="no-scroll-dialog" (onHide)="onDialogClose()" [(visible)]="displayDialog" [draggable]="false"
+    [modal]="true" [maximizable]="true" [style]="{width: '100vw', height: '100vh', padding: '0'}">
+    <div class="videoContainer">
+        <ng-container *ngIf="!uploadedFiles.length">
+            <video id="cameraFeed" autoplay style="width: 100%; height: 100%; object-fit: cover;"> </video>
+            <button id="captureButton" (click)="captureImage()"></button>
+            <button id="galleryView" (click)="gallery.click()">
+                <i class="pi pi-images"></i>
+            </button>
+        </ng-container>
+
+        <ng-container *ngIf="uploadedFiles.length">
+            <div class="upload-container">
+                <div class="image-preview">
+                    <img [src]="image.src" alt="" *ngFor="let image of images">
+                </div>
+                <button pButton label="Upload" (click)="uploadSelectedFiles()"></button>
+                <p-button severity="danger" label="Cancel" (click)="onDialogClose()"></p-button>
+            </div>
+        </ng-container>
+    </div>
+</p-dialog>
+<canvas #canvasElement style="display: none;"></canvas>

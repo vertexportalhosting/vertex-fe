@@ -98,3 +98,17 @@
         }
     }
 }
+
+
+@media (max-width: 480px) {
+    .blocked-scroll {
+        overflow: hidden;
+    }
+
+    .layout-wrapper {
+        .layout-main-container {
+            margin-left: 0;
+            padding: 7rem 0.5rem 0.5rem 0.5rem;
+        }
+    }
+}
