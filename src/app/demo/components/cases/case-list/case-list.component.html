@@ -1,7 +1,8 @@
 <div class="grid">
 	<div class="col-12 p-0 sm:p-2">
 		<div class="card p-2 sm:p-5">
-			<h5>Cases</h5>
+			<h5 class="mobile-hide">Cases</h5>
+			<h5 class="mobile-show my-2 text-center">Patient Portal</h5>
 			<p-table #dt1 [value]="cases" [lazy]="true" dataKey="id" [(rows)]="limit" [loading]="loading"
 				[rowHover]="true" [paginator]="true" (onPage)="onPageChange($event)"
 				[rowsPerPageOptions]="[5, 10, 20, 50]" [first]="page * limit"
@@ -56,7 +57,7 @@
 							<p-dropdown *ngIf="case.show" appendTo="body" [options]="caseTypes"
 								[(ngModel)]="case.case_type" nVal optionLabel="name" optionValue="name"
 								(onChange)="updateCaseStatus(case, 'stage')"></p-dropdown>
-							<div *ngIf="!case.show" class="flex gap-2 align-items-center">
+							<div *ngIf="!case.show" class="flex gap-2 justify-content-between align-items-center">
 								<span>{{ case.case_type | uppercase }}</span>
 								<p-button icon="pi pi-pencil" class="" [rounded]="true" [text]="true" [raised]="true"
 									severity="info" (click)="case.show = true" />

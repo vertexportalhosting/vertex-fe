@@ -1,13 +1,13 @@
 <div>
-    <div class="flex justify-content-between mb-3 gap-4">
-        <button pButton label="Go Back" (click)="backToList()"></button>
-        <div class="flex gap-1">
+    <div class="flex justify-content-center lg:justify-content-between mb-3 gap-1 lg:gap-4">
+        <button pButton label="Go Back" class="flex-grow-1 lg:flex-grow-0" (click)="backToList()"></button>
+        <div class="flex justify-content-evenly gap-1">
             <p-button label="Print Patient Details" severity="info" (click)="printCaseDetails()" />
             <p-button label="Delete Case" severity="danger" (click)="deleteCase()" />
         </div>
 
     </div>
-    <div class="p-grid flex p-m-4 flex-wrap">
+    <div class="p-grid flex p-m-4 flex-wrap flex-column-reverse lg:flex-row ">
         <div class="col-12 lg:col-4">
             <div class="sidebar">
                 <ul class="menu-list">
@@ -150,7 +150,7 @@
             </div>
         </div>
         <div class="col-12 lg:col-8">
-            <div class="grid w-full">
+            <div class="flex w-full">
                 <!-- <div class="col-12 h-full md:col-6">
                     <div class="p-col-12 h-full p-md-4 p-p-2 mb-5">
                         <p-card class="h-full">
@@ -217,12 +217,12 @@
                     </div>
                 </div> -->
                 <div class="flex flex-column items-center p-1 sm:p-5 w-full" *ngIf="activeFolder == 'overview'">
-                    <p-card class="w-full">
-                        <div class="flex flex-wrap w-full align-items-start justify-content-between">
-                            <div class="flex flex-column px-2 sm:px-5">
-                                <h4 class="text-600 mt-0"><strong>Patient Info</strong></h4>
-                                <h2 class="text-5xl my-0">{{patient?.name}}</h2>
-                                <h4 class="text-600 mt-2"> <strong>Current Stage: </strong> {{case?.case_type}}</h4>
+                    <p-card>
+                        <div class="flex flex-wrap w-full align-items-start w-full">
+                            <div class="flex flex-column px-2 sm:px-5 relative w-full">
+                                <h4 class="text-600 mt-5 w-90"><strong>Patient Info</strong></h4>
+                                <h2 class="text-2xl lg:text-5xl my-0 w-90">{{patient?.name}}</h2>
+                                <h4 class="text-600 text-xl lg:text-3xl mt-2 w-90"> <strong>Current Stage: </strong> {{case?.case_type}}</h4>
                                 <h5 *ngIf="case?.created_at"><strong class="text-600 mb-0">Created At:
                                     </strong>{{case?.created_at | date}}</h5>
                                 <h5 *ngIf="case?.delivery_date?.length"><strong class="text-600 my-0">Delivery Date:
@@ -234,14 +234,16 @@
 
                                 <h4 class="text-600 mt-2 sm:mt-5" *ngIf="(case?.patient?.notes || case?.notes)">
                                     <strong>Case
-                                        Notes</strong></h4>
+                                        Notes</strong>
+                                </h4>
                                 <h2 class="text-xl my-0">{{(case?.patient?.notes || case?.notes) | titlecase }}</h2>
 
+                                <div class="qr-canvas flex flex-column justify-content-center align-items-center mt-5">
+                                    <h3>Patient QR Code</h3>
+                                    <canvas #qrCanvas></canvas>
+                                </div>
+                            </div>
 
-                            </div>
-                            <div class="flex justify-content-center align-items-center mt-5">
-                                <canvas #qrCanvas></canvas>
-                            </div>
                         </div>
                     </p-card>
                 </div>
@@ -255,7 +257,7 @@
                     <p-card #scanFiles>
                         <div class="p-fluid">
                             <h3>Scan Files</h3>
-                            <div class="flex flex-wrap gap-2 justify-content-end">
+                            <div class="flex flex-wrap gap-2 justify-content-end scan-files-container">
                                 <div class="col-12">
                                     <!-- <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
                                 auto="true" (onSelect)="onFileSelected($event)" >
@@ -289,7 +291,7 @@
                                                 <button pButton label="Click to Upload" icon="pi pi-plus"
                                                     (click)="dropzone.click()"></button>
                                             </div>
-                                            <div class="dp-area {{isDarkTheme}}">
+                                            <div class="dp-area {{isDarkTheme}} mobile-hide">
                                                 <form action="#" #dropzone (submit)="$event.preventDefault()"
                                                     class="dropzone" id="demo-upload1">
                                                 </form>
@@ -341,7 +343,7 @@
                         <p-card>
                             <div class="p-fluid">
                                 <h3>Admin Files</h3>
-                                <div class="flex flex-wrap gap-2 justify-content-end">
+                                <div class="flex flex-wrap gap-2 justify-content-end scan-files-container">
                                     <div class="col-12">
                                         <!-- <p-fileUpload mode="advanced" chooseLabel="Click to Upload" [multiple]="true"
                                     auto="true" (onSelect)="onFileSelected($event)" >
@@ -378,7 +380,7 @@
                                                     <button pButton label="Click to Upload" icon="pi pi-plus"
                                                         (click)="dropzone2.click()"></button>
                                                 </div>
-                                                <div class="dp-area {{isDarkTheme}}">
+                                                <div class="dp-area {{isDarkTheme}} mobile-hide">
                                                     <form action="#" #dropzone2 (submit)="$event.preventDefault()"
                                                         class="dropzone" id="demo-upload2">
                                                     </form>

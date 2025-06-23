@@ -52,6 +52,13 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Calendar', icon: 'pi pi-fw pi-calendar', routerLink: ['/calendar'] }
                 ]
+            },
+            {
+                label: 'Newsletter',
+                roles: ['admin'],
+                items: [
+                    { label: 'Create a Newsletter', icon: 'pi pi-fw pi-envelope', routerLink: ['/newsletter'] }
+                ]
             }
         ];
 

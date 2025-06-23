@@ -1,0 +1,16 @@
+<div class="container">
+	<h2 class="title">Create a new NewsLetter</h2>
+	<input type="text" pInputText placeholder="Newsletter Title" [(ngModel)]="title" class="w-full mb-2" />
+	<div class="content">
+		<form [formGroup]="form">
+			<div class="editor">
+				<ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+				</ngx-editor-menu>
+				<ngx-editor [editor]="editor" formControlName="editorContent">
+				</ngx-editor>
+			</div>
+		</form>
+	</div>
+</div>
+
+<p-button label="Send Emails" class="flex justify-content-end mt-2" (click)="sendEmails()"></p-button>

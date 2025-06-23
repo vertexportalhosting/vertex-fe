@@ -1,5 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import {
+    CommonModule,
+    HashLocationStrategy,
+    LocationStrategy,
+    PathLocationStrategy,
+} from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
@@ -19,16 +24,28 @@ import { MessageService } from 'primeng/api';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
-    imports: [AppRoutingModule, AppLayoutModule, BlockUIModule, ProgressSpinnerModule, CommonModule ],
+    imports: [
+        AppRoutingModule,
+        AppLayoutModule,
+        BlockUIModule,
+        ProgressSpinnerModule,
+        CommonModule,
+    ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
-        CountryService, CasesService, EventService, IconService, NodeService,
-        PhotoService, ProductService, {
+        CountryService,
+        CasesService,
+        EventService,
+        IconService,
+        NodeService,
+        PhotoService,
+        ProductService,
+        {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpInterceptorService,
-            multi: true
+            multi: true,
         },
-        MessageService
+        MessageService,
     ],
     bootstrap: [AppComponent],
 })

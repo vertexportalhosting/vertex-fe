@@ -17,6 +17,7 @@ import { PatientDetailsComponent } from './demo/components/cases/patient-details
                     { path: 'doctor', loadChildren: () => import('./demo/components/user-management/user.module').then(m => m.UserModule) },
                     { path: 'activity', loadChildren: () => import('./demo/components/activity/activity.module').then(m => m.ActivityModule) },
                     { path: 'calendar', loadChildren: () => import('./demo/components/calendar/calendar.module').then(m => m.CalendarsModule) },
+                    { path: 'newsletter', loadChildren: () => import('./demo/components/newsletter/newsletter.module').then(m => m.NewsletterModule) },
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },

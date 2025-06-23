@@ -490,6 +490,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/Messages.Filter1'
       operationId: MessagesController.find
+  /newsletter:
+    post:
+      x-controller-name: UserController
+      x-operation-name: sendNewsLetter
+      tags:
+        - UserController
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        data: {}
+      operationId: UserController.sendNewsLetter
   /patient-histories/count:
     get:
       x-controller-name: PatientHistoryController

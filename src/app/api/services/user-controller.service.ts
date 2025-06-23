@@ -23,6 +23,8 @@ import { login } from '../fn/user-controller/login';
 import { Login$Params } from '../fn/user-controller/login';
 import { replaceUserById } from '../fn/user-controller/replace-user-by-id';
 import { ReplaceUserById$Params } from '../fn/user-controller/replace-user-by-id';
+import { sendNewsLetter } from '../fn/user-controller/send-news-letter';
+import { SendNewsLetter$Params } from '../fn/user-controller/send-news-letter';
 import { signUp } from '../fn/user-controller/sign-up';
 import { SignUp$Params } from '../fn/user-controller/sign-up';
 import { testEmail } from '../fn/user-controller/test-email';
@@ -87,6 +89,31 @@ export class UserControllerService extends BaseService {
   exportDoctorsEmails(params?: ExportDoctorsEmails$Params, context?: HttpContext): Observable<Array<string>> {
     return this.exportDoctorsEmails$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<string>>): Array<string> => r.body)
+    );
+  }
+
+  /** Path part for operation `userControllerSendNewsLetter()` */
+  static readonly UserControllerSendNewsLetterPath = '/newsletter';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `sendNewsLetter()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  sendNewsLetter$Response(params?: SendNewsLetter$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
+    return sendNewsLetter(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `sendNewsLetter$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  sendNewsLetter(params?: SendNewsLetter$Params, context?: HttpContext): Observable<User> {
+    return this.sendNewsLetter$Response(params, context).pipe(
+      map((r: StrictHttpResponse<User>): User => r.body)
     );
   }
 

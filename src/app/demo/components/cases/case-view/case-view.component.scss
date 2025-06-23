@@ -203,6 +203,10 @@ ul.menu-list {
     border-radius: 4px;
     transition: background-color 0.3s ease, padding 0.3s ease;
     cursor: pointer;
+    @media screen and (max-width: 768px) {
+        padding: 5px 6px;
+        margin-bottom: 0;
+    }
 }
 
 .menu-item:hover {
@@ -574,4 +578,39 @@ body.no-scroll {
             max-width: 200px;
         }
     }
+}
+
+.qr-canvas {
+    position: absolute;
+    right: 0;
+
+    @media screen and (max-width: 768px) {
+        h3 {
+            display: none;
+        }
+        canvas {
+            width: 50px !important;
+            height: 50px !important;
+        }
+       
+    }
+}
+.w-90 {
+    width: 80% !important;
+}
+@media screen and (max-width: 768px) {
+    .scan-files-container {
+        .col-12 {
+            padding: 4px !important;
+            .button-area {
+                padding: 10px !important;
+            }
+        }
+    }
+    .custom-uploader {
+        .p-card-body {
+            padding: 0 !important;
+        }
+    }
+    
 }
