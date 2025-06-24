@@ -8,7 +8,7 @@
 
     </div>
     <div class="p-grid flex p-m-4 flex-wrap {{activeFolder == 'overview' ? 'flex-column-reverse' : ''}} lg:flex-row ">
-        <div class="col-12 lg:col-4">
+        <div class="col-12 p-0 lg:p-2 lg:col-4">
             <div class="sidebar">
                 <ul class="menu-list">
                     <li class="menu-item" [ngClass]="{'active': activeFolder == -1}"
@@ -149,7 +149,7 @@
                 </p-card>
             </div>
         </div>
-        <div class="col-12 lg:col-8">
+        <div class="col-12 p-0 lg:p-2 lg:col-8">
             <div class="flex w-full">
                 <!-- <div class="col-12 h-full md:col-6">
                     <div class="p-col-12 h-full p-md-4 p-p-2 mb-5">
@@ -216,7 +216,7 @@
                         </p-card>
                     </div>
                 </div> -->
-                <div class="flex flex-column items-center p-1 sm:p-5 w-full {{activeFolder != 'overview' ? 'hidden' : ''}}" >
+                <div class="flex flex-column items-center p-1 sm:p-3 w-full {{activeFolder != 'overview' ? 'hidden' : ''}}" >
                     <p-card>
                         <div class="flex flex-wrap w-full align-items-start w-full ">
                             <div class="flex flex-column px-2 sm:px-5 relative w-full">
@@ -247,7 +247,7 @@
                         </div>
                     </p-card>
                 </div>
-                <div class="flex flex-column p-2 sm:p-5 w-full" *ngIf="activeFolder == 'activity'">
+                <div class="flex flex-column p-2 sm:p-3 w-full" *ngIf="activeFolder == 'activity'">
                     <app-activity *ngIf="activeFolder == 'activity'" [caseId]="caseId"></app-activity>
                 </div>
             </div>
