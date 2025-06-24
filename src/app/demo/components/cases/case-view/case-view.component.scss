@@ -613,9 +613,10 @@ body.no-scroll {
             display: none;
         }
         canvas {
-            width: 50px !important;
-            height: 50px !important;
+            width: 100px !important;
+            height: 100px !important;
         }
+        top:-30px
     }
 }
 .w-90 {

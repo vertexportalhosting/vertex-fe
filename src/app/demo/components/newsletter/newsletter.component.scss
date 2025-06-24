@@ -1,3 +1,5 @@
-:host {
-  display: block;
+:host::ng-deep {
+  .p-multiselect {
+    width: 100%;
+  }
 }

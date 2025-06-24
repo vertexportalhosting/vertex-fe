@@ -11,7 +11,7 @@ import { UserControllerService } from 'src/app/api/services';
 })
 export class NewsletterComponent {
     editor: Editor;
-    title: string = 'Newsletter';
+    title: string = '';
     toolbar: Toolbar = [
         ['bold', 'italic'],
         ['underline', 'strike'],
@@ -22,7 +22,8 @@ export class NewsletterComponent {
         ['text_color', 'background_color'],
         ['align_left', 'align_center', 'align_right', 'align_justify'],
     ];
-
+    emails: any[] = [];
+    selectedEmails = [];
     form = new FormGroup({
         editorContent: new FormControl(
             { value: '', disabled: false },
@@ -38,16 +39,35 @@ export class NewsletterComponent {
 
     ngOnInit(): void {
         this.editor = new Editor();
+        this.getDoctorsEmails();
+    }
+
+    getDoctorsEmails() {
+        this.userControllerService.exportDoctorsEmails().subscribe({
+            next: (emails) => {
+                this.emails = emails.map((email) => ({
+                    name: email,
+                    value: email,
+                }));
+            },
+        });
     }
 
     sendEmails(): void {
         if (this.form.valid) {
+            if (!this.selectedEmails?.length) {
+                alert('Please select emails to send newsletter');
+                return;
+            }
             const content = this.doc.value;
             this.userControllerService
                 .sendNewsLetter({
                     body: {
                         content: content,
-                        data: { title: this.title },
+                        data: {
+                            title: this.title,
+                            emails: this.selectedEmails,
+                        },
                     },
                 })
                 .subscribe({
@@ -59,6 +79,7 @@ export class NewsletterComponent {
                     },
                 });
         } else {
+            alert('Please add title or content')
             console.error('Form is invalid');
         }
     }

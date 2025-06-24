@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { NgxEditorModule } from "ngx-editor";
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
     declarations: [NewsletterComponent],
@@ -16,7 +18,9 @@ import { InputTextModule } from 'primeng/inputtext';
         RouterModule.forChild([{ path: '', component: NewsletterComponent }]),
         NgxEditorModule,
         ButtonModule,
-        InputTextModule
+        InputTextModule,
+        DropdownModule,
+        MultiSelectModule
     ],
     exports: [],
 })

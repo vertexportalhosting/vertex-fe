@@ -36,8 +36,11 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { ActivityComponent } from '../activity/activity.component';
 import { ActivityModule } from '../activity/activity.module';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
+import { MessagesModule } from 'primeng/messages';
+
 @NgModule({
     imports: [
+        MessagesModule,
         CommonModule,
         FormsModule,
         ChartModule,
