@@ -719,6 +719,7 @@ export class CaseViewComponent {
         this.capturedImage = null;
         this.noImageSelected = true;
         this.uploadedFiles = [];
+        this.displayDialog = false;
     }
 
     openCamera(camera: any) {
