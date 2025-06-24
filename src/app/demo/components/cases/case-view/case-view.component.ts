@@ -758,7 +758,11 @@ export class CaseViewComponent {
                     if (result.state !== 'granted') {
                         navigator.mediaDevices
                             .getUserMedia({
-                                video: { facingMode: { ideal: 'environment' } },
+                                video: {
+                                    facingMode: { ideal: 'environment' },
+                                    width: { ideal: 1920 },
+                                    height: { ideal: 1080 },
+                                },
                             })
                             .then((stream) => {
                                 this.video.srcObject = stream;
@@ -808,11 +812,14 @@ export class CaseViewComponent {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
         // Convert canvas to image (PNG)
-        this.capturedImage = canvas.toDataURL('image/png');
+        this.capturedImage = canvas.toDataURL('image/png', 1.0);
 
         // Optionally, convert to File object to match file input
         this.uploadedFiles.push(
-            this.dataURLToFile(this.capturedImage, 'captured_image.png')
+            this.dataURLToFile(
+                this.capturedImage,
+                `captured_image_${Date.now()}.png`
+            )
         );
         this.images.push({
             src: this.capturedImage,
