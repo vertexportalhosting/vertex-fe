@@ -33,11 +33,9 @@
 .qr-container {
   display: flex;
   justify-content: flex-end;
-}
-
-.qr-container canvas {
-    width: 100px;
-    height: 100px;
+  position: absolute;
+  top: 50px;
+  right: 0;
 }
 
 .info-table {
@@ -48,7 +46,7 @@
 
 .info-table th,
 .info-table td {
-    padding: 8px 10px;
+    padding: 12px 10px;
     text-align: left;
 }
 
@@ -77,4 +75,7 @@
     button {
         display: none;
     }
+}
+textarea {
+  color: #000;
 }

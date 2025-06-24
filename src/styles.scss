@@ -21,7 +21,6 @@ $gutter: 1rem; //for primeflex grid system
     }
 }
 
-
 .main_card {
     padding: 20px;
     cursor: pointer;
@@ -29,7 +28,7 @@ $gutter: 1rem; //for primeflex grid system
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     }
     @media screen and (max-width: 786px) {
-        padding: 30px
+        padding: 30px;
     }
 
     &.button {
@@ -40,4 +39,6 @@ $gutter: 1rem; //for primeflex grid system
     }
 }
 
-
+.hidden {
+    display: none !important;
+}

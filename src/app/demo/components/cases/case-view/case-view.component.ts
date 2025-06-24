@@ -76,6 +76,7 @@ export class CaseViewComponent {
     noImageSelected = true;
     images: any[] = [];
     $ngDestroy = new Subject<void>();
+    video: any;
 
     constructor(
         private route: ActivatedRoute,
@@ -709,6 +710,7 @@ export class CaseViewComponent {
     }
 
     onDialogClose() {
+        this.stopCamera();
         const body = document.querySelector('body');
         if (body) {
             body.classList.remove('no-scroll');
@@ -716,9 +718,7 @@ export class CaseViewComponent {
         this.images = [];
         this.capturedImage = null;
         this.noImageSelected = true;
-        this.displayDialog = false;
         this.uploadedFiles = [];
-        this.stopCamera();
     }
 
     openCamera(camera: any) {
@@ -747,7 +747,7 @@ export class CaseViewComponent {
                 maxBtn.style.display = 'none';
             }
 
-            const video: any = document.getElementById('cameraFeed');
+            this.video = document.getElementById('cameraFeed');
 
             // Always re-request permission
             navigator.permissions
@@ -760,7 +760,7 @@ export class CaseViewComponent {
                                 video: { facingMode: { ideal: 'environment' } },
                             })
                             .then((stream) => {
-                                video.srcObject = stream;
+                                this.video.srcObject = stream;
                             })
                             .catch((error) => {
                                 alert(
@@ -776,22 +776,17 @@ export class CaseViewComponent {
                                 video: { facingMode: { ideal: 'environment' } },
                             })
                             .then((stream) => {
-                                video.srcObject = stream;
+                                this.video.srcObject = stream;
                             });
                     }
                 });
-        }, 500);
+        }, 1000);
     }
 
     stopCamera() {
-        const videoElement = document.getElementById(
-            'cameraFeed'
-        ) as HTMLVideoElement;
-        if (videoElement && videoElement.srcObject) {
-            const stream = videoElement.srcObject as MediaStream;
-            stream.getTracks().forEach((track) => track.stop());
-            videoElement.srcObject = null;
-        }
+        const stream = this.video.srcObject as MediaStream;
+        stream.getTracks().forEach((track) => track.stop());
+        this.video.srcObject = null;
     }
 
     captureImage() {
