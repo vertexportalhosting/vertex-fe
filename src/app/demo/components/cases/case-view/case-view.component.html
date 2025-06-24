@@ -7,9 +7,7 @@
         </div>
 
     </div>
-    <p-messages class="mobile-show"
-        [value]="[{severity: 'info', detail: 'Tap the Camera Icon to Upload the Photos! 📸'}]" [enableService]="false"
-        [closable]="true" />
+
     <div class="p-grid flex p-m-4 flex-wrap {{activeFolder == 'overview' ? 'flex-column-reverse' : ''}} lg:flex-row ">
         <div class="col-12 p-0 lg:p-2 lg:col-4">
             <div class="sidebar">
@@ -504,7 +502,11 @@
 
     </div>
 </div>
+<p-messages class="mobile-show" [value]="[{severity: 'info', detail: 'Tap the Camera Icon to Upload the Photos!'}]"
+    [enableService]="false" [closable]="true" />
+
 <p-confirmDialog key="case" global="false" appendTo="body"></p-confirmDialog>
+
 <p-confirmDialog key="scan" global="false" appendTo="body"></p-confirmDialog>
 <!-- <p-blockUI [blocked]="loading" [baseZIndex]="99999">
     <p-progressSpinner ariaLabel="loading" />
