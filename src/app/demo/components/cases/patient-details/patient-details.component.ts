@@ -33,6 +33,7 @@ export class PatientDetailsComponent {
         const data = localStorage.getItem('caseToPrint');
         if (data) {
             this.case = { ...JSON.parse(data) } as any;
+            console.log('this.case: ', this.case);
 
             setTimeout(() => {
                 QRCode.toCanvas(
@@ -75,3 +76,6 @@ export class PatientDetailsComponent {
         }
     }
 }
+
+
+

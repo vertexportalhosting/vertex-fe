@@ -1,59 +1,80 @@
 #print-section {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background: white;
-  color: #000;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: white;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.urgent {
+    border: 1px solid #000;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    h3 {
+        margin: 0 !important;
+    }
 }
 
 .letterhead-img {
-  max-height: 120px;
-  object-fit: contain;
+    max-height: 120px;
+    object-fit: contain;
+}
+
+.qr-container {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .qr-container canvas {
-  width: 100px;
-  height: 100px;
+    width: 100px;
+    height: 100px;
 }
 
 .info-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-.info-table th, .info-table td {
-  padding: 8px 10px;
-  text-align: left;
+.info-table th,
+.info-table td {
+    padding: 8px 10px;
+    text-align: left;
 }
 
 .mt-4 {
-  margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 /* Print styles */
 @media print {
-  body * {
-    visibility: hidden;
-  }
+    body * {
+        visibility: hidden;
+    }
 
-  #print-section, #print-section * {
-    visibility: visible;
-  }
+    #print-section,
+    #print-section * {
+        visibility: visible;
+    }
 
-  #print-section {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-  }
+    #print-section {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
 
-  button {
-    display: none;
-  }
+    button {
+        display: none;
+    }
 }

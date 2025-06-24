@@ -12,6 +12,7 @@ import { PatientDetailsComponent } from './demo/components/cases/patient-details
                 path: '', component: AppLayoutComponent,
                 canActivate: [AuthGuard],
                 children: [
+                     {path: '', redirectTo: '/dashboard', pathMatch: 'full' },
                     { path: 'dashboard' ,loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
                     { path: 'case', loadChildren: () => import('./demo/components/cases/cases.module').then(m => m.CasesModule) },
                     { path: 'doctor', loadChildren: () => import('./demo/components/user-management/user.module').then(m => m.UserModule) },

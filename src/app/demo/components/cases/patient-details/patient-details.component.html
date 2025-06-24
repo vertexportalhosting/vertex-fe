@@ -2,41 +2,89 @@
   <!-- Header with logo and QR -->
   <div class="header-section">
     <img src="/assets/vertex-letterheed.jpg" alt="Letterhead" class="letterhead-img" />
-    <div class="qr-container">
-      <canvas #qrCanvas></canvas>
-    </div>
   </div>
 
   <!-- Patient and Doctor Info Table -->
   <table class="info-table">
     <tr>
-      <th colspan="2">Patient Information</th>
-      <th colspan="2">Doctor Information</th>
+      <th colspan="2"></th>
+      <th colspan="2"></th>
     </tr>
     <tr>
-      <td><strong>Name:</strong></td>
-      <td>{{ case?.patient_name }}</td>
-      <td><strong>Doctor:</strong></td>
+      <td><strong>Office:</strong></td>
       <td>{{ case?.doctor_name }}</td>
+      <td rowspan="6" style="padding:0">
+        <table style="width: 100%;">
+          <tr>
+            <td style="text-align:right"></td>
+            <td style="text-align:right"><strong>Created Date:</strong>: {{case?.created_at | date: 'short'}}</td>
+          </tr>
+        </table>
+        <div class="qr-container">
+          <canvas #qrCanvas></canvas>
+        </div>
+      </td>
     </tr>
     <tr>
-      <td><strong>Patient ID:</strong></td>
-      <td>{{ case?.patientId }}</td>
-      <td><strong>Email:</strong></td>
-      <td>{{ case?.user?.email }}</td>
+      <td><strong>Patient Name:</strong></td>
+      <td>{{ case?.patient_name }}</td>
     </tr>
     <tr>
-      <td><strong>Gender:</strong></td>
-      <td>{{ case?.patient?.gender || 'N/A' }}</td>
-      <td><strong>Role:</strong></td>
-      <td>{{ case?.user?.role }}</td>
+      <td><strong>Stages:</strong></td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td>
+        <input type="checkbox" name="isStageOneCOmplete" [(ngModel)]="case.isStageOneComplete" id="">
+        <label for="isStageOneCOmplete">
+          <strong> Stage 0 - Pre Surgery </strong>
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" name="isStageTwoCOmplete" [(ngModel)]="case.isStageTwoComplete" id="">
+        <label for="isStageTwoCOmplete">
+          <strong> Stage 1 - Surgery </strong>
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" name="isStageThreeCOmplete" [(ngModel)]="case.isStageThreeComplete" id="">
+        <label for="isStageTwoCOmplete">
+          <strong> Stage 2 - Prototype Try In </strong>
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" name="isStageFourCOmplete" [(ngModel)]="case.isStageFourComplete" id="">
+        <label for="isStageTwoCOmplete">
+          <strong> Stage 3 - Final </strong>
+        </label>
+      </td>
+    </tr>
+
+    <tr></tr>
+    <tr></tr>
+
+    <tr>
+      <td><strong>Case Notes</strong></td>
+    </tr>
+    <tr>
+      <td colspan="4"><textarea pInputTextarea name="" id="" rows="10" style="width: 100%;">{{case?.patient?.notes}}</textarea></td>
     </tr>
   </table>
 
+
+
   <hr>
 
+
+
   <!-- Case Details Table -->
-  <table class="info-table mt-4">
+  <!-- <table class="info-table mt-4">
     <tr>
       <th colspan="4">Case Details</th>
     </tr>
@@ -52,12 +100,16 @@
       <td><strong>Delivery Date:</strong></td>
       <td>{{ case?.delivery_date | date }}</td>
     </tr>
-  </table>
+  </table> -->
 
   <!-- Stage Completion Table -->
   <hr>
 
 </div>
 
+
+<!-- <div class="qr-container">
+      <canvas #qrCanvas></canvas>
+    </div> -->
 <!-- Print Button -->
 <!-- <button pButton type="button" label="Print Case Details" (click)="print()">Print</button> -->

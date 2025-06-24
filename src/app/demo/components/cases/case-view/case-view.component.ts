@@ -746,19 +746,39 @@ export class CaseViewComponent {
                 maxBtn.click();
                 maxBtn.style.display = 'none';
             }
+
             const video: any = document.getElementById('cameraFeed');
 
-            navigator.mediaDevices
-                .getUserMedia({
-                    video: {
-                        facingMode: { ideal: 'environment' }, // Prefer back camera
-                    },
-                })
-                .then((stream) => {
-                    video.srcObject = stream;
-                })
-                .catch((error) => {
-                    console.error('Error accessing camera:', error);
+            // Always re-request permission
+            navigator.permissions
+                .query({ name: 'camera' as PermissionName })
+                .then((result) => {
+                    // Force re-request if not granted
+                    if (result.state !== 'granted') {
+                        navigator.mediaDevices
+                            .getUserMedia({
+                                video: { facingMode: { ideal: 'environment' } },
+                            })
+                            .then((stream) => {
+                                video.srcObject = stream;
+                            })
+                            .catch((error) => {
+                                alert(
+                                    'Camera access is required to capture images. Please allow camera access in your browser settings.'
+                                );
+                                _this.onDialogClose();
+                                _this.stopCamera();
+                            });
+                    } else {
+                        // Already granted
+                        navigator.mediaDevices
+                            .getUserMedia({
+                                video: { facingMode: { ideal: 'environment' } },
+                            })
+                            .then((stream) => {
+                                video.srcObject = stream;
+                            });
+                    }
                 });
         }, 500);
     }
