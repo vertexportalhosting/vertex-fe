@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem("user", JSON.stringify(data));
                 const returnUrl = this.route.snapshot.queryParams['returnUrl'];
                 if (returnUrl) {
-                    this.router.navigate(["/case/view/164"])
+                    this.router.navigate([returnUrl])
                 } else {
                     this.isDevice() ? this.router.navigate(["/case/list"]) : this.router.navigate(["/dashboard"]);
                 }
