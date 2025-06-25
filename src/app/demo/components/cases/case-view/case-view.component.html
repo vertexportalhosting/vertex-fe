@@ -241,9 +241,13 @@
                                 </h4>
                                 <h2 class="text-xl my-0">{{(case?.patient?.notes || case?.notes) | titlecase }}</h2>
 
-                                <div class="qr-canvas flex flex-column justify-content-center align-items-center mt-5">
+                                <div class="qr-canvas flex flex-column justify-content-center align-items-end lg:align-items-center mt-5">
                                     <h3>Patient QR Code</h3>
                                     <canvas #qrCanvas></canvas>
+                                    <p-button label="Download QR Code" class="mobile-hide"
+                                        (click)="downloadQRCode()"></p-button>
+                                    <p-button icon="pi pi-download" class="mobile-show"
+                                        (click)="downloadQRCode()"></p-button>
                                 </div>
                             </div>
 
@@ -502,18 +506,12 @@
 
     </div>
 </div>
-<p-messages class="mobile-show" [value]="[{severity: 'info', detail: 'Tap the Camera Icon to Upload the Photos!', icon: 'pi pi-camera',
+<p-messages class="mobile-show" [value]="[{severity: 'info', detail: 'Tap the camera icon above next to each stage to directly to upload a photo into that stage', icon: 'pi pi-camera',
 }]" [enableService]="false" [closable]="true" />
 
 
 <p-confirmDialog key="case" global="false" appendTo="body"></p-confirmDialog>
-
 <p-confirmDialog key="scan" global="false" appendTo="body"></p-confirmDialog>
-<!-- <p-blockUI [blocked]="loading" [baseZIndex]="99999">
-    <p-progressSpinner ariaLabel="loading" />
-  </p-blockUI> -->
-<!-- <ng-template #completedText>
-</ng-template> -->
 <ng-container #camera></ng-container>
 <input type="file" hidden="true" accept="image/*" (change)="onFileChange($event)" #gallery [multiple]="true">
 

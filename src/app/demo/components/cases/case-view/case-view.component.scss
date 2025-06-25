@@ -210,10 +210,9 @@ ul.menu-list {
         padding: 5px 6px;
         margin-bottom: 0;
         span {
-        margin-right: 5px;
+            margin-right: 5px;
+        }
     }
-    }
-    
 }
 
 .menu-item:hover {
@@ -616,7 +615,7 @@ body.no-scroll {
             width: 100px !important;
             height: 100px !important;
         }
-        top:-30px
+        top: -30px;
     }
 }
 .w-90 {
@@ -646,5 +645,11 @@ body.no-scroll {
             font-size: 1rem !important;
             margin: 4px 0 !important;
         }
+    }
+}
+.download-qr-btn {
+    @media screen and (max-width: 786px) {
+        padding: 5px 8px;
+        font-size: 12px;
     }
 }

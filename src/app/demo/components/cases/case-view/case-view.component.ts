@@ -872,4 +872,13 @@ export class CaseViewComponent {
         localStorage.setItem('caseToPrint', JSON.stringify(this.case));
         window.open(`/patient-details/${this.case.id}`, '_blank');
     }
+
+    downloadQRCode() {
+        // download QR code
+        const canvas = this.qrCanvas.nativeElement;
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = this.case.patient_name+'_qr_code.png';
+        link.click();
+    }
 }
