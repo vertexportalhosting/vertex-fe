@@ -11,6 +11,11 @@ import { CaseWithRelations } from '../../models/case-with-relations';
 export interface FindById$Params {
   id: number;
   filter?: any;
+
+/**
+ * If true, it will return the case with scans
+ */
+  qrscanned?: boolean;
 }
 
 export function findById(http: HttpClient, rootUrl: string, params: FindById$Params, context?: HttpContext): Observable<StrictHttpResponse<CaseWithRelations>> {
@@ -18,6 +23,7 @@ export function findById(http: HttpClient, rootUrl: string, params: FindById$Par
   if (params) {
     rb.path('id', params.id, {});
     rb.query('filter', params.filter, {});
+    rb.query('qrscanned', params.qrscanned, {});
   }
 
   return http.request(

@@ -97,8 +97,13 @@ export class CaseViewComponent {
     ngOnInit() {
         this.loading = true;
         this.caseId = this.route.snapshot.params['id'];
+        const params:any = this.route.snapshot.queryParams;
         if (this.caseId) {
-            this.getCaseInfo(this.caseId);
+            if (params?.qrscanned) {
+                this.getCaseInfo(this.caseId, params);
+            } else {
+                this.getCaseInfo(this.caseId);
+            }
         }
         this.isDarkTheme =
             JSON.parse(localStorage.getItem('theme_config'))?.colorScheme ==
@@ -123,7 +128,7 @@ export class CaseViewComponent {
 
         QRCode.toCanvas(
             this.qrCanvas.nativeElement,
-            `https://vertexdentalstudiocases.com/case/view/${this.caseId}`,
+            `https://vertexdentalstudiocases.com/case/view/${this.caseId}?qrscanned=true`,
             {
                 width: 200,
                 margin: 2,
@@ -138,7 +143,7 @@ export class CaseViewComponent {
         );
     }
 
-    getCaseInfo(case_id: number) {
+    getCaseInfo(case_id: number, params?: any) {
         const filter = {
             include: [
                 {
@@ -177,7 +182,11 @@ export class CaseViewComponent {
         this.case = {};
         this.user = {};
         this.caseController
-            .findById({ id: case_id, filter: JSON.stringify(filter) })
+            .findById({
+                id: case_id,
+                filter: JSON.stringify(filter),
+                qrscanned: params?.qrscanned,
+            })
             .pipe(takeUntil(this.$ngDestroy))
             .subscribe(
                 (data: any) => {
@@ -878,7 +887,7 @@ export class CaseViewComponent {
         const canvas = this.qrCanvas.nativeElement;
         const link = document.createElement('a');
         link.href = canvas.toDataURL('image/png');
-        link.download = this.case.patient_name+'_qr_code.png';
+        link.download = this.case.patient_name + '_qr_code.png';
         link.click();
     }
 }

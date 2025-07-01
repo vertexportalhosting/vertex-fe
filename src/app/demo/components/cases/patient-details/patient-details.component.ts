@@ -43,7 +43,7 @@ export class PatientDetailsComponent implements AfterViewInit {
             // 1. Generate QR
             QRCode.toCanvas(
                 this.qrCanvas.nativeElement,
-                `https://vertexdentalstudiocases.com/case/view/${this.case.id}`,
+                `https://vertexdentalstudiocases.com/case/view/${this.case.id}?qrscanned=true`,
                 {
                     width: 350,
                     margin: 2,

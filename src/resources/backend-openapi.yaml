@@ -178,6 +178,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Case.Filter'
+        - name: qrscanned
+          in: query
+          schema:
+            type: boolean
+          required: false
+          description: If true, it will return the case with scans
       operationId: CaseController.findById
     delete:
       x-controller-name: CaseController
@@ -1816,6 +1822,8 @@ components:
           type: string
         delivery_date_stage_3:
           type: string
+        qr_scan_count:
+          type: number
         patientId:
           type: number
         userId:
@@ -2219,6 +2227,8 @@ components:
           type: string
         delivery_date_stage_3:
           type: string
+        qr_scan_count:
+          type: number
         patientId:
           type: number
         userId:
@@ -2279,6 +2289,8 @@ components:
           type: string
         delivery_date_stage_3:
           type: string
+        qr_scan_count:
+          type: number
         patientId:
           type: number
         userId:
@@ -2340,6 +2352,8 @@ components:
           type: string
         delivery_date_stage_3:
           type: string
+        qr_scan_count:
+          type: number
         patientId:
           type: number
         userId:
@@ -2480,6 +2494,8 @@ components:
                   type: boolean
                 delivery_date_stage_3:
                   type: boolean
+                qr_scan_count:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -2514,6 +2530,7 @@ components:
                   - delivery_date_stage_1
                   - delivery_date_stage_2
                   - delivery_date_stage_3
+                  - qr_scan_count
                   - patientId
                   - userId
                 example: id
@@ -2606,6 +2623,8 @@ components:
                   type: boolean
                 delivery_date_stage_3:
                   type: boolean
+                qr_scan_count:
+                  type: boolean
                 patientId:
                   type: boolean
                 userId:
@@ -2640,6 +2659,7 @@ components:
                   - delivery_date_stage_1
                   - delivery_date_stage_2
                   - delivery_date_stage_3
+                  - qr_scan_count
                   - patientId
                   - userId
                 example: id

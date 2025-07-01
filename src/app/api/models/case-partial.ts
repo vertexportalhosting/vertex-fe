@@ -27,6 +27,7 @@ export interface CasePartial {
   patientId?: number;
   patient_name?: string;
   payment_status?: string;
+  qr_scan_count?: number;
   updated_at?: string;
   updated_at2?: string;
   updated_by?: string;

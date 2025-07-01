@@ -36,6 +36,7 @@ export interface CaseWithRelations {
   patientId?: number;
   patient_name?: string;
   payment_status?: string;
+  qr_scan_count?: number;
   scan?: Array<ScanWithRelations>;
   updated_at?: string;
   updated_at2?: string;
