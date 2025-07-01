@@ -244,7 +244,7 @@
                                 <div class="qr-canvas flex flex-column justify-content-center align-items-end lg:align-items-center mt-5">
                                     <h3>Patient QR Code</h3>
                                     <canvas #qrCanvas></canvas>
-                                    <h5 class="my-0" *ngIf="admin">QR Scan Count: {{case?.qr_scan_count}}</h5>
+                                    <h5 class="my-0" *ngIf="admin">QR Scan Count: {{case?.qr_scan_count || 0}}</h5>
                                     <!-- <p-button label="Download QR Code" class="mobile-hide"
                                         (click)="downloadQRCode()"></p-button>
                                     <p-button icon="pi pi-download" class="mobile-show"
