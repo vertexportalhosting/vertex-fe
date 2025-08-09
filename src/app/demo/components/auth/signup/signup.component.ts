@@ -51,28 +51,28 @@ export class SignupComponent {
 
     onSubmit() {
         if (this.userForm.invalid) return;
-        if (this.step === 1) {
-            this.step = 2;
-            this.userControllerService
-                .authenticateSignUp({
-                    body: this.userForm.value,
-                })
-                .subscribe((res) => {
-                    this.otpToVerify = res as any;
-                });
-            return;
-        } else if (
-            this.step === 2 &&
-            this.otpToVerify == this.userForm.value.otp
-        ) {
+        // if (this.step === 1) {
+        //     this.step = 2;
+        //     this.userControllerService
+        //         .authenticateSignUp({
+        //             body: this.userForm.value,
+        //         })
+        //         .subscribe((res) => {
+        //             this.otpToVerify = res as any;
+        //         });
+        //     return;
+        // } else if (
+        //     this.step === 2 &&
+        //     this.otpToVerify == this.userForm.value.otp
+        // ) {
             const { otp, ...userData } = this.userForm.value;
             this.userControllerService
                 .signUp({ body: userData })
                 .subscribe(() => {
                     this.router.navigate(['/auth/login']);
                 });
-        } else {
-            alert('Invalid OTP'); 
-        }
+        // } else {
+        //     alert('Invalid OTP'); 
+        // }
     }
 }
